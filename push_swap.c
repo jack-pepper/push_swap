@@ -1,16 +1,15 @@
 
-
 /* TO DO:
  * - do last parsing tests
  * - store input as an int array?
  * */
-
 
 #include "push_swap.h"
 #include <stdio.h> // DEBUG!!!
 #include <unistd.h>
 
 int	parse_args(int argc, char **argv);
+int	*store_args(int argc, char **argv);
 int	args_are_all_int(int argc, char **argv);
 int	args_has_no_duplicate(int argc, char **argv);
 
@@ -34,47 +33,12 @@ int	args_has_no_duplicate(int argc, char **argv);
  *
  */
 
-long                    ft_atol(const char *nptr);
-static          int     ft_isspace(int c);
-
-long     ft_atol(const char *nptr)
-{
-        int     result;
-        int     sign;
-
-        result = 0;
-        sign = 1;
-        while (ft_isspace(*nptr))
-        {
-                nptr++;
-        }
-        if (*nptr == '+' || *nptr == '-')
-        {
-                if (*nptr == '-')
-                {
-                        sign = -1;
-                }
-                nptr++;
-        }
-        while (ft_isdigit(*nptr))
-        {
-                result = (result * 10) + (*nptr - '0');
-                nptr++;
-        }
-        return (result * sign);
-}
-
-static int      ft_isspace(int c)
-{
-        return (c == 32 || c == '\f' || c == '\n'
-                || c == '\r' || c == '\t' || c == '\v');
-}
-
-
 int	main(int argc, char **argv)
 {
 	int	res;
+	int	*array;
 
+	array = NULL;
 	if (argc < 3)
 	{
 		return (1);
@@ -87,12 +51,38 @@ int	main(int argc, char **argv)
 			write(2, "Error\n", 7);
 			return (1);
 		}
-		else
-			write(1, "Input is OK!\n", 14);
-//		store_input(argc, argv);
-
+		write(1, "Input is OK!\n", 14);
+		array = store_args(argc, argv);
+		if (!array)
+		{
+			ft_printf("No array: terminating...\n");
+			return (1);
+		}
 	}
+	free(array);
 	return (0);
+}
+
+int	*store_args(int argc, char **argv)
+{
+	int	i;
+	int	*array;
+
+	i = 0;
+	array = (int *)malloc(sizeof(int) * (argc - 1));
+	if (!array)
+	{
+		ft_printf("Array not mallocated in ft_store_args!\n");
+		return (NULL);
+	}
+	ft_memset(array, 0, argc - 1);
+	while (i < argc - 1)
+	{
+		array[i] = ft_atoi(argv[i + 1]);
+		ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);	
+		i++;
+	}
+	return (array);
 }
 
 int	parse_args(int argc, char **argv)
