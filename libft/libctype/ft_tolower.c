@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 08:45:15 by mmalie            #+#    #+#             */
-/*   Updated: 2024/11/14 09:33:16 by mmalie           ###   ########.fr       */
+/*   Created: 2024/11/07 08:44:11 by mmalie            #+#    #+#             */
+/*   Updated: 2024/11/14 09:33:54 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 /* 
- * Implementation of strncmp() from <string.h>: Compares up to n 
- * characters of two strings, returning an integer based on their 
- * lexicographical comparison.
- * */
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+ * Implementation of tolower() from <ctype.h>: Converts an uppercase character 
+ * to lowercase.
+*/
+int	ft_tolower(int c)
 {
-	if (n == 0)
-		return (0);
-	while (n && *s1 && (*s1 == *s2))
+	if ((c >= 'A') && (c <= 'Z'))
 	{
-		s1++;
-		s2++;
-		n--;
+		return (c + ('a' - 'A'));
 	}
-	if (n == 0)
-		return (0);
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+	else
+	{
+		return (c);
+	}
 }

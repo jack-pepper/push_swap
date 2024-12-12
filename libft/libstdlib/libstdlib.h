@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   libstdlib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef LIBSTDLIB_H
+# define LIBSTDLIB_H
 
 /* STANDARD LIBRARIES */
 # include <stdlib.h>
@@ -22,13 +22,8 @@
 # include <stdarg.h>
 # include <stdio.h>
 
-/* CUSTOM LIBRARIES */
-# include "./libctype/libctype.h"
-# include "./libstring/libstring.h"
-# include "./libstdlib/libstdlib.h"
-# include "./libutils/libutils.h"
-# include "./liblist/liblist.h"
-# include "./libprintf/libprintf.h"
-# include "./libgnl/libgnl.h"
+/* LIBSTDLIB */
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_memdel(void **ap);
 
 #endif

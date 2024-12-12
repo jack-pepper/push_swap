@@ -1,10 +1,18 @@
-#define DEBUG 1 // DEBUG!!!
+
+
+/* TO DO:
+ * - do last parsing tests
+ * - store input as an int array?
+ * */
+
 
 #include "push_swap.h"
 #include <stdio.h> // DEBUG!!!
 #include <unistd.h>
 
-int	error_check(int argc, char **argv);
+int	parse_args(int argc, char **argv);
+int	args_are_all_int(int argc, char **argv);
+int	args_has_no_duplicate(int argc, char **argv);
 
 /*
  * Beggining: 
@@ -26,77 +34,155 @@ int	error_check(int argc, char **argv);
  *
  */
 
+long                    ft_atol(const char *nptr);
+static          int     ft_isspace(int c);
+
+long     ft_atol(const char *nptr)
+{
+        int     result;
+        int     sign;
+
+        result = 0;
+        sign = 1;
+        while (ft_isspace(*nptr))
+        {
+                nptr++;
+        }
+        if (*nptr == '+' || *nptr == '-')
+        {
+                if (*nptr == '-')
+                {
+                        sign = -1;
+                }
+                nptr++;
+        }
+        while (ft_isdigit(*nptr))
+        {
+                result = (result * 10) + (*nptr - '0');
+                nptr++;
+        }
+        return (result * sign);
+}
+
+static int      ft_isspace(int c)
+{
+        return (c == 32 || c == '\f' || c == '\n'
+                || c == '\r' || c == '\t' || c == '\v');
+}
+
+
 int	main(int argc, char **argv)
 {
-	if (argc == 1 || argc == 2)
-		return (1); // ???
-	else if (argc >= 3)
+	int	res;
+
+	if (argc < 3)
 	{
-		if (error_check(argc, argv) != 0)
+		return (1);
+	}
+	else
+	{
+		res = parse_args(argc, argv);
+		if (res != 0)
 		{
 			write(2, "Error\n", 7);
 			return (1);
 		}
-		write(1, "Input is OK!\n", 14);
+		else
+			write(1, "Input is OK!\n", 14);
+//		store_input(argc, argv);
+
 	}
 	return (0);
 }
 
-// Checks for incorrect input. Easier to loop through strings
-int	error_check(int argc, char **argv)
+int	parse_args(int argc, char **argv)
+{
+	if (args_are_all_int(argc, argv) != 0)
+	{
+		ft_printf("Args are NOT all int!\n");
+		return (1);
+	}
+	if (args_has_no_duplicate(argc, argv) != 0)
+	{
+		ft_printf("Args HAS duplicate!\n");
+		return (1);
+	}
+	ft_printf("Args are all int and have no duplicate!\n");
+	return (0);
+}
+
+int	args_are_all_int(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		if (argv[i][0] == '\0' || (argv[i][0] == '-' && argv[i][1] == '\0'))
+			return (1);
+		if (argv[i][0] == '-' && argv[i][1] != '\0')
+			j++;
+		while (argv[i][j] != '\0')
+		{
+			if (!ft_isdigit(argv[i][j])) // Only digits
+			{
+				ft_printf("argv[%d][0] \'%c\' is not a digit!\n", i, argv[i][0]);
+				return (1);
+			}
+			j++;
+			if (argv[i][0] != '-' && j > 10) // Only < MAX_INT
+			{
+				ft_printf("argv[%d] '%s' exceeds int limits!\n", i, argv[i]);
+				return (1);
+			}
+			if (j == 10)
+			{
+				if (argv[i][0] != '-' && ft_strncmp(argv[i], "2147483647", ft_strlen(argv[i])) > 0)
+				{
+					ft_printf("argv[%d] '%s' is higher than MAX_INT!\n", i, argv[i]);
+					return (1);
+				}
+				if (argv[i][0] == '-' && ft_strncmp(argv[i], "-2147483648", ft_strlen(argv[i])) > 0)
+				{	
+					ft_printf("argv[%d] '%s' is lower than MIN_INT!!\n", i, argv[i]);
+					return (1);
+				}
+			}
+			if (j == 11)
+			{
+				if (argv[i][0] == '-' && ft_strncmp(argv[i], "-2147483648", ft_strlen(argv[i])) > 0) // Only > MIN_INT
+				{
+					ft_printf("argv[%s] lower than MIN_INT!\n", argv[i]);
+					return (1);
+				}
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	args_has_no_duplicate(int argc, char **argv)
 {
 	int	i;
 	int	j;
 	int	res;
 
 	i = 1;
-	while (i < argc)
-	{
-		j = 0;
-		if (!ft_isdigit(argv[i][0]) && argv[i][0] != '-')
-		{
-			if (DEBUG == 1)
-				printf("argv[%d][0] \'%c\' is neither a digit or a minus sign!\n", i, argv[i][0]);
-			return (1);
-		}
-		if (argv[i][0] == '-')
-			j++;
-		while (argv[i][j] != '\0')
-		{
-			if (DEBUG == 1)
-				printf("argv[%d][%d] = %c\n", i, j, argv[i][j]);
-			if (!ft_isdigit(argv[i][j]))
-			{
-				if (DEBUG == 1)
-					printf("argv[%d][%d] \'%c\'is not a digit!\n", i, j, argv[i][j]);
-				return (2);
-			}
-				if (j == 9 && ft_strncmp(argv[i], "2147483647", ft_strlen(argv[i])) > 0) // ADD HANDLER FOR NEGATIVE VALUES TOO!
-			{
-				if (DEBUG == 1)
-					printf("argv[%s] isn't supported by int: %d!\n", argv[i], ft_strncmp(argv[i], "2147483647", ft_strlen(argv[i])));
-				return (3);
-			}
-
-			j++;
-		}
-		i++;
-	}
-	i = 1;
-	res = 1;
+	res = 0;
 	while (i < argc)
 	{
 		j = i + 1;
-		while (res != 0 && j < argc)
+		while (j < argc)
 		{
-			res = ft_strncmp(argv[i], argv[j], ft_strlen(argv[i]) != 0);
-			if (DEBUG == 1)
-				printf("Res argv[%d] and argv[%d]: %d\n", i, j, res);
+			res = ft_strncmp(argv[i], argv[j], ft_strlen(argv[i]));
+			ft_printf("Res argv[%d] and argv[%d]: \"%s\" - \"%s\" = %d\n", i, j, argv[i], argv[j], res);
 			if (res == 0)
 			{
-				if (DEBUG == 1)
-					printf("argv[%d] \"%s\" et argv[%d] \"%s\" are duplicate!\n", i, argv[i], j, argv[j]);
-				return (4);
+				ft_printf("argv[%d] \"%s\" et argv[%d] \"%s\" are duplicate!\n", i, argv[i], j, argv[j]);
+				return (1);
 			}
 			j++;
 		}
@@ -104,7 +190,6 @@ int	error_check(int argc, char **argv)
 	}
 	return (0);
 }
-
 
 // arg: stack a formatted as a list of int (first argument will be at top of the stack)
 // the prog must display the smallest list of instructions possible to sort the stack a, the smallest number being at the top

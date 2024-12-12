@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:35:47 by mmalie            #+#    #+#             */
-/*   Updated: 2024/11/14 09:33:00 by mmalie           ###   ########.fr       */
+/*   Created: 2024/11/07 08:43:58 by mmalie            #+#    #+#             */
+/*   Updated: 2024/11/14 09:34:10 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-/* 
- * Implementation of strlen() from <string.h>: Returns the length 
- * of the given string (excluding the null terminator).
+#include "../libft.h"
+/*
+ * Implementation of toupper() from <ctype.h>: Converts a lowercase character 
+ * to uppercase.
 */
-size_t	ft_strlen(const char *s)
+int	ft_toupper(int c)
 {
-	const char	*str;
-
-	str = s;
-	while (*str)
+	if ((c >= 'a') && (c <= 'z'))
 	{
-		str++;
+		return (c - ('a' - 'A'));
 	}
-	return (str - s);
+	else
+	{
+		return (c);
+	}
 }

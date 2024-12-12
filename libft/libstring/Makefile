@@ -14,7 +14,7 @@
 ### Name of the file obtained after compilation ###
 ###################################################
 
-NAME = libft.a
+NAME = libstring.a
 
 ############################
 ### Compilation settings ###
@@ -30,57 +30,52 @@ ARFLAGS=-rcs
 ### Dependencies ###
 ####################
 
-DEPS = libft.h
+DEPS_LIBFT = ../libft.h
+DEPS = libstring.h
 
 ####################
 ### Source files ###
 ####################
 
-LIBRARY_DIRS = libctype \
-	       libstring \
-	       libstdlib \
-	       libutils \
-	       liblist \
-	       libprintf \
-	       libgnl \
-	       libbin \
+LIBSTRING = ft_bzero.c \
+	    ft_memchr.c \
+	    ft_memcmp.c \
+	    ft_memcpy.c \
+	    ft_memmove.c \
+	    ft_memset.c \
+	    ft_strchr.c \
+	    ft_strdel.c \
+	    ft_strdup.c \
+	    ft_strlcat.c \
+	    ft_strlcpy.c \
+	    ft_strlen.c \
+	    ft_strncmp.c \
+	    ft_strnew.c \
+	    ft_strnstr.c \
+	    ft_strrchr.c \
+	    ft_strrev.c \
 
-LIBFT = ./libctype/libctype.a \
-	./libstring/libstring.a \
-	./libstdlib/libstdlib.a \
-	./libutils/libutils.a \
-	./liblist/liblist.a \
-       	./libprintf/libprintf.a \
-	./libgnl/libgnl.a \
-	./libbin/libbin.a \
+SRC = ${LIBSTRING}
 
 ####################
 ### Object files ###
 ####################
 
+OBJ = $(SRC:.c=.o)
+
 ### Default rules (compile the executable)
 all: $(NAME)
 
-### Create a static library
-$(NAME):
-	cd libctype && make
-	ar x libctype/libctype.a
-	cd libstring && make
-	ar x libstring/libstring.a
-	cd libstdlib && make
-	ar x libstdlib/libstdlib.a
-	cd libutils && make
-	ar x libutils/libutils.a
-	cd liblist && make
-	ar x liblist/liblist.a
-	cd libprintf && make
-	ar x libprintf/libprintf.a
-	cd libgnl && make
-	ar x libgnl/libgnl.a
-	cd libbin && make
-	ar x libbin/libbin.a
-	$(AR) $(ARFLAGS) $(NAME) *.o
-	rm *.o
+### Compile .c files into .o files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+###############################
+### Create a static library ###
+###############################
+
+$(NAME): $(OBJ)
+	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 	ranlib $(NAME)
 
 #########################
@@ -88,11 +83,12 @@ $(NAME):
 #########################
 
 clean:
-	$(foreach dir, $(LIBRARY_DIRS), $(MAKE) -C $(dir) clean;)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
 
+# Rule to recompile everything (execute fclean, then re)
 re: fclean all
 
 #########################
