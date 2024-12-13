@@ -75,8 +75,13 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		write(1, "Input is OK!\n", 14);
+<<<<<<< HEAD
+		stack_a = store_args(argc, argv, 'r');
+		if (!stack_a)
+=======
 		stack_a.content = store_args(argc, argv);
 		if (!stack_a.content)
+>>>>>>> set_cmd-functions
 		{
 			ft_printf("stack_a not mallocated: terminating...\n");
 			return (1);
@@ -90,10 +95,13 @@ int	main(int argc, char **argv)
 			ft_printf("stack_b not mallocated: terminating...\n");
 			return (1);
 		}
+<<<<<<< HEAD
+=======
 		stack_b.len = stack_a.len;
 		stack_b.nb_elem = 0;
 		sa(stack_a);
 		ft_printf("Test: stack_a[last] {%d} stack_a[antelast] {%d}\n", stack_a.content[stack_a.nb_elem - 1], stack_a.content[stack_a.nb_elem - 2]);
+>>>>>>> set_cmd-functions
 	}
 	free(stack_a.content);
 	free(stack_b.content);

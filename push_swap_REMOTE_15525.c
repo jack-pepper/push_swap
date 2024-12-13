@@ -16,7 +16,7 @@ typedef struct s_stack
 }                               t_stack;
 
 int	parse_args(int argc, char **argv);
-int	*store_args(int argc, char **argv, char opt);
+int	*store_args(int argc, char **argv);
 int	args_are_all_int(int argc, char **argv);
 int	args_has_no_duplicate(int argc, char **argv);
 
@@ -100,34 +100,23 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-// If opt is set to 'r', store in reverse.
-int	*store_args(int argc, char **argv, char opt)
+int	*store_args(int argc, char **argv)
 {
-	size_t	i;
+	int	i;
 	int	*array;
-	size_t	arr_len;
 
-	arr_len = (size_t)argc - 1; 
-	array = (int *)malloc(sizeof(int) * (argc - 1));
 	i = 0;
+	array = (int *)malloc(sizeof(int) * (argc - 1));
 	if (!array)
 	{
 		ft_printf("Array not mallocated in ft_store_args!\n");
 		return (NULL);
 	}
 	ft_memset(array, 0, argc - 1);
-	while (i < arr_len)
+	while (i < argc - 1)
 	{
-		if (opt == 'r')
-		{
-			array[i] = ft_atoi(argv[arr_len - i]);
-			ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);
-		}
-		else
-		{
-			array[i] = ft_atoi(argv[i + 1]);
-			ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);	
-		}
+		array[i] = ft_atoi(argv[i + 1]);
+		ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);	
 		i++;
 	}
 	return (array);

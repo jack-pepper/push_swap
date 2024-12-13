@@ -8,13 +8,6 @@
 #include <stdio.h> // DEBUG!!!
 #include <unistd.h>
 
-typedef struct s_stack
-{
-	size_t	len;
-	int                    *content;
-        size_t	nb_elem;
-}                               t_stack;
-
 int	parse_args(int argc, char **argv);
 int	*store_args(int argc, char **argv, char opt);
 int	args_are_all_int(int argc, char **argv);
@@ -40,28 +33,14 @@ int	args_has_no_duplicate(int argc, char **argv);
  *
  */
 
-
-void    sa(t_stack stack_a)
-{
-	size_t	nb;
-	int	*stk_a;
-	
-	nb = stack_a.nb_elem;
-	stk_a = stack_a.content;
-        if (nb < 2)
-                return ;
-        stk_a[nb - 1] = stk_a[nb - 1] ^ stk_a[nb - 2];
-        stk_a[nb - 2] = stk_a[nb - 1] ^ stk_a[nb - 2];
-        stk_a[nb - 1] = stk_a[nb - 1] ^ stk_a[nb - 2];
-        ft_printf("stack_a[nb - 1] = %d - stack_a[nb - 2] = %d\n", stk_a[nb - 1], stk_a[nb - 2]);
-}
-
 int	main(int argc, char **argv)
 {
 	int	res;
-	t_stack	stack_a;
-	t_stack	stack_b;
+	int	*stack_a;
+	int	*stack_b;
+	size_t	stack_len;
 
+	stack_a = NULL;
 	if (argc < 3)
 	{
 		return (1);
@@ -75,28 +54,23 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		write(1, "Input is OK!\n", 14);
-		stack_a.content = store_args(argc, argv);
-		if (!stack_a.content)
+		stack_a = store_args(argc, argv, 'r');
+		if (!stack_a)
 		{
 			ft_printf("stack_a not mallocated: terminating...\n");
 			return (1);
 		}
-		stack_a.len = argc - 1;
-		ft_printf("Stack size: %d\n", stack_a.len);
-		stack_a.nb_elem = stack_a.len;
-		stack_b.content = (int *)ft_calloc(stack_a.len, sizeof(int));
-		if (!stack_b.content)
+		stack_len = argc - 1;
+		ft_printf("Stack size: %d\n", stack_len);
+		stack_b = (int *)ft_calloc(stack_len, sizeof(int));
+		if (!stack_b)
 		{
 			ft_printf("stack_b not mallocated: terminating...\n");
 			return (1);
 		}
-		stack_b.len = stack_a.len;
-		stack_b.nb_elem = 0;
-		sa(stack_a);
-		ft_printf("Test: stack_a[last] {%d} stack_a[antelast] {%d}\n", stack_a.content[stack_a.nb_elem - 1], stack_a.content[stack_a.nb_elem - 2]);
 	}
-	free(stack_a.content);
-	free(stack_b.content);
+	free(stack_a);
+	free(stack_b);
 	return (0);
 }
 
