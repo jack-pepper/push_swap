@@ -74,9 +74,24 @@ void	pb(t_stack stack_b, t_stack stack_a)
 	pusher(stack_b, stack_a);
 }
 
+/* Rotate function */
 void	rotater(t_stack stack)
 {
+	size_t	nb;
+	int	*stk;
+	int	temp;
+	size_t	i;
 
+	nb = stack.nb_elem;
+	stk = stack.content;
+	temp = stk[nb - 1];
+	
+	while (nb > 1)
+	{
+		stk[nb - 1] = stk[nb - 2];
+		nb--;
+	}
+	stk[0] = temp;
 }
 // ra (rotate a): Shift up all elements of stack a by 1.
 // The first element becomes the last one.
