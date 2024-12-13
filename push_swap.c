@@ -36,9 +36,11 @@ int	args_has_no_duplicate(int argc, char **argv);
 int	main(int argc, char **argv)
 {
 	int	res;
-	int	*array;
+	int	*stack_a;
+	int	*stack_b;
+	size_t	stack_len;
 
-	array = NULL;
+	stack_a = NULL;
 	if (argc < 3)
 	{
 		return (1);
@@ -52,14 +54,25 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		write(1, "Input is OK!\n", 14);
-		array = store_args(argc, argv);
-		if (!array)
+		stack_a = store_args(argc, argv);
+		if (!stack_a)
 		{
-			ft_printf("No array: terminating...\n");
+			ft_printf("stack_a not mallocated: terminating...\n");
 			return (1);
 		}
+		stack_len = argc - 1;
+		ft_printf("Stack size: %d\n", stack_len);
+		stack_b = (int *)ft_calloc(stack_len, sizeof(int));
+		if (!stack_b)
+		{
+			ft_printf("stack_b not mallocated: terminating...\n");
+			return (1);
+		}
+		stack_b[3] = 42;
+		ft_printf("Test: stack_b[0] {%d} stack_b[3] {%d}\n", stack_b[0], stack_b[3]);
 	}
-	free(array);
+	free(stack_a);
+	free(stack_b);
 	return (0);
 }
 
