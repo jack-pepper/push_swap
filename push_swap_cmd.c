@@ -11,8 +11,9 @@
 
 // sa (swap a):  Swap the first 2 elements at the top of stack a.
 // Do nothing if there is only one or no elements.
-void	sa(int *stack_a)
+void	sa(int *stack_a, )
 {
+	stack_a[
 }
 
 // sb (swap b): Swap the first 2 elements at the top of stack b.

@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 int	parse_args(int argc, char **argv);
-int	*store_args(int argc, char **argv);
+int	*store_args(int argc, char **argv, char opt);
 int	args_are_all_int(int argc, char **argv);
 int	args_has_no_duplicate(int argc, char **argv);
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		write(1, "Input is OK!\n", 14);
-		stack_a = store_args(argc, argv);
+		stack_a = store_args(argc, argv, 'r');
 		if (!stack_a)
 		{
 			ft_printf("stack_a not mallocated: terminating...\n");
@@ -68,31 +68,40 @@ int	main(int argc, char **argv)
 			ft_printf("stack_b not mallocated: terminating...\n");
 			return (1);
 		}
-		stack_b[3] = 42;
-		ft_printf("Test: stack_b[0] {%d} stack_b[3] {%d}\n", stack_b[0], stack_b[3]);
 	}
 	free(stack_a);
 	free(stack_b);
 	return (0);
 }
 
-int	*store_args(int argc, char **argv)
+// If opt is set to 'r', store in reverse.
+int	*store_args(int argc, char **argv, char opt)
 {
-	int	i;
+	size_t	i;
 	int	*array;
+	size_t	arr_len;
 
-	i = 0;
+	arr_len = (size_t)argc - 1; 
 	array = (int *)malloc(sizeof(int) * (argc - 1));
+	i = 0;
 	if (!array)
 	{
 		ft_printf("Array not mallocated in ft_store_args!\n");
 		return (NULL);
 	}
 	ft_memset(array, 0, argc - 1);
-	while (i < argc - 1)
+	while (i < arr_len)
 	{
-		array[i] = ft_atoi(argv[i + 1]);
-		ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);	
+		if (opt == 'r')
+		{
+			array[i] = ft_atoi(argv[arr_len - i]);
+			ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);
+		}
+		else
+		{
+			array[i] = ft_atoi(argv[i + 1]);
+			ft_printf("Copied to array[%d]: '%d'.\n", i, array[i]);	
+		}
 		i++;
 	}
 	return (array);
