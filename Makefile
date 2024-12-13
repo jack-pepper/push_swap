@@ -35,7 +35,12 @@ LIBFT = ./libft/libft.a
 ### Source files ###
 ####################
 
-SRC = push_swap.c
+SRC = push_swap.c \
+      args_parser.c \
+      swapper.c \
+      pusher.c \
+      rotater.c \
+      reverse_rotater.c
 
 ### Object files
 OBJ = $(SRC:.c=.o)
@@ -56,10 +61,8 @@ $(NAME): $(OBJ) $(LIBFT)
 ### Compile .c files into .o files ###
 ######################################
 
-$(OBJ): $(SRC) $(DEPS)
-	$(CC) $(CFLAGS) -c $(SRC) -o $(OBJ)
-
-#	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ): %.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 #########################
 ### Cleaning-up rules ###
