@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 		}
 		stack_a.len = argc - 1;
 		ft_printf("Stack size: %d\n", stack_a.len);
-		stack_a.nb_elem = stack_a.len;
+		stack_a.nb_elem = (size_t)stack_a.len;
 		stack_b.content = (int *)ft_calloc(stack_a.len, sizeof(int));
 		if (!stack_b.content)
 		{
@@ -57,14 +57,24 @@ int	main(int argc, char **argv)
 		ft_printf("[a1]: %d    [b1]: %d   \n", stk_a[1], stk_b[1]);
 		ft_printf("[a0]: %d    [b0]: %d   \n", stk_a[0], stk_b[0]);
 
-
+		
+		ft_printf("Nb_elem a: %d - nb_elem b: %d\n ", stack_a.nb_elem, stack_b.nb_elem);
+		// swapper: OK / pusher: 
+		//swapper(stack_a);
+		//swapper(stack_a);
+		//swapper(stack_a);
+		//rotater(stack_a);
+		//rotater(stack_b);
+		pusher(&stack_b, &stack_a);
+		pusher(&stack_b, &stack_a);
+		pusher(&stack_b, &stack_a);
+		pusher(&stack_a, &stack_b);
 		rotater(stack_a);
 		rotater(stack_b);
-		pusher(stack_b, stack_a);
-		pusher(stack_b, stack_a);
-		pusher(stack_b, stack_a);
-		rotater(stack_b);
-		
+		reverse_rotater(stack_a);
+		reverse_rotater(stack_b);
+		ft_printf("[MAIN] Nb_elem a: %d - nb_elem b: %d\n ", stack_a.nb_elem, stack_b.nb_elem);
+
 		ft_printf("After operation:\n");
 		ft_printf("[a4]: %d    [b4]: %d   \n", stk_a[4], stk_b[4]);
 		ft_printf("[a3]: %d    [b3]: %d   \n", stk_a[3], stk_b[3]);

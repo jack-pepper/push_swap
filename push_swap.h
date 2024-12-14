@@ -30,9 +30,9 @@ void	sb(t_stack stack_b);
 void	ss(t_stack stack_a, t_stack stack_b);
 
 // Push logic
-void	pusher(t_stack stack_dst, t_stack stack_src);
-void	pa(t_stack stack_a, t_stack stack_b);
-void	pb(t_stack stack_b, t_stack stack_a);
+void	pusher(t_stack *stack_dst, t_stack *stack_src);
+void	pa(t_stack *stack_a, t_stack *stack_b);
+void	pb(t_stack *stack_b, t_stack *stack_a);
 
 // Rotate logic
 void	rotater(t_stack stack);

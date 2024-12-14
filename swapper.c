@@ -4,17 +4,17 @@
 
 void    swapper(t_stack stack)
 {
-        size_t  nb;
+        size_t  *nb;
         int     *stk;
 
-        nb = stack.nb_elem;
+        nb = &stack.nb_elem;
         stk = stack.content;
-        if (nb < 2)
+        if (*nb < 2)
                 return ;
-        stk[nb - 1] = stk[nb - 1] ^ stk[nb - 2];
-        stk[nb - 2] = stk[nb - 1] ^ stk[nb - 2];
-        stk[nb - 1] = stk[nb - 1] ^ stk[nb - 2];
-        ft_printf("stk[nb - 1] = %d - stk[nb - 2] = %d\n", stk[nb - 1], stk[nb - 2]);
+        stk[*nb - 1] = stk[*nb - 1] ^ stk[*nb - 2];
+        stk[*nb - 2] = stk[*nb - 1] ^ stk[*nb - 2];
+        stk[*nb - 1] = stk[*nb - 1] ^ stk[*nb - 2];
+        ft_printf("stk[*nb - 1] = %d - stk[*nb - 2] = %d\n", stk[*nb - 1], stk[*nb - 2]);
 }
 
 // sa (swap a):  Swap the first 2 elements at the top of stack a.

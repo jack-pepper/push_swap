@@ -5,18 +5,18 @@
 /* Rotate function */
 void	rotater(t_stack stack)
 {
-	size_t	nb;
+	size_t	*nb;
 	int	*stk;
 	int	temp;
 
-	nb = stack.nb_elem;
+	nb = &stack.nb_elem;
 	stk = stack.content;
-	temp = stk[nb - 1];
+	temp = stk[*nb - 1];
 	
-	while (nb > 1)
+	while (*nb > 1)
 	{
-		stk[nb - 1] = stk[nb - 2];
-		nb--;
+		stk[*nb - 1] = stk[*nb - 2];
+		(*nb)--;
 	}
 	stk[0] = temp;
 }
