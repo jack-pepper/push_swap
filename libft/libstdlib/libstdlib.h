@@ -25,5 +25,7 @@
 /* LIBSTDLIB */
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_memdel(void **ap);
+int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
 
 #endif

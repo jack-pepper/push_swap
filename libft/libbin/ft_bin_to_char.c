@@ -14,18 +14,17 @@
 /*
  * Displays the binary as an ASCII char.
  */
-char	ft_bin_to_char(char binary[8])
+char	ft_bin_to_char(char binary[9])
 {
 	int	ascii_val;
 	int	i;
 
+	ascii_val = 0;
 	i = 0;
 	while (i < 8)
 	{
 		if (binary[i] == '1')
-		{
 			ascii_val += (1 << (7 - i));
-		}
 		i++;
 	}
 	return ((char)ascii_val);

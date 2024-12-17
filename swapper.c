@@ -14,7 +14,6 @@ void    swapper(t_stack stack)
         stk[*nb - 1] = stk[*nb - 1] ^ stk[*nb - 2];
         stk[*nb - 2] = stk[*nb - 1] ^ stk[*nb - 2];
         stk[*nb - 1] = stk[*nb - 1] ^ stk[*nb - 2];
-        ft_printf("stk[*nb - 1] = %d - stk[*nb - 2] = %d\n", stk[*nb - 1], stk[*nb - 2]);
 }
 
 // sa (swap a):  Swap the first 2 elements at the top of stack a.
@@ -22,6 +21,8 @@ void    swapper(t_stack stack)
 void    sa(t_stack stack_a)
 {
 	swapper(stack_a);
+	stack_a.last_cmd[0] = 's';
+	stack_a.last_cmd[1] = 'a';
 }
 
 // sb (swap b): Swap the first 2 elements at the top of stack b.
@@ -29,6 +30,8 @@ void    sa(t_stack stack_a)
 void	sb(t_stack stack_b)
 {
 	swapper(stack_b);
+	stack_b.last_cmd[0] = 's';
+	stack_b.last_cmd[1] = 'b';
 }
 
 // ss : sa and sb at the same time.

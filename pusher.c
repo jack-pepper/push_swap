@@ -29,6 +29,9 @@ void	pusher(t_stack *stack_dst, t_stack *stack_src)
 void	pa(t_stack *stack_a, t_stack *stack_b)
 {
 	pusher(stack_a, stack_b);
+	stack_b->last_cmd[0] = 'p';
+	stack_b->last_cmd[1] = 'a';
+	stack_b->last_cmd[2] = '\0';	
 }
 
 // pb (push b): Take the first element at the top of a and put it at the top of b.
@@ -38,5 +41,7 @@ void	pa(t_stack *stack_a, t_stack *stack_b)
 void	pb(t_stack *stack_b, t_stack *stack_a)
 {
 	pusher(stack_b, stack_a);
+	stack_a->last_cmd[0] = 'p';
+	stack_a->last_cmd[1] = 'b';
+	stack_a->last_cmd[2] = '\0';
 }
-

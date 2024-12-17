@@ -6,7 +6,7 @@
 #    By: mmalie <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2024/11/14 09:35:45 by mmalie           ###   ########.fr        #
+#    Updated: 2024/12/17 17:50:34 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,9 @@ SRC = push_swap.c \
       swapper.c \
       pusher.c \
       rotater.c \
-      reverse_rotater.c
+      reverse_rotater.c \
+      push_swap_utils.c \
+      ps_solver.c \
 
 ### Object files
 OBJ = $(SRC:.c=.o)

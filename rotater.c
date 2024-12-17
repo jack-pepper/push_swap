@@ -25,6 +25,8 @@ void	rotater(t_stack stack)
 void	ra(t_stack stack_a)
 {
 	rotater(stack_a);
+	stack_a.last_cmd[0] = 'r';
+	stack_a.last_cmd[1] = 'a';
 }
 
 // rb (rotate b): Shift up all elements of stack b by 1.
@@ -32,6 +34,8 @@ void	ra(t_stack stack_a)
 void	rb(t_stack stack_b)
 {
 	rotater(stack_b);
+	stack_b.last_cmd[0] = 'r';
+	stack_b.last_cmd[1] = 'b';
 }
 
 //rr : ra and rb at the same time.

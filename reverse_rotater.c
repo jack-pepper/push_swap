@@ -25,6 +25,9 @@ void	reverse_rotater(t_stack stack)
 void	rra(t_stack stack_a)
 {
 	reverse_rotater(stack_a);
+	stack_a.last_cmd[0] = 'r';
+	stack_a.last_cmd[1] = 'r';
+	stack_a.last_cmd[2] = 'a';
 }
 
 // rrb (reverse rotate b): Shift down all elements of stack b by 1.
@@ -32,6 +35,9 @@ void	rra(t_stack stack_a)
 void	rrb(t_stack stack_b)
 {
 	reverse_rotater(stack_b);
+	stack_b.last_cmd[0] = 'r';
+	stack_b.last_cmd[1] = 'r';
+	stack_b.last_cmd[2] = 'b';
 }
 
 // rrr : rra and rrb at the same time.
