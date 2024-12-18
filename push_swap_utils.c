@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/17 21:29:00 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/18 10:28:46 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void    find_highest(t_stack *stack)
                 }
                 i++;
         }
-        ft_printf("Highest: %d - index: %d\n", stack->highest, stack->highest_pos); // D*EBUG
+        //ft_printf("Highest: %d - index: %d\n", stack->highest, stack->highest_pos); // D*EBUG
 }
 
 void    find_lowest(t_stack *stack)
@@ -72,5 +72,15 @@ void    find_lowest(t_stack *stack)
                 }
                 i++;
         }
-        ft_printf("Lowest: %d - index: %d\n", stack->lowest, stack->lowest_pos); // DEBUG
+        //ft_printf("Lowest: %d - index: %d\n", stack->lowest, stack->lowest_pos); // DEBUG
+}
+
+void    display_solution(t_list *cmd_list)
+{
+        cmd_list = cmd_list->next;
+        while (cmd_list != NULL)
+        {
+                ft_printf("%s\n", cmd_list->content);
+                cmd_list = cmd_list->next;
+        }
 }

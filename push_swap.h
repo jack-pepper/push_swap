@@ -54,6 +54,7 @@ void	rrr(t_stack stack_a, t_stack stack_b);
 int	init_stacks(t_stack *stack_a, t_stack *stack, int argc, char **argv);
 void	find_highest(t_stack *stack);
 void	find_lowest(t_stack *stack);
+void	display_solution(t_list *cmd_list);
 
 // Solver
 t_list	*ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b);
