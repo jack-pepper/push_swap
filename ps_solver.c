@@ -6,26 +6,66 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/18 10:33:55 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:25:22 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_ordered(t_stack *stack);
-void	handle_small_stacks(t_list *cmd_list, t_stack *stack_a);
-
 t_list	*ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b)
-{	
+{
+	int	*stk_b;
+	int	nb_el_b;
+
+	stk_b = stack_b->content;
+	nb_el_b = stack_b->nb_elem;
 	if (is_ordered(stack_a) == 0)
 		return (cmd_list);
-	if (stack_a->len <= 3)
+	if (stack_a->nb_elem <= 3)
 	{
-		handle_small_stacks(cmd_list, stack_a);
+		handle_small_stack(cmd_list, stack_a);
 		return (cmd_list);
 	}
-	stack_b->len = stack_a->len; // Only for compil (variable non used), delete after using stack_b)
+	while (is_ordered(stack_a) != 0)
+	{
+		rotate_lowest_and_push(stack_a, stack_b);
+		if ((nb_el_b > 1) 
+			&& (stk_b[nb_el_b - 1] < stk_b[nb_el_b - 2]))
+			sb(stack_b);
+	}
+	while (nb_el_b > 0)
+		pa(stack_a, stack_b);
 	return (cmd_list);
+}
+
+void	rotate_lowest_and_push(t_stack *stack_a, t_stack *stack_b)
+{
+	size_t	low_i;
+	size_t	len_i;
+
+	low_i = stack_a->lowest_pos;
+	len_i = stack_a->len - 1; // to make it more readable
+	if (low_i == len_i)
+	{
+		pb(stack_b, stack_a);
+		return ;
+	}
+	else if ((len_i / 2) < low_i)
+	{
+		while (low_i > 0)
+		{
+			ra(stack_a);
+			low_i--; 
+		}
+	}
+	else
+	{
+		while (low_i < stack_a->nb_elem)
+		{
+			rra(stack_a);
+			low_i++;
+		}
+	}
 }
 
 int	is_ordered(t_stack *stack)
@@ -33,7 +73,7 @@ int	is_ordered(t_stack *stack)
 	size_t	i;
 
 	i = 0;
-	while (i < (stack->len - 1))
+	while (i < (stack->nb_elem - 1))
 	{
 		if (stack->content[i] < stack->content[i + 1])
 		{
@@ -47,13 +87,13 @@ int	is_ordered(t_stack *stack)
 }
 
 /* NB: This function is called only if the stack is not ordered. */
-void	handle_small_stacks(t_list *cmd_list, t_stack *stack_a)
+void	handle_small_stack(t_list *cmd_list, t_stack *stack_a)
 {
 	t_list	*new_cmd;
 
-	if (stack_a->len == 2)
+	if (stack_a->nb_elem == 2)
 		new_cmd = ft_lstnew("sa");
-	else if (stack_a->len == 3)
+	else if (stack_a->nb_elem == 3)
 	{
 		if (stack_a->highest_pos == 0)
 			new_cmd = ft_lstnew("sa");

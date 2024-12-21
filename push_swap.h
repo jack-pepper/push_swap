@@ -23,16 +23,16 @@ typedef struct s_stack
 
 // Parsing logic
 int     error_check(int argc, char **argv);
-int     parse_args(int argc, char **argv);
-int     *store_args(int argc, char **argv, char opt);
-int     args_are_all_int(int argc, char **argv);
-int     args_has_no_duplicate(int argc, char **argv);
+int     parse_args(int nb_elem, char **args, int i);
+int     *store_args(int nb_elem, char **args, char opt);
+int     args_are_all_int(int nb_elem, char **args, int i);
+int     args_has_no_duplicate(int nb_elem, char **args, int i);
 
 // Swap logic
-void	swapper(t_stack stack);
-void	sa(t_stack stack_a);
-void	sb(t_stack stack_b);
-void	ss(t_stack stack_a, t_stack stack_b);
+void	swapper(t_stack *stack);
+void	sa(t_stack *stack_a);
+void	sb(t_stack *stack_b);
+void	ss(t_stack *stack_a, t_stack *stack_b);
 
 // Push logic
 void	pusher(t_stack *stack_dst, t_stack *stack_src);
@@ -40,17 +40,18 @@ void	pa(t_stack *stack_a, t_stack *stack_b);
 void	pb(t_stack *stack_b, t_stack *stack_a);
 
 // Rotate logic
-void	rotater(t_stack stack);
-void	ra(t_stack stack_a);
-void	rb(t_stack stack_b);
+void	rotater(t_stack *stack);
+void	ra(t_stack *stack_a);
+void	rb(t_stack *stack_b);
 
 // Reverse rotate logic
-void	reverse_rotater(t_stack stack);
-void	rra(t_stack stack_a);
-void	rrb(t_stack stack_b);
-void	rrr(t_stack stack_a, t_stack stack_b);
+void	reverse_rotater(t_stack *stack);
+void	rra(t_stack *stack_a);
+void	rrb(t_stack *stack_b);
+void	rrr(t_stack *stack_a, t_stack *stack_b);
 
 // Utils
+int		count_tokens(char const *s, char delim);
 int	init_stacks(t_stack *stack_a, t_stack *stack, int argc, char **argv);
 void	find_highest(t_stack *stack);
 void	find_lowest(t_stack *stack);
@@ -58,5 +59,8 @@ void	display_solution(t_list *cmd_list);
 
 // Solver
 t_list	*ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b);
+int		is_ordered(t_stack *stack);
+void	handle_small_stack(t_list *cmd_list, t_stack *stack_a);
+void	rotate_lowest_and_push(t_stack *stack_a, t_stack *stack_b);
 
 #endif

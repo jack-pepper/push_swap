@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/18 09:41:34 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:20:38 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,38 @@
 #include <unistd.h>
 */
 
+
 int	main(int argc, char **argv)
 {
 	int	res;
+	char	**tmp;
+	int	tkn;
 	t_stack	stack_a;
 	t_stack	stack_b;
 	t_list	*cmd_list;
 
-	if (argc < 3)
-		return (1);
-	res = parse_args(argc, argv);
+	if (argc == 1)
+		return (1); // or error?
+	if (argc == 2)
+	{
+		tkn = count_tokens(argv[1], ' ');
+		if (tkn < 2)
+			return (1); // or error?
+		tmp = ft_split(argv[1], ' ');
+		res = parse_args(tkn, tmp, 0);
+	}
+	else if (argc > 2)
+		res = parse_args(argc, argv, 1);
 	if (res != 0)
 	{
 		write(2, "Error\n", 7);
 		return (1);
 	}
 	stack_a.content = 0;
-	res = init_stacks(&stack_a, &stack_b, argc, argv);
+	if (argc == 2)
+		res = init_stacks(&stack_a, &stack_b, tkn, tmp); // with tmp
+	else if (argc > 2)
+		res = init_stacks(&stack_a, &stack_b, argc - 1, &argv[1]); // with argv`v
 	if (res != 0)
 	{
 		write(2, "Error\n", 7);
@@ -54,7 +69,7 @@ int	main(int argc, char **argv)
 	ps_solver(cmd_list, &stack_a, &stack_b);
 	display_solution(cmd_list);
 
-	/* TEST
+	//TEST
 	int *stk_a = stack_a.content;
 	int *stk_b = stack_b.content;
 	ft_printf("Before operation: \n");
@@ -64,7 +79,7 @@ int	main(int argc, char **argv)
 	ft_printf("[a2]: %d    [b2]: %d   \n", stk_a[2], stk_b[2]);
 	ft_printf("[a1]: %d    [b1]: %d   \n", stk_a[1], stk_b[1]);
 	ft_printf("[a0]: %d    [b0]: %d   \n", stk_a[0], stk_b[0]);
-	*/
+
 
 	//free(stack_a.content);
 	//free(stack_b.content);

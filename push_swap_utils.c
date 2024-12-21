@@ -6,22 +6,43 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/18 10:28:46 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:21:10 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	init_stacks(t_stack *stack_a, t_stack *stack_b, int argc, char **argv)
+int      count_tokens(char const *s, char delim)
 {
-	stack_a->content = store_args(argc, argv, 'r');
+        int     nb_tokens;
+        int     i;
+
+        nb_tokens = 0;
+        i = 0;
+        while (s[i] != '\0')
+        {
+                while (s[i] == delim && s[i] != '\0')
+                        i++;
+                if (s[i] != delim && s[i] != '\0')
+                {
+                        nb_tokens++;
+                        while (s[i] != delim && s[i] != '\0')
+                                i++;
+                }
+        }
+        return (nb_tokens);
+}
+
+int	init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str) // len = nb of elem
+{
+	stack_a->content = store_args(len, str, 'r');
 	if (!stack_a->content)
 	{
 		ft_printf("stack_a not mallocated: terminating...\n");
 		return (1);
 	}
-	stack_a->len = argc - 1;
-	//ft_printf("Stack size: %d\n", stack_a.len);
+	stack_a->len = len;
+	ft_printf("Stack size: %d\n", stack_a->len);
 	stack_a->nb_elem = (size_t)stack_a->len;
 	stack_b->content = (int *)ft_calloc(stack_a->len, sizeof(int));
 	if (!stack_b->content)

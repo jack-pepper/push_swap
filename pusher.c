@@ -36,8 +36,6 @@ void	pa(t_stack *stack_a, t_stack *stack_b)
 
 // pb (push b): Take the first element at the top of a and put it at the top of b.
 // Do nothing if a is empty.
-
-
 void	pb(t_stack *stack_b, t_stack *stack_a)
 {
 	pusher(stack_b, stack_a);
