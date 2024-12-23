@@ -26,20 +26,36 @@ void	pusher(t_stack *stack_dst, t_stack *stack_src)
 }
 // pa (push a): Take the first element at the top of b and put it at the top of a.
 // Do nothing if b is empty.
-void	pa(t_stack *stack_a, t_stack *stack_b)
+void	pa(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 {
+	t_list *new_cmd;
+
 	pusher(stack_a, stack_b);
-	stack_b->last_cmd[0] = 'p';
-	stack_b->last_cmd[1] = 'a';
-	stack_b->last_cmd[2] = '\0';	
+	//stack_b->last_cmd[0] = 'p';
+	//stack_b->last_cmd[1] = 'a';
+	//stack_b->last_cmd[2] = '\0';	
+	new_cmd = ft_lstnew("pa");
+	if (!new_cmd)
+		return ;
+	ft_lstadd_back(&cmd_list, new_cmd);
+	if (!new_cmd)
+		return ;
 }
 
 // pb (push b): Take the first element at the top of a and put it at the top of b.
 // Do nothing if a is empty.
-void	pb(t_stack *stack_b, t_stack *stack_a)
+void	pb(t_stack *stack_b, t_stack *stack_a, t_list *cmd_list)
 {
+	t_list *new_cmd;
+
 	pusher(stack_b, stack_a);
-	stack_a->last_cmd[0] = 'p';
-	stack_a->last_cmd[1] = 'b';
-	stack_a->last_cmd[2] = '\0';
+	//stack_a->last_cmd[0] = 'p';
+	//stack_a->last_cmd[1] = 'b';
+	//stack_a->last_cmd[2] = '\0';
+	new_cmd = ft_lstnew("pb");
+	if (!new_cmd)
+		return ;
+	ft_lstadd_back(&cmd_list, new_cmd);
+	if (!new_cmd)
+		return ;
 }
