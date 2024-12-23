@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 20:13:02 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:19:12 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,17 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 	while (i < nb_elem)
 	{
 		j = 0;
-		if (args[i][0] == '\0' || (args[i][0] == '-' && args[i][1] == '\0'))
+		if ((args[i][0] == '\0')
+			|| ((args[i][0] == '-') && (args[i][1] == '\0')))
 			return (1);
 		if (args[i][0] == '-' && args[i][1] != '\0')
 			j++;
 		while (args[i][j] != '\0')
 		{
-			if (!ft_isdigit(args[i][j])) // Only digits
+			if (!ft_isdigit(args[i][j]))
 				return (1);
 			j++;
-			if (args[i][0] != '-' && j > 10) // Only < MAX_INT
+			if (args[i][0] != '-' && j > 10)
 				return (1);
 			if (j == 10)
 			{

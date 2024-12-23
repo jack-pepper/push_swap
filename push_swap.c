@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 19:46:05 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 20:57:01 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,20 @@ int	main(int argc, char **argv)
 	t_list	*cmd_list;
 
 	if (argc == 1)
-		return (1); // or error?
+	{
+		//write(2, "Error\n", 6);
+		//ft_putstr_fd("Error\n", 2); // Rm???
+		return (1);
+	}
 	if (argc == 2)
 	{
 		tkn = count_tokens(argv[1], ' ');
 		if (tkn < 2)
-			return (1); // or error?
+		{
+		//	write(2, "Error\n", 6);
+		//	ft_putstr_fd("Error\n", 2); // Rm???
+			return (1);
+		}
 		tmp = ft_split(argv[1], ' ');
 		res = parse_args(tkn, tmp, 0);
 	}
@@ -35,7 +43,8 @@ int	main(int argc, char **argv)
 		res = parse_args(argc, argv, 1);
 	if (res != 0)
 	{
-		write(2, "Error\n", 7);
+	//	write(2, "Error\n", 6);
+		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
 	stack_a.content = 0;
@@ -45,7 +54,8 @@ int	main(int argc, char **argv)
 		res = init_stacks(&stack_a, &stack_b, argc - 1, &argv[1]); // with argv`v
 	if (res != 0)
 	{
-		write(2, "Error\n", 7);
+		ft_putstr_fd("Error\n", 2);
+		//write(2, "Error\n", 6);
 		//if (res == 2)
 		//	free(stack_a.content);
 		return (1);
@@ -53,7 +63,8 @@ int	main(int argc, char **argv)
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
 	{
-		write(2, "Error\n", 7);
+	//	write(2, "Error\n", 6);	
+		ft_putstr_fd("Error\n", 2);
 		return (1);
 	}
 	ps_solver(cmd_list, &stack_a, &stack_b);
