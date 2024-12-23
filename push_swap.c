@@ -6,21 +6,11 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/22 20:26:25 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:46:05 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TO DO NEXT:
- * -  
- * -
- * */
-
 #include "push_swap.h"
-/*
-#include "./libft/libft.h"
-#include <unistd.h>
-*/
-
 
 int	main(int argc, char **argv)
 {

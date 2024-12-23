@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 17:45:21 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:49:51 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int      count_tokens(char const *s, char delim)
         return (nb_tokens);
 }
 
-int	init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str) // len = nb of elem
+int	init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str)
 {
 	stack_a->content = store_args(len, str, 'r');
 	if (!stack_a->content)
@@ -42,7 +42,6 @@ int	init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str) // len 
 		return (1);
 	}
 	stack_a->len = len;
-//	ft_printf("Stack size: %d\n", stack_a->len);
 	stack_a->nb_elem = (size_t)stack_a->len;
 	stack_b->content = (int *)ft_calloc(stack_a->len, sizeof(int));
 	if (!stack_b->content)
@@ -55,7 +54,6 @@ int	init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str) // len 
 	find_highest(stack_a);
 	find_lowest(stack_a);
 	return (0);
-
 }
 
 void    find_highest(t_stack *stack)
@@ -74,7 +72,6 @@ void    find_highest(t_stack *stack)
                 }
                 i++;
         }
-        //ft_printf("Highest: %d - index: %d\n", stack->highest, stack->highest_pos); // D*EBUG
 }
 
 void    find_lowest(t_stack *stack)
@@ -93,7 +90,6 @@ void    find_lowest(t_stack *stack)
                 }
                 i++;
         }
-        ft_printf("[ft find_lowest] Lowest: %d - index: %d\n", stack->lowest, stack->lowest_pos); // DEBUG
 }
 
 void    display_solution(t_list *cmd_list)
