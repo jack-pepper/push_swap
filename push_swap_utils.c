@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 21:03:09 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 23:51:47 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,42 @@ void    find_lowest(t_stack *stack)
 - rr instead of ra and rb at the same time
 - rrr instead of rra and rrb at the same time 
  */
-void    display_solution(t_list *cmd_list)
+void	display_solution(t_list *cmd_list)
 {
-        cmd_list = cmd_list->next;
-        while (cmd_list != NULL)
-        {
-                ft_printf("%s\n", cmd_list->content);
-                cmd_list = cmd_list->next;
-        }
+	char	*cmd;
+	char	*next_cmd;
+	
+	//ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content);
+	cmd_list = cmd_list->next;	
+	//ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
+	cmd = (char *)(cmd_list->content);
+	while (cmd_list != NULL)
+	{
+		//ft_printf("1\n");
+		cmd = (char *)(cmd_list->content);
+		if (cmd_list != NULL && cmd_list->next != NULL)
+		{
+			//ft_printf("2\n");
+			next_cmd = (char *)(cmd_list->next)->content;
+			if ((cmd[0] == next_cmd[0])
+				&& (cmd[0] != 'p')) // Commands start by same letter except push
+			{
+				//ft_printf("3\n");
+				if (cmd[1] != next_cmd[1]) // If diff second letters
+				{
+					cmd[1] = cmd[0]; // copy the first letter (s or r)
+					cmd_list->next = (cmd_list->next)->next; // jump over next instruction
+				}
+				else if ((cmd[1] == 'r')
+					&& (cmd[2] != next_cmd[2])) // reverse rotate case
+				{
+					cmd[2] = 'r';
+					cmd_list->next = (cmd_list->next)->next;
+				}
+			}	
+		}
+		//cmd_list = cmd_list->next;
+		ft_printf("%s\n", cmd);
+		cmd_list = cmd_list->next;
+	}
 }

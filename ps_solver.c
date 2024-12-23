@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 19:57:37 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 23:34:28 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,10 @@ void	handle_small_stack(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b)
 		else if (stack_a->highest_pos == 2)
 			ra(stack_a, cmd_list);
 	}
+	//ft_printf("stack_a highest_pos: %d - lowest_pos: %d\n", stack_a->highest_pos, stack_a->lowest_pos);
 	if ((stack_a->highest_pos == 1 && stack_a->lowest_pos == 2)
 		|| (stack_a->highest_pos == 2 && stack_a->lowest_pos == 0))
 		sa(stack_a, cmd_list);
+	//if (stack_a->highest_pos == 0 && stack_a->lowest_pos == 1)
+	//	sa(stack_a, cmd_list);
 }

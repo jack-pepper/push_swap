@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 20:57:01 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/23 23:27:31 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	ps_solver(cmd_list, &stack_a, &stack_b);
-	display_solution(cmd_list);
+	if (cmd_list->next != NULL)
+		display_solution(cmd_list);
 	//free(stack_a.content);
 	//free(stack_b.content);
 	//free(cmd_list);
