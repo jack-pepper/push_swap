@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/23 23:51:47 by mmalie           ###   ########.fr       */
+/*   Updated: 2024/12/24 12:58:57 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,6 @@ void    find_lowest(t_stack *stack)
         }
 }
 
-/* Should replace:
-- ss instead of sa and sb at the same time
-- rr instead of ra and rb at the same time
-- rrr instead of rra and rrb at the same time 
- */
 void	display_solution(t_list *cmd_list)
 {
 	char	*cmd;
