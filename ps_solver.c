@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 23:35:29 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/18 23:34:12 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 	while (stack_b->nb_elem > 3)
 	{
 		i = (stack_b->nb_elem) - 1;
-		while (stack_b->index_map[i] != (stack_a->index_map[stack_a->nb_elem - 1]) - 1)
+		while (i > 0 && stack_b->index_map[i] != (stack_a->index_map[stack_a->nb_elem - 1]) - 1)
 			i--;
        		while (i < stack_b->nb_elem - 1)
 		{
@@ -264,14 +264,14 @@ int     get_shortest_dist(int *arr, size_t len, int mid_val)
         size_t  j;
 
         i = 1; // I start at 1 for less calc
-        while (arr[len - i] > mid_val)
+        while ((i <= len) && (arr[len - i] > mid_val))
                 i++;
         dist_from_end = i - 1;
         if (dist_from_end == 0)
                 return (0);
         j = 0;
         dist_from_start = 1;
-        while ((arr[j] > mid_val) || (dist_from_start <= dist_from_end))
+        while (j < len && ((arr[j] > mid_val) || (dist_from_start < dist_from_end)))
                 j++;
         dist_from_start = dist_from_start + j;
         if (dist_from_end < dist_from_start)

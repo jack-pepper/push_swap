@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 23:39:59 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:30:00 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int		is_ordered(t_stack *stack);
 int		conv_to_index(int *conv_array, int *src_arr, size_t len);
 void	find_lowest(t_stack *stack);
 void	find_highest(t_stack *stack);
-
+void  show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg);  // DEBUG
 
 #endif

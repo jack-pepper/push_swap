@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:38:43 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 23:07:16 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:40:31 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int    pusher(t_stack *stack_dst, t_stack *stack_src, t_list *cmd_list, char *cm
         nb_src = stack_src->nb_elem;
         if (nb_src != 0)
         {
-                stack_dst->index_map[nb_dst] = stack_src->content[nb_src - 1];
+                stack_dst->index_map[nb_dst] = stack_src->index_map[nb_src - 1];
                 stack_dst->nb_elem++;
                 stack_src->index_map[nb_src - 1] = 0;
                 stack_src->nb_elem--;

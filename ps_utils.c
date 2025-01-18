@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 23:39:36 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/18 22:24:26 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,24 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 		i++;
 	}
 	return (0);
+}
+
+// Temporary
+void  show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg) // DEBUG
+{
+        int *stk_a = stack_a->content;
+        int *stk_b = stack_b->content;
+                ft_printf("%s\n", msg);
+                ft_printf("nb_elem a: %d - nb_elem b: %d\n ", stack_a->nb_elem, stack_b->nb_elem);
+                ft_printf("[a9]: %d    [b9]: %d   \n", stk_a[9], stk_b[9]);
+                ft_printf("[a8]: %d    [b8]: %d   \n", stk_a[8], stk_b[8]);
+                ft_printf("[a7]: %d    [b7]: %d   \n", stk_a[7], stk_b[7]);
+                ft_printf("[a6]: %d    [b6]: %d   \n", stk_a[6], stk_b[6]);
+                ft_printf("[a5]: %d    [b5]: %d   \n", stk_a[5], stk_b[5]);
+                ft_printf("[a4]: %d    [b4]: %d   \n", stk_a[4], stk_b[4]);
+                ft_printf("[a3]: %d    [b3]: %d   \n", stk_a[3], stk_b[3]);
+                ft_printf("[a2]: %d    [b2]: %d   \n", stk_a[2], stk_b[2]);
+                ft_printf("[a1]: %d    [b1]: %d   \n", stk_a[1], stk_b[1]);
+                ft_printf("[a0]: %d    [b0]: %d   \n", stk_a[0], stk_b[0]);
+                ft_printf("==============================================\n");
 }

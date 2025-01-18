@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 23:52:09 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/18 23:10:47 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 
 	if (handle_args(argc, argv, &stack_a, &stack_b) != 0)
 		return (ft_ret(1, "Error\nhandle_args() failed [main]\n"));
+        show_stacks(&stack_a, &stack_b, "[main, after handle_args]"); // DEBUG
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
 		return (ft_ret(1, "Error\nft_lstnew() failed [main]\n"));
@@ -69,14 +70,15 @@ int	handle_args(int argc, char **argv, t_stack *stack_a, t_stack *stack_b)
 			return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
 	}
 	else if (argc > 2 && (parse_args(argc, argv, 1) != 0))
-		return (ft_ret(1, "Error\n"));
+		return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
 	stack_a->content = 0;
 	if (argc == 2)
 		res = init_stacks(stack_a, stack_b, tkn, tmp); // with tmp
 	else if (argc > 2)
 		res = init_stacks(stack_a, stack_b, argc - 1, &argv[1]); // with argv`v
 	if (res != 0)
-		return (ft_ret(1, "Error\n"));
+		return (ft_ret(1, "Error\nstacks not initiated [handle_args]\n"));
+	show_stacks(stack_a, stack_b, "[end handle_args]"); // DEBUG
 	return (0);
 }
 
@@ -93,8 +95,17 @@ int     init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str)
         stack_b->len = stack_a->len;
         stack_b->nb_elem = 0;
         find_highest(stack_a);
-        find_lowest(stack_a);
-        return (0);
+        find_lowest(stack_a); 
+	stack_a->index_map = (int *)ft_calloc(stack_a->len, sizeof(int));
+	if (!stack_a->index_map)
+		return (ft_ret(3, "Error\nstack_a->index_map not mallocated\n"));
+	conv_to_index(stack_a->index_map, stack_a->content, stack_a->len);
+	if (!stack_a->index_map)
+		return (ft_ret(4, "Error\nstack_a->index_map not mallocated\n"));	
+	stack_b->index_map = (int *)ft_calloc(stack_b->len, sizeof(int));
+	if (!stack_b->index_map)
+		return (ft_ret(5, "Error\nstack_b->index_map not mallocated\n"));
+	return (0);
 }
 
 // res : -1 (malloc error) / 0 (sorted) / 1 (tested, still to be sorted)
@@ -102,14 +113,15 @@ t_list  *ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b)
 {
         int     res;
 
+	show_stacks(stack_a, stack_b, "[ps_solver]"); // DEBUG
         res = test_easy_cases(stack_a, cmd_list);
         if (res == 0)
                 return (cmd_list);
 	else if (res == -1)
 		return (NULL);
-	conv_to_index(stack_a->index_map, stack_a->content, stack_a->len);
-	if (!stack_a->index_map)
-		return (NULL);
+//	conv_to_index(stack_a->index_map, stack_a->content, stack_a->len);
+//	if (!stack_a->index_map)
+//		return (NULL);
 	while ((is_ordered(stack_a) != 0))
 	{
 		ps_sort(stack_a, stack_b, cmd_list);

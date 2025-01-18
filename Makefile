@@ -6,7 +6,7 @@
 #    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2025/01/17 14:29:18 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/18 22:11:42 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAME = push_swap
 ############################
 
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-g -Wall -Wextra -Werror
 
 ####################
 ### Dependencies ###
