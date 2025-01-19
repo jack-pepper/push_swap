@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/17 15:04:25 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 21:14:12 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 int	parse_args(int nb_elem, char **args, int i)
 {
 	if (args_are_all_int(nb_elem, args, i) != 0)
-		return (ft_ret(1, "Error\nArgs are NOT all int\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nArgs are NOT all int\n"));
 	if (args_has_no_duplicate(nb_elem, args, i) != 0)
-		return (ft_ret(1, "Error\nArgs have duplicates\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nArgs have duplicates\n"));
 	return (0);
 }
 

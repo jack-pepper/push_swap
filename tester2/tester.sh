@@ -6,14 +6,14 @@
 #    By: lmartins <lmartins@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/04 16:53:09 by lfrasson          #+#    #+#              #
-#    Updated: 2021/09/10 08:48:44 by lmartins         ###   ########.fr        #
+#    Updated: 2025/01/19 17:47:52 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #!/bin/bash
 
 NUM_TESTS=100
-PUSH_SWAP=./push_swap
+PUSH_SWAP="../push_swap"
 CKER=1
 RET_CKER="is not working"
 

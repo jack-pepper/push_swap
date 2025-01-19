@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 15:49:46 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 23:58:17 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int     ft_ret(int return_val, char *msg)
 		fd = 1;
 	else
 		fd = 2;
-        ft_putstr_fd(msg, fd);
+        ft_putendl_fd(msg, fd);
+        //ft_putstr_fd("Error\n", fd); // Replace the original descriptive msg to match the subject
         return (return_val);
 }
 
@@ -32,20 +33,31 @@ int	main(int argc, char **argv)
 	t_stack	stack_a;
 	t_stack	stack_b;
 	t_list	*cmd_list;
-
+	
+	if (argc == 1)
+		return (1);
 	if (handle_args(argc, argv, &stack_a, &stack_b) != 0)
-		return (ft_ret(1, "Error\nhandle_args() failed [main]\n"));
-//      show_stacks(&stack_a, &stack_b, "[main, after handle_args]"); // DEBUG
+		return (ft_ret(1, "Error"));
+      show_stacks(&stack_a, &stack_b, "[main, after handle_args]"); // DEBUG
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
-		return (ft_ret(1, "Error\nft_lstnew() failed [main]\n"));
+		return (ft_ret(1, "Error"));
 //	ft_printf("[main, after init, before ps_solver] b_nb_elem: %s\n", stack_b.nb_elem);
 	ps_solver(cmd_list, &stack_a, &stack_b);
+	show_stacks(&stack_a, &stack_b, "END PROG"); // DEBUG
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
-	//free(stack_a.content);
-	//free(stack_b.content);
-	//free(cmd_list);
+	free(stack_a.content);
+	free(stack_a.index_map);
+	free(stack_b.content);
+	free(stack_b.index_map);
+	free(cmd_list);
+	//while(cmd_list != NULL)
+	//{
+	//	free(cmd_list->content);
+	//	cmd_list = cmd_list->next;
+	//}
+	
 	return (0);
 }
 
@@ -60,25 +72,30 @@ int	handle_args(int argc, char **argv, t_stack *stack_a, t_stack *stack_b)
 	int		tkn;
 
 	if (argc == 1)
-		return (ft_ret(1, "Error\nargc c == 1 (req: 2+) [handle_args]\n"));
+		return (1);
+//		return (ft_ret(1, "Error\nargc c == 1 (req: 2+) [handle_args]\n"));
 	if (argc == 2)
 	{
 		tkn = count_tokens(argv[1], ' ');
 		if (tkn < 2)
-			return (ft_ret(1, "Error\ntokens < 2 (req: >= 2) [handle_args]\n"));
+			return (1);
+			//return (ft_ret(1, "Error\ntokens < 2 (req: >= 2) [handle_args]\n"));
 		tmp = ft_split(argv[1], ' ');
 		if (parse_args(tkn, tmp, 0) != 0)
-			return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
+			return (1);
+			//return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
 	}
 	else if (argc > 2 && (parse_args(argc, argv, 1) != 0))
-		return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nparse_args failed [handle_args]\n"));
 	stack_a->content = 0;
 	if (argc == 2)
 		res = init_stacks(stack_a, stack_b, tkn, tmp); // with tmp
 	else if (argc > 2)
 		res = init_stacks(stack_a, stack_b, argc - 1, &argv[1]); // with argv`v
 	if (res != 0)
-		return (ft_ret(1, "Error\nstacks not initiated [handle_args]\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nstacks not initiated [handle_args]\n"));
 //	show_stacks(stack_a, stack_b, "[end handle_args]"); // DEBUG
 //      ft_printf("[end handle_args, after init] b_nb_elem: %d\n", stack_b->nb_elem);	
 	return (0);
@@ -88,27 +105,31 @@ int     init_stacks(t_stack *stack_a, t_stack *stack_b, int len, char **str)
 {
         stack_a->content = store_args(len, str, 'r');
         if (!stack_a->content)
-                return (ft_ret(1, "Error\nstack_a not mallocated\n"));
+                return (1);
+		//return (ft_ret(1, "Error\nstack_a not mallocated\n"));
         stack_a->len = len;
         stack_a->nb_elem = (size_t)stack_a->len;
         stack_b->content = (int *)ft_calloc(stack_a->len, sizeof(int));
         if (!stack_b->content)
-                return (ft_ret(2, "Error\nstack_b not mallocated\n"));
+                return (1);
+		//return (ft_ret(1, "Error\nstack_b not mallocated\n"));
         stack_b->len = stack_a->len;
         stack_b->nb_elem = 0;
 	stack_a->index_map = (int *)ft_calloc(stack_a->len, sizeof(int));
 	if (!stack_a->index_map)
-		return (ft_ret(3, "Error\nstack_a->index_map not mallocated\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nstack_a->index_map not mallocated\n"));
 	conv_to_index(stack_a->index_map, stack_a->content, stack_a->len);
 	if (!stack_a->index_map)
-		return (ft_ret(4, "Error\nstack_a->index_map not mallocated\n"));	
+		return (1);
+		//return (ft_ret(1, "Error\nstack_a->index_map not mallocated\n"));	
         find_highest(stack_a);
         find_lowest(stack_a); 
 	stack_b->index_map = (int *)ft_calloc(stack_b->len, sizeof(int));
 	if (!stack_b->index_map)
-		return (ft_ret(5, "Error\nstack_b->index_map not mallocated\n"));
+		return (1);
+		//return (ft_ret(1, "Error\nstack_b->index_map not mallocated\n"));
 //	ft_printf("[end init] b_nb_elem: %d\n", stack_b->nb_elem);
-
 	return (0);
 }
 
@@ -136,25 +157,27 @@ t_list  *ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b)
 void    display_solution(t_list *cmd_list)
 {
         char    *cmd;
-        char    *next_cmd;
+	t_list	*temp;
+        //char    *next_cmd;
 
         //ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content);
         cmd_list = cmd_list->next;
-        //ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
+ //     ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
         cmd = (char *)(cmd_list->content);
         while (cmd_list != NULL)
         {
                 cmd = (char *)(cmd_list->content);
-                if (cmd_list != NULL && cmd_list->next != NULL)
+          /*      if (cmd_list != NULL && cmd_list->next != NULL)
                 {
                         next_cmd = (char *)(cmd_list->next)->content;
+	//		ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
                         if ((cmd[0] == next_cmd[0])
                                 && (cmd[0] != 'p')) // Commands start by same letter except push
                         {
                                 if (cmd[1] != next_cmd[1]) // If diff second letters
                                 {
                                         cmd[1] = cmd[0]; // copy the first letter (s or r)
-                                        cmd_list->next = (cmd_list->next)->next; // jump over next instruction
+                     			cmd_list->next = (cmd_list->next)->next; // jump over next instruction
                                 }
                                 else if ((cmd[1] == 'r')
                                         && (cmd[2] != next_cmd[2])) // reverse rotate case
@@ -163,10 +186,13 @@ void    display_solution(t_list *cmd_list)
                                         cmd_list->next = (cmd_list->next)->next;
                                 }
                         }
-                }
+                } */
                 //cmd_list = cmd_list->next;
                 ft_printf("%s\n", cmd);
-                cmd_list = cmd_list->next;
+		//free(cmd);
+		temp = cmd_list;	
+		cmd_list = cmd_list->next;
+                free(temp);
         }
 }
 

@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 15:51:02 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 23:23:08 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void    sort_three_b(t_stack *stack_b, t_list *cmd_list)
 {
         find_highest(stack_b);
 	find_lowest(stack_b);
-        if (stack_b->nb_elem == 2)
+//	ft_printf("stack_b[0] %d - stack_b[1] %d", stack_b->index_map[0], stack_b->index_map[1]);
+        if (stack_b->nb_elem == 2 && stack_b->index_map[0] > stack_b->index_map[1])
                 swapper(stack_b, cmd_list, "sb");
         else if (stack_b->nb_elem == 3)
         {
@@ -179,11 +180,11 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 				}
 				break ;
 			}
-			if (unpushed == mid_val + 1)
+			if (unpushed == mid_val)
 				break ;
 
 		}
-		mid_val = mid_val / 2;
+		mid_val = mid_val + (mid_val / 2);
 //		ft_printf("MID_VAL: %d\n", mid_val);
 	}
 	// push_to_a
@@ -204,7 +205,7 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
         	pusher(stack_a, stack_b, cmd_list, "pa");
 //		show_stacks(stack_a, stack_b, "[ft_sort, during pa]"); // DEBUG
 	}
-	if (is_ordered(stack_b, 'a') != 0)
+	if (is_ordered(stack_b, 'a') != 0 && stack_b->nb_elem > 1)
 		sort_three_b(stack_b, cmd_list);
 //	show_stacks(stack_a, stack_b, "[ft_sort, after sort_3_b]"); // DEBUG
 	while (stack_b->nb_elem > 0)

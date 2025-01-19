@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 14:19:49 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 23:35:27 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,14 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 	{
 		conv_arr = malloc(sizeof(int) * len);
 		if (!conv_arr)
-			return (ft_ret(1, "Error\n"));
+			return (1);
+			//return (ft_ret(1, "Error\n"));
 	}
 	sorted_arr = malloc(sizeof(int) * len);
 	if (!sorted_arr)
-		return (ft_ret(1, "Error\n"));
+		return (1);
+		//return (ft_ret(1, "Error\n"));
 	ft_cpy_arr_int(sorted_arr, src_arr, len);
-	
 	// Some functions not written yet. Final result:
 
 	/*
@@ -127,7 +128,7 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 	*/
 	// For testing at the moment:
 	ft_mrg_srt(sorted_arr, len, 'd');
-
+	ft_rev_arr_int(sorted_arr, len);	
 	i = 0;
 	while (i < len)
 	{
@@ -135,8 +136,10 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 		while (sorted_arr[i] != src_arr[j])
 			j++;
 		conv_arr[j] = i;
-		i++;
+//		ft_printf("conv_arr[%d] = %d (sorted_arr[%d] = %d) (src_arr[%d] = %d)\n", j, i, i, sorted_arr[i], j, src_arr[j]);	
+	i++;
 	}
+	free(sorted_arr);
 	return (0);
 }
 
