@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:38:43 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/18 22:40:31 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:52:54 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int    pusher(t_stack *stack_dst, t_stack *stack_src, t_list *cmd_list, char *cm
 
         nb_dst = stack_dst->nb_elem;
         nb_src = stack_src->nb_elem;
+//	ft_printf("nb_dst: %d - nb_src: %d\n", nb_dst, nb_src); // DEBUG
         if (nb_src != 0)
         {
                 stack_dst->index_map[nb_dst] = stack_src->index_map[nb_src - 1];
@@ -77,11 +78,11 @@ int    reverse_rotater(t_stack *stack, t_list *cmd_list, char *cmd)
         int             temp;
         size_t  i;
 
-        nb = &stack->nb_elem;
+        nb = (&stack->nb_elem);
         stk = stack->index_map;
         temp = stk[0];
         i = 0;
-        while (i < *nb)
+        while (i < (*nb - 1))
         {
                 stk[i] = stk[i + 1];
                 i++;

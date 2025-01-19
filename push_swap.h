@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/18 22:30:00 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 12:56:46 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		get_shortest_dist(int *arr, size_t len, int mid_val);
 
 // Utils (ps_utils.c)
 int		count_tokens(char const *s, char delim);
-int		is_ordered(t_stack *stack);
+int		is_ordered(t_stack *stack, char opt);
 int		conv_to_index(int *conv_array, int *src_arr, size_t len);
 void	find_lowest(t_stack *stack);
 void	find_highest(t_stack *stack);

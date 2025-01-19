@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/18 22:24:26 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:19:49 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,30 @@ int      count_tokens(char const *s, char delim)
         return (nb_tokens);
 }
 
-int     is_ordered(t_stack *stack)
+int     is_ordered(t_stack *stack, char opt)
 {
         size_t  i;
 
         i = 0;
-        while (i < (stack->nb_elem - 1))
-        {
-                if (stack->content[i] < stack->content[i + 1])
-                        return (1);
-                i++;
-        }
-        return (0);
+	if (opt == 'd')
+	{
+        	while (i < (stack->nb_elem - 1))
+        	{
+                	if (stack->index_map[i] < stack->index_map[i + 1])
+                        	return (1);
+                	i++;
+        	}
+	}
+	else if (opt == 'a')
+	{
+        	while (i < (stack->nb_elem - 1))
+        	{
+                	if (stack->index_map[i] > stack->index_map[i + 1])
+                        	return (1);
+                	i++;
+        	}
+	}
+	return (0);
 }
 
 void    find_highest(t_stack *stack)
@@ -52,13 +64,13 @@ void    find_highest(t_stack *stack)
         size_t  i;
 
         i = 0;
-        stack->highest = stack->content[0];
+        stack->highest = stack->index_map[0];
         stack->highest_pos = i;
         while (i < stack->len)
         {
-                if (stack->content[i] > stack->highest)
+                if (stack->index_map[i] > stack->highest)
                 {
-                        stack->highest = stack->content[i];
+                        stack->highest = stack->index_map[i];
                         stack->highest_pos = i;
                 }
                 i++;
@@ -69,14 +81,14 @@ void    find_lowest(t_stack *stack)
 {
         size_t  i;
 
-        stack->lowest = stack->content[0];
+        stack->lowest = stack->index_map[0];
         stack->lowest_pos = 0;
 	i = 1;
         while (i < stack->nb_elem)
         {
-                if (stack->content[i] < stack->lowest)
+                if (stack->index_map[i] < stack->lowest)
                 {
-                        stack->lowest = stack->content[i];
+                        stack->lowest = stack->index_map[i];
                         stack->lowest_pos = i;
                 }
                 i++;
@@ -131,19 +143,14 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 // Temporary
 void  show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg) // DEBUG
 {
-        int *stk_a = stack_a->content;
-        int *stk_b = stack_b->content;
-                ft_printf("%s\n", msg);
-                ft_printf("nb_elem a: %d - nb_elem b: %d\n ", stack_a->nb_elem, stack_b->nb_elem);
-                ft_printf("[a9]: %d    [b9]: %d   \n", stk_a[9], stk_b[9]);
-                ft_printf("[a8]: %d    [b8]: %d   \n", stk_a[8], stk_b[8]);
-                ft_printf("[a7]: %d    [b7]: %d   \n", stk_a[7], stk_b[7]);
-                ft_printf("[a6]: %d    [b6]: %d   \n", stk_a[6], stk_b[6]);
-                ft_printf("[a5]: %d    [b5]: %d   \n", stk_a[5], stk_b[5]);
-                ft_printf("[a4]: %d    [b4]: %d   \n", stk_a[4], stk_b[4]);
-                ft_printf("[a3]: %d    [b3]: %d   \n", stk_a[3], stk_b[3]);
-                ft_printf("[a2]: %d    [b2]: %d   \n", stk_a[2], stk_b[2]);
-                ft_printf("[a1]: %d    [b1]: %d   \n", stk_a[1], stk_b[1]);
-                ft_printf("[a0]: %d    [b0]: %d   \n", stk_a[0], stk_b[0]);
-                ft_printf("==============================================\n");
+	int	i = stack_a->len - 1;
+        int *stk_a = stack_a->index_map;
+        int *stk_b = stack_b->index_map;
+        ft_printf("%s\n", msg);
+	while (i >= 0)
+	{
+                ft_printf("[a%i]: %d    [b%i]: %d   \n", i, stk_a[i], i, stk_b[i]);
+		i--;
+        } 
+	       ft_printf("==============================================\n");
 }
