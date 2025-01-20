@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/20 13:28:19 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/20 23:24:24 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,118 @@ size_t	get_median(t_stack *stack)
     return median;
 }
 
-void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
+
+
+/* Returns the shortest distance. Its sign indicates the direction:
+ * - pos val: from the end of array
+ * - neg val: from the start of array
+ * This function should NOT be relied on if there is no more nb to be found.
+ */
+/*int     get_shortest_dist(int *arr, size_t len, int mid_val)
 {
+        size_t     dist_from_end;
+        size_t     dist_from_start;
+        size_t  i;
+        size_t  j;
+
+        i = 1; // I start at 1 for less calc
+        while ((i < len) && (arr[len - i] > mid_val))
+                i++;
+        dist_from_end = i - 1;
+        if (dist_from_end == 0)
+                return (0);
+        j = 0;
+        dist_from_start = 1;
+        while ((j < dist_from_end) && (arr[j] > mid_val))
+                j++;
+        dist_from_start = dist_from_start + j;
+        if (dist_from_end < dist_from_start)
+                return (dist_from_end);
+        else
+                return (dist_from_start * (-1));
+}*/
+
+void	optimal_rot(t_stack *stack, char stk, t_list *cmd_list, int tgt_i)
+{
+	int	top_i;
+
+	top_i = (stack->nb_elem - 1);
+	if (tgt_i >= (top_i / 2))
+	{
+		while (tgt_i < top_i)
+		{
+			if (stk == 'a')
+				rotater(stack, cmd_list, "ra");
+			else if (stk == 'b')
+				rotater(stack, cmd_list, "rb");
+			tgt_i++;
+		}
+	}
+	else
+	{
+		while (tgt_i > -1)
+		{
+			if (stk == 'a')
+				reverse_rotater(stack, cmd_list, "rra");
+			else if (stk == 'b')
+				reverse_rotater(stack, cmd_list, "rrb");
+			tgt_i--;
+		}
+	}
+}
+
+
+void	ps_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
+{
+	int	pivot;
+	int	max;
+
+	//pivot = sqrt(stack_a->len);
+	pivot = 10;
+	find_lowest(stack_a);
+	max = stack_a->lowest + pivot;
+	while (is_ordered(stack_a, 'd') != 0 && stack_a->nb_elem > 3)
+	{
+		while (stack_a->lowest < max)
+		{
+			find_lowest(stack_a);
+			optimal_rot(stack_a, 'a', cmd_list, stack_a->lowest_pos);
+			pusher(stack_b, stack_a, cmd_list, "pb");
+		}
+		find_lowest(stack_a);
+		max = stack_a->lowest + pivot;
+	}
+	if (is_ordered(stack_a, 'd') != 0)
+		sort_three_a(stack_a, cmd_list);
+	return ;
+}
+
+void	ps_to_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
+{	
+	while (stack_b->nb_elem > 3)
+	{
+		find_highest(stack_b);
+		optimal_rot(stack_b, 'b', cmd_list, stack_b->highest_pos);
+		pusher(stack_a, stack_b, cmd_list, "pa");		
+	}	
+	if (is_ordered(stack_b, 'a') != 0)
+		sort_three_b(stack_b, cmd_list);
+	while (stack_b->nb_elem > 0)
+		pusher(stack_a, stack_b, cmd_list, "pa");
+	return ;
+}
+
+
+void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
+{	
+//	show_stacks(stack_a, stack_b, "Before ps_to_b"); // DEBUG
+	ps_to_b(stack_a, stack_b, cmd_list);
+//	show_stacks(stack_a, stack_b, "After ps_to_b"); // DEBUG
+	ps_to_a(stack_a, stack_b, cmd_list);
+//	show_stacks(stack_a, stack_b, "After ps_to_a"); // DEBUG
+	return ;
+}
+/*
 	size_t	mid_val;
 	size_t	i;
 
@@ -256,7 +366,7 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 
 
 
-	/*size_t	mid_val;
+	size_t	mid_val;
 	int		dist;
 	size_t	i;
 
@@ -382,33 +492,3 @@ void	rotate_lowest_and_push(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list
 	}
 }
 */
-
-/* Returns the shortest distance. Its sign indicates the direction:
- * - pos val: from the end of array
- * - neg val: from the start of array
- * This function should NOT be relied on if there is no more nb to be found.
- */
-int     get_shortest_dist(int *arr, size_t len, int mid_val)
-{
-        size_t     dist_from_end;
-        size_t     dist_from_start;
-        size_t  i;
-        size_t  j;
-
-        i = 1; // I start at 1 for less calc
-        while ((i < len) && (arr[len - i] > mid_val))
-                i++;
-        dist_from_end = i - 1;
-        if (dist_from_end == 0)
-                return (0);
-        j = 0;
-        dist_from_start = 1;
-        while ((j < dist_from_end) && (arr[j] > mid_val))
-                j++;
-        dist_from_start = dist_from_start + j;
-        if (dist_from_end < dist_from_start)
-                return (dist_from_end);
-        else
-                return (dist_from_start * (-1));
-}
-
