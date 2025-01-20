@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 23:23:08 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/20 13:28:19 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void    sort_three_a(t_stack *stack_a, t_list *cmd_list)
                 else if (stack_a->highest_pos == 2)
                         rotater(stack_a, cmd_list, "ra");
         }
-//        ft_printf("[sort_3_a] stack_a highest_pos: %d - lowest_pos: %d\n", stack_a->highest_pos, stack_a->lowest_pos);
+        //ft_printf("[sort_3_a] stack_a highest_pos: %d - lowest_pos: %d\n", stack_a->highest_pos, stack_a->lowest_pos);
         if ((stack_a->highest_pos == 1 && stack_a->lowest_pos == 2)
                 || (stack_a->highest_pos == 2 && stack_a->lowest_pos == 0))
                 swapper(stack_a, cmd_list, "sa");
@@ -133,59 +133,182 @@ void    sort_three_b(t_stack *stack_b, t_list *cmd_list)
  * - If not: get_shortest_dist, rb/rrb, pa
  * - Stop and sort stack_b when 3 elements left, then push them to stack_a.
  */
+
+size_t	get_median(t_stack *stack)
+{
+	    size_t *sorted_values;
+    size_t mid_index;
+
+    // Allocate memory for the sorted values
+    sorted_values = malloc(sizeof(size_t) * stack->nb_elem);
+    if (!sorted_values)	
+	{
+        	perror("malloc failed");
+        	exit(1);
+    	}
+	// Copy the original stack values into sorted_values
+    for (size_t i = 0; i < stack->nb_elem; i++)
+	{
+        	sorted_values[i] = stack->index_map[i];
+    	}
+    // Sort the values in descending order (highest to lowest)
+    for (size_t i = 0; i < stack->nb_elem - 1; i++) 
+	{
+        	for (size_t j = i + 1; j < stack->nb_elem; j++) 
+			{
+            if (sorted_values[i] < sorted_values[j]) 
+			{
+                // Swap values to sort in descending order
+                size_t temp = sorted_values[i];
+                sorted_values[i] = sorted_values[j];
+                sorted_values[j] = temp;
+            }
+        }
+    }
+
+    // Calculate the middle index for the median
+    mid_index = (stack->nb_elem - 1) / 2;
+
+    // The median value is at the middle index of the sorted array
+    size_t median = sorted_values[mid_index];
+
+    // Free the allocated memory for sorted_values
+    free(sorted_values);
+
+    return median;
+}
+
 void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 {
 	size_t	mid_val;
-	size_t	unpushed;
+	size_t	i;
+
+//	show_stacks(stack_a, stack_b, "Before sort"); // DEBUG
+	while (stack_a->nb_elem > 3)
+	{
+		i = stack_a->nb_elem - 1;
+		mid_val = get_median(stack_a);
+	//	ft_printf("MID_VAL: %d\n", mid_val);	
+		while (stack_a->lowest != (int)mid_val) //mid_val < stack_a->len && i < stack_a->nb_elem)
+		{
+			if (stack_a->index_map[stack_a->nb_elem - 1] < (int)mid_val)
+			{
+				pusher(stack_b, stack_a, cmd_list, "pb");
+//				show_stacks(stack_a, stack_b, "PB"); // DEBUG
+				if (stack_b->index_map[0] > stack_b->index_map[stack_b->nb_elem - 1])
+				{	
+					rotater(stack_b, cmd_list, "rb");
+//					show_stacks(stack_a, stack_b, "RB"); // DEBUG
+				}
+				if (stack_b->nb_elem > 1 && stack_b->index_map[stack_b->nb_elem - 1] < stack_b->index_map[stack_b->nb_elem - 2])
+				{
+					swapper(stack_b, cmd_list, "sb");
+//					show_stacks(stack_a, stack_b, "SB"); // DEBUG
+				}
+			}
+			else
+			{
+				rotater(stack_a, cmd_list, "ra");
+//				show_stacks(stack_a, stack_b, "RA"); // DEBUG
+			}
+			i++;
+			find_lowest(stack_a);
+	//		ft_printf("lowest: %d\n", stack_a->lowest);
+			if (stack_a->lowest == (int)mid_val)
+				break ;
+		}
+	}
+	if (is_ordered(stack_a, 'd') != 0)
+		sort_three_a(stack_a, cmd_list);
+//	show_stacks(stack_a, stack_b, "After sorting 3a"); // DEBUG
+
+	int nb_rot = 0;
+
+	while (stack_b->nb_elem > 0)
+	{
+		nb_rot = 0;
+	//	ft_printf("top b = %d - top a = %d", stack_b->index_map[stack_b->nb_elem - 1], stack_a->index_map[stack_a->nb_elem - 1]);
+		if (stack_b->index_map[stack_b->nb_elem - 1] == ((stack_a->index_map[stack_a->nb_elem - 1] - 1)))
+		{
+			pusher(stack_a, stack_b, cmd_list, "pa");
+			while (nb_rot > 1)
+			{
+				reverse_rotater(stack_b, cmd_list, "rrb");
+				nb_rot--;	
+			}
+//			show_stacks(stack_a, stack_b, "PA"); // DEBUG
+		}
+		else
+		{
+			nb_rot++;
+			rotater(stack_b, cmd_list, "rb");	
+//			show_stacks(stack_a, stack_b, "RA"); // DEBUG
+		}
+		//if (stack_a->index_map[stack_a->nb_elem - 1] > stack_a->index_map[stack_a->nb_elem - 2])
+		//{
+		//	swapper(stack_a, cmd_list, "sa");
+		//	show_stacks(stack_a, stack_b, "SA"); // DEBUG
+		//}
+	}
+//	show_stacks(stack_a, stack_b, "End sort"); // DEBUG
+}
+
+
+
+
+	/*size_t	mid_val;
 	int		dist;
 	size_t	i;
 
-	mid_val = (stack_a->len) / 2;
-	unpushed = stack_a->len;
-//	ft_printf("MID_VAL: %d\n", mid_val);
+	mid_val = get_median(stack_a);
+	ft_printf("MID_VAL: %d\n", mid_val);
+	
 	// push to b
-	while (is_ordered(stack_a, 'd') != 0 && mid_val < stack_a->len)
-	{	
-		while (unpushed > 3)
+	while (is_ordered(stack_a, 'd') != 0 && stack_a->nb_elem > 3)
+	{
+		i = 0;
+		while (i < stack_a->nb_elem)
 		{
-			dist = get_shortest_dist(stack_a->index_map, stack_a->nb_elem, mid_val);
-//			ft_printf("DIST: %d\n", dist); // DEBUG
-			while (dist != 0) // get the abs, take the sign into account
+			if (stack_a->index_map[i] < (int)mid_val)
 			{
-				if (dist > 0)
+				dist = get_shortest_dist(stack_a->index_map, stack_a->nb_elem, stack_a->index_map[i]);
+				ft_printf("DIST: %d\n", dist); // DEBUG
+				while (dist != 0) // get the abs, take the sign into account
 				{
-//					ft_printf("DIST > 0! cmd: ra\n"); // DEBUG
-					rotater(stack_a, cmd_list, "ra");
-					dist--;
+					if (dist > 0)
+					{
+						ft_printf("DIST > 0! cmd: ra\n"); // DEBUG
+						rotater(stack_a, cmd_list, "ra");
+						dist--;
+					}
+					else if (dist < 0)
+					{	
+						ft_printf("DIST < 0! cmd: rra\n"); // DEBUG
+						reverse_rotater(stack_a, cmd_list, "rra");
+						dist++;
+					}
+					ft_printf("DIST back to 0! cmd: pb\n");
 				}
-				else if (dist < 0)
-				{	
-//					ft_printf("DIST < 0! cmd: rra\n"); // DEBUG
-					reverse_rotater(stack_a, cmd_list, "rra");
-					dist++;
-				}
+				pusher(stack_b, stack_a, cmd_list, "pb");
+				show_stacks(stack_a, stack_b, "[ft_sort, after pb]"); // DEBUG
 			}
-//			ft_printf("DIST back to 0! cmd: pb\n");
-			pusher(stack_b, stack_a, cmd_list, "pb");
-			unpushed--;
-//			show_stacks(stack_a, stack_b, "[ft_sort, after pb]"); // DEBUG
-			if (stack_a->nb_elem == 3)
-			{
-//				ft_printf("3 ELEM IN A! TESTING ORDER...\n");
-//				ft_printf("is_ordered: %d\n", is_ordered(stack_a, 'd'));
-				if (is_ordered(stack_a, 'd') != 0)
-				{
-//					ft_printf("A NON ORDERED! Ordering...\n");
-					sort_three_a(stack_a, cmd_list); // Need to review...
-				}
-				break ;
-			}
-			if (unpushed == mid_val)
-				break ;
-
+			else
+				rotater(stack_a, cmd_list, "ra");
+			i++;
 		}
-		mid_val = mid_val + (mid_val / 2);
-//		ft_printf("MID_VAL: %d\n", mid_val);
+		mid_val = get_median(stack_a);
+		if (stack_a->nb_elem == 3)
+		{
+			ft_printf("3 ELEM IN A! TESTING ORDER...\n");
+			ft_printf("is_ordered: %d\n", is_ordered(stack_a, 'd'));
+			if (is_ordered(stack_a, 'd') != 0)
+			{
+				ft_printf("A NON ORDERED! Ordering...\n");
+				sort_three_a(stack_a, cmd_list); // Need to review...
+			}
+			break ;
+		}
+		ft_printf("MID_VAL: %d\n", mid_val);
 	}
 	// push_to_a
 	while (stack_b->nb_elem > 3)
@@ -193,7 +316,7 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 		i = (stack_b->nb_elem) - 1;
 		while (i > 0 && stack_b->index_map[i] != (stack_a->index_map[stack_a->nb_elem - 1]) - 1)
 			i--;
-//		ft_printf("top_a: %d - ind next in b: %d\n", stack_a->index_map[stack_a->nb_elem - 1], i); // DEBUG
+		ft_printf("top_a: %d - ind next in b: %d\n", stack_a->index_map[stack_a->nb_elem - 1], i); // DEBUG
       		while (stack_b->index_map[stack_b->nb_elem - 1] != (stack_a->index_map[stack_a->nb_elem - 1]) - 1)
 		{
 			if (stack_b->index_map[i] == stack_a->index_map[i] - 1)
@@ -201,21 +324,21 @@ void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 			rotater(stack_b, cmd_list, "rb");
 			i++;
 		}
-//		show_stacks(stack_a, stack_b, "[ft_sort, during pa"); // DEBUG	
+		show_stacks(stack_a, stack_b, "[ft_sort, during pa"); // DEBUG	
         	pusher(stack_a, stack_b, cmd_list, "pa");
-//		show_stacks(stack_a, stack_b, "[ft_sort, during pa]"); // DEBUG
+		show_stacks(stack_a, stack_b, "[ft_sort, during pa]"); // DEBUG
 	}
 	if (is_ordered(stack_b, 'a') != 0 && stack_b->nb_elem > 1)
 		sort_three_b(stack_b, cmd_list);
-//	show_stacks(stack_a, stack_b, "[ft_sort, after sort_3_b]"); // DEBUG
+	show_stacks(stack_a, stack_b, "[ft_sort, after sort_3_b]"); // DEBUG
 	while (stack_b->nb_elem > 0)
 		pusher(stack_a, stack_b, cmd_list, "pa");
-//	show_stacks(stack_a, stack_b, "[ft_sort, end sort]"); // DEBUG
+	show_stacks(stack_a, stack_b, "[ft_sort, end sort]"); // DEBUG
 	if (stack_a->index_map[stack_a->nb_elem - 1] > stack_a->index_map[stack_a->nb_elem - 2])
                 swapper(stack_a, cmd_list, "sa");
-//	show_stacks(stack_a, stack_b, "[ft_sort, end sort if swap needed]"); // DEBUG
+	show_stacks(stack_a, stack_b, "[ft_sort, end sort if swap needed]"); // DEBUG
 	return ;
-}
+}*/
 
 /*
 void	rotate_lowest_and_push(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
@@ -273,14 +396,14 @@ int     get_shortest_dist(int *arr, size_t len, int mid_val)
         size_t  j;
 
         i = 1; // I start at 1 for less calc
-        while ((i < len) && (arr[len - i] >= mid_val))
+        while ((i < len) && (arr[len - i] > mid_val))
                 i++;
         dist_from_end = i - 1;
         if (dist_from_end == 0)
                 return (0);
         j = 0;
         dist_from_start = 1;
-        while ((j < dist_from_end) && (arr[j] >= mid_val))
+        while ((j < dist_from_end) && (arr[j] > mid_val))
                 j++;
         dist_from_start = dist_from_start + j;
         if (dist_from_end < dist_from_start)

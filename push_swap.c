@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 23:58:17 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/20 12:46:03 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	main(int argc, char **argv)
 		return (1);
 	if (handle_args(argc, argv, &stack_a, &stack_b) != 0)
 		return (ft_ret(1, "Error"));
-      show_stacks(&stack_a, &stack_b, "[main, after handle_args]"); // DEBUG
+  //    show_stacks(&stack_a, &stack_b, "[main, after handle_args]"); // DEBUG
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
 		return (ft_ret(1, "Error"));
 //	ft_printf("[main, after init, before ps_solver] b_nb_elem: %s\n", stack_b.nb_elem);
 	ps_solver(cmd_list, &stack_a, &stack_b);
-	show_stacks(&stack_a, &stack_b, "END PROG"); // DEBUG
+//	show_stacks(&stack_a, &stack_b, "END PROG"); // DEBUG
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
 	free(stack_a.content);
