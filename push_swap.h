@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 12:56:46 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/21 18:23:36 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "./libft/libft.h"
 # include <stdio.h> // DEBUG
 # include <unistd.h>
+# include <math.h>// DEBUG
 
 /* Struct */
 typedef struct s_stack

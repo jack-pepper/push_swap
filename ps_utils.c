@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 23:35:27 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/21 21:03:18 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int     is_ordered(t_stack *stack, char opt)
         size_t  i;
 
         i = 0;
-	if (opt == 'd')
+	if (opt == 'd' && stack->nb_elem > 1)
 	{
         	while (i < (stack->nb_elem - 1))
         	{
@@ -47,7 +47,7 @@ int     is_ordered(t_stack *stack, char opt)
                 	i++;
         	}
 	}
-	else if (opt == 'a')
+	else if (opt == 'a' && stack->nb_elem > 1)
 	{
         	while (i < (stack->nb_elem - 1))
         	{

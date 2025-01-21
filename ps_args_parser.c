@@ -6,25 +6,23 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 21:14:12 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/21 18:13:52 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* Parses args to check validity. int i: start from [i] index*/
+// Parse args to check validity, starting from [i] index.
 int	parse_args(int nb_elem, char **args, int i)
 {
 	if (args_are_all_int(nb_elem, args, i) != 0)
 		return (1);
-		//return (ft_ret(1, "Error\nArgs are NOT all int\n"));
 	if (args_has_no_duplicate(nb_elem, args, i) != 0)
 		return (1);
-		//return (ft_ret(1, "Error\nArgs have duplicates\n"));
 	return (0);
 }
 
-/* Checks if args are all int. */
+// Return 0 if args are all int, else 1.
 int	args_are_all_int(int nb_elem, char **args, int i)
 {
 	int	j;
@@ -62,7 +60,7 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 	return (0);
 }
 
-/* Check if args has no duplicate. */
+// Return 1 if args have duplicate, else 0.
 int	args_has_no_duplicate(int nb_elem, char **args, int i)
 {
 	int	j;
@@ -85,7 +83,7 @@ int	args_has_no_duplicate(int nb_elem, char **args, int i)
 	return (0);
 }
 
-/* Stores args in int array. If the option 'r' is provided, reverse order. */
+// Store args in int array. If the option 'r' is provided, reverse order.
 int	*store_args(int nb_elem, char **args, char opt)
 {
 	int	*array;

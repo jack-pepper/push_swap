@@ -6,14 +6,13 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:38:43 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/19 15:52:54 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/21 20:06:06 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./push_swap.h"
 
-/*
- * Each command function expects a char **cmd.
+/* Each command function expects a char **cmd.
  * If cmd is "" (empty string), the command will be simply executed. 
  * If cmd is "~a" or "~b" (where '~' is s/p/r/rr depending on the cmd,
  * 	the cmd will be added to the cmd_list.
@@ -38,7 +37,6 @@ int    pusher(t_stack *stack_dst, t_stack *stack_src, t_list *cmd_list, char *cm
 
         nb_dst = stack_dst->nb_elem;
         nb_src = stack_src->nb_elem;
-//	ft_printf("nb_dst: %d - nb_src: %d\n", nb_dst, nb_src); // DEBUG
         if (nb_src != 0)
         {
                 stack_dst->index_map[nb_dst] = stack_src->index_map[nb_src - 1];
@@ -67,7 +65,10 @@ int    rotater(t_stack *stack, t_list *cmd_list, char *cmd)
         }
         stk[0] = temp;
 	if (cmd[0] != 0)
-        	add_cmd(cmd, cmd_list);
+	{
+		if (add_cmd(cmd, cmd_list) != 0)
+        		return (1);
+	}
 	return (0);
 }
 
@@ -89,8 +90,10 @@ int    reverse_rotater(t_stack *stack, t_list *cmd_list, char *cmd)
         }
         stk[*nb - 1] = temp;
 	if (cmd[0] != 0)
-        	if (add_cmd(cmd, cmd_list) != 0)
+	{
+        	if (add_cmd(cmd, cmd_list) != 0) // Do the same in each cmd_function!
 			return (1);
+	}
 	return (0);
 }
 
@@ -102,7 +105,5 @@ int	add_cmd(char *cmd, t_list *cmd_list)
 	if (!new_cmd)
 		return (1);
 	ft_lstadd_back(&cmd_list, new_cmd);
-	if (!new_cmd)
-		return (1);
 	return (0);
 }

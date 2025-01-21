@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/20 23:24:24 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/21 22:08:18 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,6 @@ int	test_easy_cases(t_stack *stack_a, t_list *cmd_list)
 	return (1);
 }
 
-/* NB: This function is called only if the stack is not ordered.
-// Must be replaced by sort_three
-void    handle_small_stack(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
-{
-        stack_b->content[0] = stack_b->content[0];// USELESS (STACK_B is not needed)
-        find_highest(stack_a);
-        if (stack_a->nb_elem == 2)
-                sa(stack_a, cmd_list);
-        else if (stack_a->nb_elem == 3)
-        {
-                if (stack_a->highest_pos == 0)
-                        sa(stack_a, cmd_list);
-                else if (stack_a->highest_pos == 1)
-                        rra(stack_a, cmd_list);
-                else if (stack_a->highest_pos == 2)
-                        ra(stack_a, cmd_list);
-        }
-        //ft_printf("stack_a highest_pos: %d - lowest_pos: %d\n", stack_a->highest_pos, stack_a->lowest_pos);
-        if ((stack_a->highest_pos == 1 && stack_a->lowest_pos == 2)
-                || (stack_a->highest_pos == 2 && stack_a->lowest_pos == 0))
-                sa(stack_a, cmd_list);
-        //if (stack_a->highest_pos == 0 && stack_a->lowest_pos == 1)
-        //      sa(stack_a, cmd_list);
-}
-*/
-
 void    sort_three_a(t_stack *stack_a, t_list *cmd_list)
 {
         find_highest(stack_a);
@@ -86,19 +60,15 @@ void    sort_three_a(t_stack *stack_a, t_list *cmd_list)
                 else if (stack_a->highest_pos == 2)
                         rotater(stack_a, cmd_list, "ra");
         }
-        //ft_printf("[sort_3_a] stack_a highest_pos: %d - lowest_pos: %d\n", stack_a->highest_pos, stack_a->lowest_pos);
         if ((stack_a->highest_pos == 1 && stack_a->lowest_pos == 2)
                 || (stack_a->highest_pos == 2 && stack_a->lowest_pos == 0))
                 swapper(stack_a, cmd_list, "sa");
-        //if (stack_a_a->highest_pos == 0 && stack_a_a->lowest_pos == 1)
-        //      sa(stack_a_a, cmd_list);
 }
 
 void    sort_three_b(t_stack *stack_b, t_list *cmd_list)
 {
         find_highest(stack_b);
 	find_lowest(stack_b);
-//	ft_printf("stack_b[0] %d - stack_b[1] %d", stack_b->index_map[0], stack_b->index_map[1]);
         if (stack_b->nb_elem == 2 && stack_b->index_map[0] > stack_b->index_map[1])
                 swapper(stack_b, cmd_list, "sb");
         else if (stack_b->nb_elem == 3)
@@ -110,12 +80,9 @@ void    sort_three_b(t_stack *stack_b, t_list *cmd_list)
                 else if (stack_b->lowest_pos == 2)
                         rotater(stack_b, cmd_list, "rb");
         }
-        //ft_printf("stack_b highest_pos: %d - lowest_pos: %d\n", stack_b->highest_pos, stack_b->lowest_pos);
         if ((stack_b->lowest_pos == 1 && stack_b->highest_pos == 2)
                 || (stack_b->lowest_pos == 2 && stack_b->highest_pos == 0))
                 swapper(stack_b, cmd_list, "sb");
-        //if (stack_b->highest_pos == 0 && stack_b->lowest_pos == 1)
-        //      sa(stack_b_a, cmd_list);
 }
 
 /* Main push_swap algorithm:
@@ -134,94 +101,28 @@ void    sort_three_b(t_stack *stack_b, t_list *cmd_list)
  * - Stop and sort stack_b when 3 elements left, then push them to stack_a.
  */
 
-size_t	get_median(t_stack *stack)
-{
-	    size_t *sorted_values;
-    size_t mid_index;
-
-    // Allocate memory for the sorted values
-    sorted_values = malloc(sizeof(size_t) * stack->nb_elem);
-    if (!sorted_values)	
-	{
-        	perror("malloc failed");
-        	exit(1);
-    	}
-	// Copy the original stack values into sorted_values
-    for (size_t i = 0; i < stack->nb_elem; i++)
-	{
-        	sorted_values[i] = stack->index_map[i];
-    	}
-    // Sort the values in descending order (highest to lowest)
-    for (size_t i = 0; i < stack->nb_elem - 1; i++) 
-	{
-        	for (size_t j = i + 1; j < stack->nb_elem; j++) 
-			{
-            if (sorted_values[i] < sorted_values[j]) 
-			{
-                // Swap values to sort in descending order
-                size_t temp = sorted_values[i];
-                sorted_values[i] = sorted_values[j];
-                sorted_values[j] = temp;
-            }
-        }
-    }
-
-    // Calculate the middle index for the median
-    mid_index = (stack->nb_elem - 1) / 2;
-
-    // The median value is at the middle index of the sorted array
-    size_t median = sorted_values[mid_index];
-
-    // Free the allocated memory for sorted_values
-    free(sorted_values);
-
-    return median;
-}
 
 
-
-/* Returns the shortest distance. Its sign indicates the direction:
- * - pos val: from the end of array
- * - neg val: from the start of array
- * This function should NOT be relied on if there is no more nb to be found.
+/* Find the optimal rotation or reverse rotation to bring the given target
+ * to the top of the current stack.
  */
-/*int     get_shortest_dist(int *arr, size_t len, int mid_val)
-{
-        size_t     dist_from_end;
-        size_t     dist_from_start;
-        size_t  i;
-        size_t  j;
 
-        i = 1; // I start at 1 for less calc
-        while ((i < len) && (arr[len - i] > mid_val))
-                i++;
-        dist_from_end = i - 1;
-        if (dist_from_end == 0)
-                return (0);
-        j = 0;
-        dist_from_start = 1;
-        while ((j < dist_from_end) && (arr[j] > mid_val))
-                j++;
-        dist_from_start = dist_from_start + j;
-        if (dist_from_end < dist_from_start)
-                return (dist_from_end);
-        else
-                return (dist_from_start * (-1));
-}*/
-
-void	optimal_rot(t_stack *stack, char stk, t_list *cmd_list, int tgt_i)
+// While rotating, check if the next target is on the way. If it is,
+// push it to stack_b, then swap.
+void	optimal_rot_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list, int tgt_i)
 {
 	int	top_i;
+	int	next_lowest;
 
-	top_i = (stack->nb_elem - 1);
+	top_i = (stack_a->nb_elem - 1);
+	next_lowest = (stack_a->lowest - 1);
 	if (tgt_i >= (top_i / 2))
 	{
 		while (tgt_i < top_i)
 		{
-			if (stk == 'a')
-				rotater(stack, cmd_list, "ra");
-			else if (stk == 'b')
-				rotater(stack, cmd_list, "rb");
+			if (stack_a->index_map[stack_a->nb_elem - 1] == next_lowest)
+				pusher(stack_b, stack_a, cmd_list, "pb");
+			rotater(stack_a, cmd_list, "ra");
 			tgt_i++;
 		}
 	}
@@ -229,35 +130,87 @@ void	optimal_rot(t_stack *stack, char stk, t_list *cmd_list, int tgt_i)
 	{
 		while (tgt_i > -1)
 		{
-			if (stk == 'a')
-				reverse_rotater(stack, cmd_list, "rra");
-			else if (stk == 'b')
-				reverse_rotater(stack, cmd_list, "rrb");
+			if (stack_a->index_map[stack_a->nb_elem - 1] == next_lowest)
+				pusher(stack_b, stack_a, cmd_list, "pb");
+			reverse_rotater(stack_a, cmd_list, "rra");
+			tgt_i--;
+		}
+	}
+}
+void	optimal_rot_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list, int tgt_i)
+{
+	int	top_i;
+	int	next_highest;
+
+	top_i = (stack_b->nb_elem - 1);
+	next_highest = (stack_b->highest - 1);
+	if (tgt_i >= (top_i / 2))
+	{
+		while (tgt_i < top_i)
+		{
+			if (stack_b->index_map[stack_b->nb_elem - 1] == next_highest)
+				pusher(stack_a, stack_b, cmd_list, "pa");
+			rotater(stack_b, cmd_list, "rb");
+			tgt_i++;
+		}
+	}
+	else
+	{
+		while (tgt_i > -1)
+		{	
+			if (stack_b->index_map[stack_b->nb_elem - 1] == next_highest)
+				pusher(stack_a, stack_b, cmd_list, "pa");
+			reverse_rotater(stack_b, cmd_list, "rrb");
 			tgt_i--;
 		}
 	}
 }
 
+double	ft_sqrt_newton(double number) 
+{
+	if (number < 0)
+	{
+		return -1;  // Return -1 for negative input as square root isn't defined for negative numbers
+	}
+	double guess = number / 2.0;  // Initial guess
+	double epsilon = 0.000001;    // Precision
+	while (1)
+	{
+        	double next_guess = (guess + number / guess) / 2.0;
+        	if (fabs(next_guess - guess) < epsilon)
+		{
+            		return next_guess;
+        	}
+        	guess = next_guess;
+    	}
+}
 
 void	ps_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 {
 	int	pivot;
 	int	max;
 
-	//pivot = sqrt(stack_a->len);
-	pivot = 10;
+	pivot = (int)ft_sqrt_newton((double)stack_a->nb_elem);
+	//pivot = 22;
+//	ft_printf("stack_a->len: %d - pivot: %d\n", stack_a->nb_elem, pivot);
 	find_lowest(stack_a);
 	max = stack_a->lowest + pivot;
-	while (is_ordered(stack_a, 'd') != 0 && stack_a->nb_elem > 3)
+	while ((stack_a->nb_elem > 3) && (is_ordered(stack_a, 'd') != 0))
 	{
+//		show_stacks(stack_a, stack_b, "pushed to b"); // DEBUG
 		while (stack_a->lowest < max)
 		{
 			find_lowest(stack_a);
-			optimal_rot(stack_a, 'a', cmd_list, stack_a->lowest_pos);
+			optimal_rot_a(stack_a, stack_b, cmd_list, stack_a->lowest_pos);
 			pusher(stack_b, stack_a, cmd_list, "pb");
+			if (stack_b->nb_elem > 1 && ((stack_b->index_map[stack_b->nb_elem - 1]) < (stack_b->index_map[stack_b->nb_elem - 2]))) 
+				swapper(stack_b, cmd_list, "sb"); // swap top b and next b if the next one has been found
+//			show_stacks(stack_a, stack_b, "pushed to b"); // DEBUG
 		}
 		find_lowest(stack_a);
 		max = stack_a->lowest + pivot;
+		if (max > (int)stack_a->len - 1)
+			max = stack_a->len - 1;
 	}
 	if (is_ordered(stack_a, 'd') != 0)
 		sort_three_a(stack_a, cmd_list);
@@ -269,8 +222,10 @@ void	ps_to_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 	while (stack_b->nb_elem > 3)
 	{
 		find_highest(stack_b);
-		optimal_rot(stack_b, 'b', cmd_list, stack_b->highest_pos);
-		pusher(stack_a, stack_b, cmd_list, "pa");		
+		optimal_rot_b(stack_a, stack_b, cmd_list, stack_b->highest_pos);
+		pusher(stack_a, stack_b, cmd_list, "pa");
+		if ((stack_a->nb_elem > 1 && (stack_a->index_map[stack_a->nb_elem - 1]) > (stack_a->index_map[stack_a->nb_elem - 2]))) 
+			swapper(stack_a, cmd_list, "sa"); // swap top b and next b if the next one has been found
 	}	
 	if (is_ordered(stack_b, 'a') != 0)
 		sort_three_b(stack_b, cmd_list);
