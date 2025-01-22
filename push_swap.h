@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/21 18:23:36 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 00:17:27 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	sort_three_b(t_stack *stack_b, t_list *cmd_list);
 void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list); // Custom sorting algo
 void	push_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list);
 void	push_to_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list);
-int		get_shortest_dist(int *arr, size_t len, int mid_val);
+int		get_shortest_dist(t_stack *stack, int min, int max);
 
 // Utils (ps_utils.c)
 int		count_tokens(char const *s, char delim);
