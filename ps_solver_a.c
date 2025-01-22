@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 15:17:26 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 23:07:14 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,46 @@ void	sort_three_a(t_stack *stack_a, t_list *cmd_list)
 /* Find the optimal rotation or reverse rotation to bring the given target
  * to the top of the current stack.
  */
-void	optimal_rot_a(t_stack *stack_a, t_list *cmd_list, int dist)
+
+void	optimal_rot_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list, int dist)
 {
 	if (dist == 0)
 		return ;
+//	ft_printf("dist: %d - stack_b->highest: %d\n", dist, stack_b->highest);
 	while (dist != 0)
-	{
+	{	
+		find_highest(stack_b);
+		//if (dist == 1) // Worse for some reason?
+		//{
+		//	swapper(stack_a, cmd_list, "sa");
+//			show_stacks(stack_a, stack_b, "before rot"); // DEBUG
+		//	dist--;
+		//}
 		if (dist > 0)
 		{
 			rotater(stack_a, cmd_list, "ra");
+//			show_stacks(stack_a, stack_b, "ra"); // DEBUG
+			if ((stack_b->nb_elem > 1) && (stack_b->highest_pos != stack_b->nb_elem -1)
+				&& (stack_b->highest_pos < ((stack_b->nb_elem - 1) - dist)))
+			//if (dist_b != 0 && dist_b <= dist)
+			{
+				rotater(stack_b, cmd_list, "rb");
+//				show_stacks(stack_a, stack_b, "rb"); // DEBUG
+				//dist_b--;
+			}
 			dist--;
 		}
 		else if (dist < 0)
 		{
 			reverse_rotater(stack_a, cmd_list, "rra");
+		//	show_stacks(stack_a, stack_b, "rra"); // DEBUG
+			if (((stack_b->nb_elem) > 1) && (stack_b->highest_pos != stack_b->nb_elem -1)
+				&& ((int)stack_b->highest_pos < (dist * -1))) //&& dist_b >= dist)
+			{
+				reverse_rotater(stack_b, cmd_list, "rrb");
+		//		show_stacks(stack_a, stack_b, "rrb"); // DEBUG
+				//dist_b--;
+			}
 			dist++;
 		}
 	}
@@ -79,7 +105,6 @@ void	ps_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 	int	dist;
 
 	pivot = (int)ft_sqrt_newton((double)stack_a->nb_elem);
-	//pivot = 22;
 //	ft_printf("stack_a->len: %d - pivot: %d\n", stack_a->nb_elem, pivot);
 	find_lowest(stack_a);
 	max = stack_a->lowest + pivot;
@@ -90,16 +115,16 @@ void	ps_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
 		{
 		//	find_lowest(stack_a);
 			dist = get_shortest_dist(stack_a, stack_a->lowest, max);
-	//		ft_printf("lowest: %d - lowest_pos: %d - max: %d - dist: %d\n", stack_a->lowest, stack_a->lowest_pos, max, dist);
-			optimal_rot_a(stack_a, cmd_list, dist);
+//			ft_printf("lowest: %d - lowest_pos: %d - max: %d - dist: %d\n", stack_a->lowest, stack_a->lowest_pos, max, dist);
+			optimal_rot_a(stack_a, stack_b, cmd_list, dist);
 			pusher(stack_b, stack_a, cmd_list, "pb");
-	//		show_stacks(stack_a, stack_b, "AFTER push to b"); // DEBUG
+//			show_stacks(stack_a, stack_b, "AFTER push to b"); // DEBUG
 //			ft_printf("stack_b->nb_elem: %d\n", stack_b->nb_elem);
-			if (stack_b->nb_elem > 1 && ((stack_b->index_map[stack_b->nb_elem - 1]) < (stack_b->index_map[stack_b->nb_elem - 2]))) 
-			{
-				swapper(stack_b, cmd_list, "sb"); // swap top b and next b if the next one has been found
-	//			show_stacks(stack_a, stack_b, "AFTER swap b"); // DEBUG
-			}
+			//TEST//if (stack_b->nb_elem > 1 && ((stack_b->index_map[stack_b->nb_elem - 1]) < (stack_b->index_map[stack_b->nb_elem - 2]))) 
+			//{
+			//	swapper(stack_b, cmd_list, "sb"); // swap top b and next b if the next one has been found
+//				show_stacks(stack_a, stack_b, "AFTER swap b"); // DEBUG
+			//}
 			find_lowest(stack_a);
 		}
 		//find_lowest(stack_a);

@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 15:11:44 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:21:44 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 	if (!sorted_arr)
 		return (1);
 	ft_cpy_arr_int(sorted_arr, src_arr, len);
-	// Some functions not written yet. Final result:
+	// Final version:
 	/*
-	if (len < 20) // bub, ins, sel: less than 10-20 elems : can be removed
-		ft_bub_srt(sorted_arr, len, 'd');
-	//else if (len >= 20 && len < 1000) // qck: 100-1000 : KEEP if a choice is to be made
+	if (len < 20) // bub/ins/sel
+		ft_bub_srt(sorted_arr, len, 'd'); / can be removed
+	//else if (len >= 20 && len < 1000) // qck: 100-1000
 		//ft_qck_srt(sorted_arr, len, 'd'); // NOT DONE YET!
-	else if (len >= 1000)  // && len < 10000) // mrg: 1000+ : KEEP if a choice is to be made
+	else if (len >= 1000)  // && len < 10000) // mrg: 1000+
 		ft_mrg_srt(sorted_arr, len, 'd'); 
 	//else if (len >= 10000) // hep: 10000+ elems / can be removed
 	//	ft_hep_srt();	

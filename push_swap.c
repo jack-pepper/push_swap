@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 11:11:11 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:22:58 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,91 @@ t_list  *ps_solver(t_list *cmd_list, t_stack *stack_a, t_stack *stack_b)
 void    display_solution(t_list *cmd_list)
 {
         char    *cmd;
+        char    *next_cmd;
+	//t_list	*temp;
+	char	temp_cmd[4];
+
+//      ft_printf("1-cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content);
+        cmd_list = cmd_list->next;
+//	ft_printf("2-cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
+        cmd = (char *)(cmd_list->content);
+        while (cmd_list != NULL)
+        {
+                cmd = (char *)(cmd_list->content);
+                if (cmd_list->next != NULL)
+                {
+                        next_cmd = (char *)(cmd_list->next)->content;
+//			ft_printf("3-cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
+			if ((cmd[0] == next_cmd[0]) && (cmd[0] != 'p')) // Commands start by same letter except push
+                        {
+//				ft_printf("cmd[0]: %c - cmd[1]: %c - cmd[2]: %c\n", cmd[0], cmd[1], cmd[2]);
+				ft_memset(temp_cmd, '0', 4);
+                                if (cmd[1] != next_cmd[1]) // If diff second letters
+                                {
+					temp_cmd[0] = cmd[0]; // copy the first letter (s or r)
+					temp_cmd[1] = cmd[0]; // double it
+					temp_cmd[2] = '\0';
+					ft_printf("%s\n", temp_cmd);
+					cmd_list = cmd_list->next->next;
+					
+                                }
+                                else if ((cmd[1] == 'r') && (cmd[2] != next_cmd[2])) // reverse rotate case
+                                {
+					ft_printf("%s\n", "rrr");
+					cmd_list = cmd_list->next->next;
+                                }
+				else
+				{
+				//temp = ft_lstnew(temp_cmd);
+				//if (!temp)
+				//	return; // ERROR TO MANAGE WITH A RET VAL!
+				//temp->next = (cmd_list->next)->next;
+				ft_printf("%s\n", cmd);
+				cmd_list = cmd_list->next;
+				}
+                        }
+			else
+			{
+				ft_printf("%s\n", cmd);
+				cmd_list = cmd_list->next;
+			}
+                }
+		else
+		{
+                	ft_printf("%s\n", cmd);
+                	cmd_list = cmd_list->next;
+		//free(cmd);
+		//temp = cmd_list;	
+		//cmd_list = cmd_list->next;
+                //free(temp);
+		}
+        }
+}
+
+// Minimal working version
+/*
+void    display_solution(t_list *cmd_list)
+{
+        char    *cmd;
+	t_list	*temp;
+ 
+	cmd_list = cmd_list->next;
+        cmd = (char *)(cmd_list->content);
+        while (cmd_list != NULL)
+        {
+                cmd = (char *)(cmd_list->content);
+                ft_printf("%s\n", cmd);
+		temp = cmd_list;	
+		cmd_list = cmd_list->next;
+                free(temp);
+        }
+}
+*/
+
+/*
+void    display_solution(t_list *cmd_list)
+{
+        char    *cmd;
 	t_list	*temp;
         //char    *next_cmd;
 
@@ -127,7 +212,7 @@ void    display_solution(t_list *cmd_list)
         while (cmd_list != NULL)
         {
                 cmd = (char *)(cmd_list->content);
-          /*      if (cmd_list != NULL && cmd_list->next != NULL)
+                if (cmd_list != NULL && cmd_list->next != NULL)
                 {
                         next_cmd = (char *)(cmd_list->next)->content;
 	//		ft_printf("cmd 1: %s - cmd 2: %s\n", cmd_list->content, (cmd_list->next)->content); // CORRECT! :o
@@ -146,7 +231,7 @@ void    display_solution(t_list *cmd_list)
                                         cmd_list->next = (cmd_list->next)->next;
                                 }
                         }
-                } */
+                }
                 //cmd_list = cmd_list->next;
                 ft_printf("%s\n", cmd);
 		//free(cmd);
@@ -154,4 +239,4 @@ void    display_solution(t_list *cmd_list)
 		cmd_list = cmd_list->next;
                 free(temp);
         }
-}
+}*/

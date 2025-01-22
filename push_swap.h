@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 14:55:53 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:47:59 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		get_shortest_dist(t_stack *stack, int min, int max);
 
 	// Solving logic (ps_solver_a.c)
 void	sort_three_a(t_stack *stack_a, t_list *cmd_list);
-void	optimal_rot_a(t_stack *stack_a, t_list *cmd_list, int dist);
+void	optimal_rot_a(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list, int dist);
 void	find_lowest(t_stack *stack);
 void	ps_to_b(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list);
 
