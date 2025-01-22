@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/21 18:13:52 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:12:54 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	args_has_no_duplicate(int nb_elem, char **args, int i)
 		while (j < nb_elem)
 		{
 			res = ft_strncmp(args[i], args[j], ft_strlen(args[i]));
-			if (res == 0 
+			if ((res == 0)
 				&& (ft_strlen(args[i]) == ft_strlen(args[j])))
 				return (1);
 			j++;

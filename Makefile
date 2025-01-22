@@ -6,7 +6,7 @@
 #    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2025/01/18 22:11:42 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/22 14:54:29 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,8 @@ SRC = push_swap.c \
       ps_args_parser.c \
       ps_cmd.c \
       ps_solver.c \
+      ps_solver_a.c \
+      ps_solver_b.c \
       ps_utils.c \
 
 ### Object files

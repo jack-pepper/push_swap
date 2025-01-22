@@ -6,27 +6,11 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/21 21:27:40 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:11:11 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-// MOVE TO LIBFT!!!
-int     ft_ret(int return_val, char *msg)
-{
-	int	fd;
-
-	if (msg == NULL)
-		return (return_val);
-	if (return_val == 0)
-		fd = 1;
-	else
-		fd = 2;
-        ft_putendl_fd(msg, fd);
-        //ft_putstr_fd("Error\n", fd); // Replace the original descriptive msg to match the subject
-        return (return_val);
-}
 
 int	main(int argc, char **argv)
 {

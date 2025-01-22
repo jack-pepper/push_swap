@@ -6,116 +6,68 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/21 21:03:18 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/22 15:11:44 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int      count_tokens(char const *s, char delim)
+int	ft_ret(int return_val, char *msg)
 {
-        int     nb_tokens;
-        int     i;
+	int	fd;
 
-        nb_tokens = 0;
-        i = 0;
-        while (s[i] != '\0')
-        {
-                while (s[i] == delim && s[i] != '\0')
-                        i++;
-                if (s[i] != delim && s[i] != '\0')
-                {
-                        nb_tokens++;
-                        while (s[i] != delim && s[i] != '\0')
-                                i++;
-                }
-        }
-        return (nb_tokens);
+	if (msg == NULL)
+		return (return_val);
+	if (return_val == 0)
+		fd = 1;
+	else
+		fd = 2;
+	ft_putendl_fd(msg, fd);
+	return (return_val);
 }
 
-int     is_ordered(t_stack *stack, char opt)
+int	count_tokens(char const *s, char delim)
 {
-        size_t  i;
+	int	nb_tokens;
+	int	i;
 
-        i = 0;
-	if (opt == 'd' && stack->nb_elem > 1)
+	nb_tokens = 0;
+	i = 0;
+	while (s[i] != '\0')
 	{
-        	while (i < (stack->nb_elem - 1))
-        	{
-                	if (stack->index_map[i] < stack->index_map[i + 1])
-                        	return (1);
-                	i++;
-        	}
+		while (s[i] == delim && s[i] != '\0')
+			i++;
+		if (s[i] != delim && s[i] != '\0')
+		{
+			nb_tokens++;
+			while (s[i] != delim && s[i] != '\0')
+				i++;
+		}
 	}
-	else if (opt == 'a' && stack->nb_elem > 1)
-	{
-        	while (i < (stack->nb_elem - 1))
-        	{
-                	if (stack->index_map[i] > stack->index_map[i + 1])
-                        	return (1);
-                	i++;
-        	}
-	}
-	return (0);
+	return (nb_tokens);
 }
 
-void    find_highest(t_stack *stack)
-{
-        size_t  i;
-
-        i = 0;
-        stack->highest = stack->index_map[0];
-        stack->highest_pos = i;
-        while (i < stack->len)
-        {
-                if (stack->index_map[i] > stack->highest)
-                {
-                        stack->highest = stack->index_map[i];
-                        stack->highest_pos = i;
-                }
-                i++;
-        }
-}
-
-void    find_lowest(t_stack *stack)
-{
-        size_t  i;
-
-        stack->lowest = stack->index_map[0];
-        stack->lowest_pos = 0;
-	i = 1;
-        while (i < stack->nb_elem)
-        {
-                if (stack->index_map[i] < stack->lowest)
-                {
-                        stack->lowest = stack->index_map[i];
-                        stack->lowest_pos = i;
-                }
-                i++;
-        }
-}
-
-// Take an array of int and convert each nb to its index if the array was sorted 
+/* Take a src_arr of int (here: stack->content), convert and store it to
+ * conv_arr. Each nb will be converted to their index if the array was sorted.
+ * Can take a pointer to a NULL conv_arr or already defined. 
+ */
 int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 {
-	int	*sorted_arr;
+	int		*sorted_arr;
 	size_t	i;
 	size_t	j;
-	
-	if (!conv_arr) // so it can take an array already ready OR just a pointer
+
+	if (!conv_arr)
 	{
 		conv_arr = malloc(sizeof(int) * len);
 		if (!conv_arr)
 			return (1);
-			//return (ft_ret(1, "Error\n"));
 	}
 	sorted_arr = malloc(sizeof(int) * len);
 	if (!sorted_arr)
 		return (1);
-		//return (ft_ret(1, "Error\n"));
 	ft_cpy_arr_int(sorted_arr, src_arr, len);
 	// Some functions not written yet. Final result:
-
 	/*
 	if (len < 20) // bub, ins, sel: less than 10-20 elems : can be removed
 		ft_bub_srt(sorted_arr, len, 'd');
@@ -128,7 +80,7 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 	*/
 	// For testing at the moment:
 	ft_mrg_srt(sorted_arr, len, 'd');
-	ft_rev_arr_int(sorted_arr, len);	
+	ft_rev_arr_int(sorted_arr, len);
 	i = 0;
 	while (i < len)
 	{
@@ -136,24 +88,53 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 		while (sorted_arr[i] != src_arr[j])
 			j++;
 		conv_arr[j] = i;
-//		ft_printf("conv_arr[%d] = %d (sorted_arr[%d] = %d) (src_arr[%d] = %d)\n", j, i, i, sorted_arr[i], j, src_arr[j]);	
-	i++;
+		i++;
 	}
 	free(sorted_arr);
 	return (0);
 }
 
-// Temporary
-void  show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg) // DEBUG
+/* Get the square root of a number (using Newton method).
+ * Return -1 if the number is negative.
+ */
+double	ft_sqrt_newton(double number)
 {
-	int	i = stack_a->len - 1;
-        int *stk_a = stack_a->index_map;
-        int *stk_b = stack_b->index_map;
-        ft_printf("%s\n", msg);
+	double	guess;
+	double	epsilon;
+	double	next_guess;
+
+	if (number < 0)
+	{
+		return (-1);
+	}
+	guess = number / 2.0;
+	epsilon = 0.000001;
+	while (1)
+	{
+		next_guess = (guess + number / guess) / 2.0;
+		if (fabs(next_guess - guess) < epsilon)
+		{
+			return (next_guess);
+		}
+		guess = next_guess;
+	}
+}
+
+// Show the stacks' content (for debugging or vizualisation).
+void	show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg)
+{
+	int	i;
+	int	*stk_a;
+	int	*stk_b;
+
+	i = stack_a->len - 1;
+	stk_a = stack_a->index_map;
+	stk_b = stack_b->index_map;
+	ft_printf("%s\n", msg);
 	while (i >= 0)
 	{
-                ft_printf("[a%i]: %d    [b%i]: %d   \n", i, stk_a[i], i, stk_b[i]);
+		ft_printf("[a%i]: %d    [b%i]: %d   \n", i, stk_a[i], i, stk_b[i]);
 		i--;
-        } 
-	       ft_printf("==============================================\n");
+	}
+	ft_printf("==============================================\n");
 }
