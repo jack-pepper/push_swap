@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 15:47:24 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:51:58 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ int	check_int_limits(char **args, int i, int j)
 {
 	if (j > 11)
 		return (1);
+	if (args[i][0] != '-' && j > 10)
+		return (1);
 	if (j == 10)
 	{
 		if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", 10) > 0)
 			return (1);
-		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
-			return (1);
+//		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
+//         		return (1); Unsure to keep it or not. Test again.
 	}
 	if (j == 11)
 	{
@@ -53,15 +55,13 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 		if ((args[i][0] == '\0')
 			|| ((args[i][0] == '-') && (args[i][1] == '\0')))
 			return (1);
-		if (args[i][0] == '-' && args[i][1] != '\0')
+		if ((args[i][0] == '-') && (args[i][1] != '\0'))
 			j++;
 		while (args[i][j] != '\0')
 		{
 			if (!ft_isdigit(args[i][j]))
 				return (1);
 			j++;
-			if (args[i][0] != '-' && j > 10)
-				return (1);
 			if (check_int_limits(args, i, j) != 0)
 				return (1);
 		}

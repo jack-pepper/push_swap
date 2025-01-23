@@ -4,7 +4,9 @@
 PROGRAM="./push_swap"
 
 # Array of valid test cases
-valid_inputs=("0 9"\
+valid_inputs=("0"\
+		"123"\
+		"0 9"\
 		"-2 -5"\
 		"3 -8"\
 		"5 8 9 4 2 3 7"\
@@ -20,10 +22,8 @@ valid_inputs=("0 9"\
 # Array of invalid test cases (less than two arguments)
 invalid_inputs=("" \
 		" " \
-		"0" \
 		"m" \
 		"-" \
-		"123"\
 		"abc" \
 		"123 abc"\
 		"123 1b3" \

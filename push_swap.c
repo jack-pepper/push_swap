@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 14:02:16 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:49:02 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 		if (parse_args(tkn, tmp, 0) != 0)
 			return (1);
 	}
-	else if (argc > 2 && (parse_args(argc, argv, 1) != 0))
+	else if ((argc > 2) && (parse_args(argc, argv, 1) != 0))
 		return (1);
 	stk_a->content = 0;
 	if (argc == 2)

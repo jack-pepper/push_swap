@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 14:32:10 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 19:42:07 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 
 /* Libraries */
 # include "./libft/libft.h"
-# include <stdio.h> // DEBUG
 # include <unistd.h>
 
 /* Struct */
 typedef struct s_stk
 {
 	size_t	len;
-	int		*content; // the actual content
-	int		*i_map; // a copy with index instead
+	int		*content;
+	int		*i_map;
 	size_t	nb_elem;
 	int		highest;
 	int		lowest;
@@ -33,7 +32,6 @@ typedef struct s_stk
 }		t_stk;
 
 /* Prototypes */
-
 	// Main logic (push_swap.c)
 int		handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b);
 int		init_stks(t_stk *stk_a, t_stk *stk, int argc, char **argv);
