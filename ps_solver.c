@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 22:43:11 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 00:22:32 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,20 +116,19 @@ int	get_shortest_dist(t_stack *stack, int min, int max)
 	int	j;
 
 	i = 1;
-//      ft_printf("min = %d - max = %d - stack->index_map[stack->nb_elem - %d]: %d\n", min, max, i, stack->index_map[stack->nb_elem - i]);
-	while ((i <= stack->nb_elem) && ((stack->index_map[stack->nb_elem - i] < min) || (stack->index_map[stack->nb_elem - i] >= max)))
-	{
-//		ft_printf("stack->index_map[stack->nb_elem - %d]: %d\n", i, stack->index_map[stack->nb_elem - i]);
+	while ((i <= stack->nb_elem)
+		&& ((stack->index_map[stack->nb_elem - i] < min)
+			|| (stack->index_map[stack->nb_elem - i] >= max)))
 		i++;
-	}
 	dist_from_end = i - 1;
 	if (dist_from_end == 0)
 		return (0);
 	j = 0;
-	while ((j < dist_from_end) && ((stack->index_map[j] < min) || (stack->index_map[j] >= max)))
+	while ((j < dist_from_end)
+		&& ((stack->index_map[j] < min)
+			|| (stack->index_map[j] >= max)))
 		j++;
 	dist_from_start = j + 1;
-//	ft_printf("dist_from_end: %d - dist_from_start: %d\n", dist_from_end, dist_from_start);
 	if (dist_from_end < dist_from_start)
 		return (dist_from_end);
 	else
