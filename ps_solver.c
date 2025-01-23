@@ -6,41 +6,37 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 00:22:32 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 10:28:14 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /* Test easy cases:
- * - stack_a already ordered
- * - 3 elem or less in stack_a
- * - stack_a already ordered after rotations
+ * - stk_a already ordered
+ * - 3 elem or less in stk_a
+ * - stk_a already ordered after rotations
+ * i must be initialized to 1. It's passed as a parameter to keep the function
+ * shorter than 25 lines (norm).
  */
-int	test_easy_cases(t_stack *stack_a, t_list *cmd_list)
+int	test_easy_cases(t_stk *stk_a, t_list *cmd_list, size_t i)
 {
-	t_list	*new_cmd;
-	size_t	i;
-
-	i = 1;
-	if (is_ordered(stack_a, 'd') == 0)
+	if (is_ordered(stk_a, 'd') == 0)
 		return (0);
-	if (stack_a->nb_elem <= 3)
+	if (stk_a->nb_elem <= 3)
 	{
-		sort_three_a(stack_a, cmd_list);
+		sort_three_a(stk_a, cmd_list);
 		return (0);
 	}
-	while (i <= (stack_a->nb_elem))
+	while (i <= (stk_a->nb_elem))
 	{
-		rotater(stack_a, cmd_list, "");
-		if (is_ordered(stack_a, 'd') == 0)
+		rotater(stk_a, cmd_list, "");
+		if (is_ordered(stk_a, 'd') == 0)
 		{
 			while (i > 0)
 			{
-				new_cmd = ft_lstnew("ra");
-				if (!new_cmd)
+				if (add_cmd("ra", cmd_list) != 0)
 					return (-1);
-				ft_lstadd_back(&cmd_list, new_cmd);
 				i--;
 			}
 			return (0);
@@ -55,45 +51,45 @@ int	test_easy_cases(t_stack *stack_a, t_list *cmd_list)
  * 	** PUSH_TO_B **
  * - Define mid_val. 
  * - Find the shortest dist (from top/bottom) to any nb < mid_val.
- * - ra or rra until it is on top stack_a, then pb.
- * - When all nb < mid_val has been pushed to stack_b, define next_mid_val.
- * - Stop and sort stack_a when only 3 elements left.
+ * - ra or rra until it is on top stk_a, then pb.
+ * - When all nb < mid_val has been pushed to stk_b, define next_mid_val.
+ * - Stop and sort stk_a when only 3 elements left.
  * -
  * 	** PUSH_TO_A **
- * - If top stack_b is the next val needed (top stack_a - 1), pa
- * - If it's top stack_b - 1: sb, pa
+ * - If top stk_b is the next val needed (top stk_a - 1), pa
+ * - If it's top stk_b - 1: sb, pa
  * - If not: get_shortest_dist, rb/rrb, pa
- * - Stop and sort stack_b when 3 elements left, then push them to stack_a.
+ * - Stop and sort stk_b when 3 elements left, then push them to stk_a.
  */
-void	ps_sort(t_stack *stack_a, t_stack *stack_b, t_list *cmd_list)
+void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 {
-//	show_stacks(stack_a, stack_b, "A/// Before ps_to_b"); // DEBUG
-	ps_to_b(stack_a, stack_b, cmd_list);
-//	show_stacks(stack_a, stack_b, "B/// After ps_to_b"); // DEBUG
-	ps_to_a(stack_a, stack_b, cmd_list);
-//	show_stacks(stack_a, stack_b, "C/// After ps_to_a"); // DEBUG
+//	show_stks(stk_a, stk_b, "A/// Before ps_to_b"); // DEBUG
+	ps_to_b(stk_a, stk_b, cmd_list);
+//	show_stks(stk_a, stk_b, "B/// After ps_to_b"); // DEBUG
+	ps_to_a(stk_a, stk_b, cmd_list);
+//	show_stks(stk_a, stk_b, "C/// After ps_to_a"); // DEBUG
 	return ;
 }
 
-int	is_ordered(t_stack *stack, char opt)
+int	is_ordered(t_stk *stk, char opt)
 {
 	size_t	i;
 
 	i = 0;
-	if (opt == 'd' && stack->nb_elem > 1)
+	if (opt == 'd' && stk->nb_elem > 1)
 	{
-		while (i < (stack->nb_elem - 1))
+		while (i < (stk->nb_elem - 1))
 		{
-			if (stack->index_map[i] < stack->index_map[i + 1])
+			if (stk->i_map[i] < stk->i_map[i + 1])
 				return (1);
 			i++;
 		}
 	}
-	else if (opt == 'a' && stack->nb_elem > 1)
+	else if (opt == 'a' && stk->nb_elem > 1)
 	{
-		while (i < (stack->nb_elem - 1))
+		while (i < (stk->nb_elem - 1))
 		{
-			if (stack->index_map[i] > stack->index_map[i + 1])
+			if (stk->i_map[i] > stk->i_map[i + 1])
 				return (1);
 			i++;
 		}
@@ -102,35 +98,64 @@ int	is_ordered(t_stack *stack, char opt)
 }
 
 // While rotating, check if the next target is on the way. If it is,
-// push it to stack_b, then swap.
+// push it to stk_b, then swap.
 /* Returns the shortest distance. Its sign indicates the direction:
  * - pos val: from the end of array
  * - neg val: from the start of array
  * This function should NOT be relied on if there is no more nb to be found.
  */
-int	get_shortest_dist(t_stack *stack, int min, int max)
+int	get_shortest_dist(t_stk *stk, int min, int max)
 {
-	int	dist_from_end;
-	int	dist_from_start;
+	int		dist_from_end;
+	int		dist_from_start;
 	size_t	i;
-	int	j;
+	int		j;
 
 	i = 1;
-	while ((i <= stack->nb_elem)
-		&& ((stack->index_map[stack->nb_elem - i] < min)
-			|| (stack->index_map[stack->nb_elem - i] >= max)))
+	while ((i <= stk->nb_elem)
+		&& ((stk->i_map[stk->nb_elem - i] < min)
+			|| (stk->i_map[stk->nb_elem - i] >= max)))
 		i++;
 	dist_from_end = i - 1;
 	if (dist_from_end == 0)
 		return (0);
 	j = 0;
 	while ((j < dist_from_end)
-		&& ((stack->index_map[j] < min)
-			|| (stack->index_map[j] >= max)))
+		&& ((stk->i_map[j] < min)
+			|| (stk->i_map[j] >= max)))
 		j++;
 	dist_from_start = j + 1;
 	if (dist_from_end < dist_from_start)
 		return (dist_from_end);
 	else
 		return (dist_from_start * (-1));
+}
+
+void	try_merge_cmds(t_list **cmd_list, char *cmd, char *next_cmd)
+{
+	char	temp_cmd[4];
+
+	ft_memset(temp_cmd, '0', 4);
+	if (cmd[1] != next_cmd[1])
+	{
+		temp_cmd[0] = cmd[0];
+		temp_cmd[1] = cmd[0];
+		temp_cmd[2] = '\0';
+		ft_printf("%s\n", temp_cmd);
+		clean_cmd_and_set_next(cmd_list, 1);
+		//*cmd_list = (*cmd_list)->next->next;
+	}
+	else if ((cmd[1] == 'r') && (cmd[2] != next_cmd[2]))
+	{
+		ft_printf("%s\n", "rrr");	
+		clean_cmd_and_set_next(cmd_list, 1);
+	//	*cmd_list = (*cmd_list)->next->next;
+	}
+	else
+	{
+		ft_printf("%s\n", cmd);
+		clean_cmd_and_set_next(cmd_list, 0);
+		//*cmd_list = (*cmd_list)->next;
+	//	free(cmd);
+	}
 }

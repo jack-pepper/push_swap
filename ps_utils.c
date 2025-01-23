@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 15:21:44 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 10:32:43 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	count_tokens(char const *s, char delim)
 	return (nb_tokens);
 }
 
-/* Take a src_arr of int (here: stack->content), convert and store it to
+/* Take a src_arr of int (here: stk->content), convert and store it to
  * conv_arr. Each nb will be converted to their index if the array was sorted.
  * Can take a pointer to a NULL conv_arr or already defined. 
  */
@@ -102,6 +102,7 @@ double	ft_sqrt_newton(double number)
 	double	guess;
 	double	epsilon;
 	double	next_guess;
+	double	fabs;
 
 	if (number < 0)
 	{
@@ -112,7 +113,11 @@ double	ft_sqrt_newton(double number)
 	while (1)
 	{
 		next_guess = (guess + number / guess) / 2.0;
-		if (fabs(next_guess - guess) < epsilon)
+		if ((next_guess - guess) < 0)
+			fabs = -(next_guess - guess);
+		else
+			fabs = (next_guess - guess);
+		if (fabs < epsilon)
 		{
 			return (next_guess);
 		}
@@ -120,21 +125,43 @@ double	ft_sqrt_newton(double number)
 	}
 }
 
-// Show the stacks' content (for debugging or vizualisation).
-void	show_stacks(t_stack *stack_a, t_stack *stack_b, char *msg)
+void	clean_cmd_and_set_next(t_list **cmd_list, int jump)
+{
+	t_list *temp;
+	t_list *temp_next;
+
+	temp = *cmd_list;
+	temp_next = (*cmd_list)->next;
+	if (jump == 0)
+	{
+		*cmd_list = (*cmd_list)->next;
+		free(temp);
+	}
+	else if (jump == 1)
+	{
+		*cmd_list = (*cmd_list)->next->next;
+		free(temp);
+		free(temp_next);
+	}
+}
+
+// Show the stks' content (for debugging or vizualisation).
+/*
+void	show_stks(t_stk *stk_a, t_stk *stk_b, char *msg)
 {
 	int	i;
-	int	*stk_a;
-	int	*stk_b;
+	int	*i_map_a;
+	int	*i_map_b;
 
-	i = stack_a->len - 1;
-	stk_a = stack_a->index_map;
-	stk_b = stack_b->index_map;
+	i = stk_a->len - 1;
+	i_map_a = stk_a->i_map;
+	i_map_b = stk_b->i_map;
 	ft_printf("%s\n", msg);
 	while (i >= 0)
 	{
-		ft_printf("[a%i]: %d    [b%i]: %d   \n", i, stk_a[i], i, stk_b[i]);
+		ft_printf("[a%i]: %d  [b%i]: %d \n", i, i_map_a[i], i, i_map_b[i]);
 		i--;
 	}
 	ft_printf("==============================================\n");
 }
+*/
