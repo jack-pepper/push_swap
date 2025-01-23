@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 10:28:14 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:00:26 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,24 @@ int	test_easy_cases(t_stk *stk_a, t_list *cmd_list, size_t i)
 	return (1);
 }
 
-/* Main push_swap algorithm:
- *
- * 	** PUSH_TO_B **
- * - Define mid_val. 
- * - Find the shortest dist (from top/bottom) to any nb < mid_val.
- * - ra or rra until it is on top stk_a, then pb.
- * - When all nb < mid_val has been pushed to stk_b, define next_mid_val.
- * - Stop and sort stk_a when only 3 elements left.
- * -
- * 	** PUSH_TO_A **
- * - If top stk_b is the next val needed (top stk_a - 1), pa
- * - If it's top stk_b - 1: sb, pa
- * - If not: get_shortest_dist, rb/rrb, pa
- * - Stop and sort stk_b when 3 elements left, then push them to stk_a.
- */
 void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 {
-//	show_stks(stk_a, stk_b, "A/// Before ps_to_b"); // DEBUG
 	ps_to_b(stk_a, stk_b, cmd_list);
-//	show_stks(stk_a, stk_b, "B/// After ps_to_b"); // DEBUG
 	ps_to_a(stk_a, stk_b, cmd_list);
-//	show_stks(stk_a, stk_b, "C/// After ps_to_a"); // DEBUG
 	return ;
 }
+
+/* Display the stacks. Kept for debugging.
+void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
+{
+	show_stks(stk_a, stk_b, "A/// Before ps_to_b");
+	ps_to_b(stk_a, stk_b, cmd_list);
+	show_stks(stk_a, stk_b, "B/// After ps_to_b");
+	ps_to_a(stk_a, stk_b, cmd_list);
+	show_stks(stk_a, stk_b, "C/// After ps_to_a");
+	return ;
+}
+*/
 
 int	is_ordered(t_stk *stk, char opt)
 {
@@ -143,19 +137,15 @@ void	try_merge_cmds(t_list **cmd_list, char *cmd, char *next_cmd)
 		temp_cmd[2] = '\0';
 		ft_printf("%s\n", temp_cmd);
 		clean_cmd_and_set_next(cmd_list, 1);
-		//*cmd_list = (*cmd_list)->next->next;
 	}
 	else if ((cmd[1] == 'r') && (cmd[2] != next_cmd[2]))
 	{
-		ft_printf("%s\n", "rrr");	
+		ft_printf("%s\n", "rrr");
 		clean_cmd_and_set_next(cmd_list, 1);
-	//	*cmd_list = (*cmd_list)->next->next;
 	}
 	else
 	{
 		ft_printf("%s\n", cmd);
 		clean_cmd_and_set_next(cmd_list, 0);
-		//*cmd_list = (*cmd_list)->next;
-	//	free(cmd);
 	}
 }

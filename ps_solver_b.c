@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 09:01:07 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:04:33 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i)
 	int	top_i;
 	int	next_highest;
 
-	stk_a->len++;
-	stk_a->len--;
 	top_i = (stk_b->nb_elem - 1);
 	next_highest = (stk_b->highest - 1);
 	if (tgt_i >= (top_i / 2))
@@ -94,11 +92,11 @@ void	ps_to_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 		find_highest(stk_b);
 		optimal_rot_b(stk_a, stk_b, cmd_list, stk_b->highest_pos);
 		pusher(stk_a, stk_b, cmd_list, "pa");
-		if ((stk_a->nb_elem > 1) 
-			&& (stk_a->i_map[stk_a->nb_elem - 1] 
+		if ((stk_a->nb_elem > 1)
+			&& (stk_a->i_map[stk_a->nb_elem - 1]
 				> stk_a->i_map[stk_a->nb_elem - 2]))
 			swapper(stk_a, cmd_list, "sa");
-	}	
+	}
 	if (is_ordered(stk_b, 'a') != 0)
 		sort_three_b(stk_b, cmd_list);
 	while (stk_b->nb_elem > 0)

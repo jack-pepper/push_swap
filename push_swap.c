@@ -6,11 +6,36 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 10:32:57 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:02:16 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+/*
+ * push_swap algorithm:
+ *
+ * - ps_solver_a.c:
+ *	- Calc pivot (sqrt of nb of elem).
+ *	- Find lowest and set max at lowest + pivot.
+ *	- While stack is unsorted and elements > 3:
+ *		- calc shortest dist to any nb in [min, max] range
+ *		- calc the optimal move and rotate accordingly to bring
+ *			the target to the top of stack_a		
+ *			(and push the next lowest if it's on the way)
+ *		- push to b
+ *	- Sort the remaining 3 elements.
+ *
+ * - ps_solver_b.c:
+ *	- While stack_b > 3 elements: 
+ *		- find the highest in stack_b
+ *		- calc the optimal move and rotate accordingly to bring
+ *			the target to the top of stack_b
+ *		 	(and push the next highest if it's ont the way)
+ *		- swap stack_a if the new elem is lower than the prev
+ *	- Sort the remaining 3 elements, then push them to stack_a.
+ *
+ *
+ */
 
 int	main(int argc, char **argv)
 {
@@ -33,11 +58,6 @@ int	main(int argc, char **argv)
 	free(stk_b.content);
 	free(stk_b.i_map);
 	free(cmd_list);
-	//while(cmd_list != NULL)
-	//{
-	//	free(cmd_list->content);
-	//	cmd_list = cmd_list->next;
-	//}	
 	return (0);
 }
 
@@ -126,10 +146,7 @@ void	display_solution(t_list *cmd_list)
 		{
 			next_cmd = (char *)(cmd_list->next)->content;
 			if ((cmd[0] == next_cmd[0]) && (cmd[0] != 'p'))
-			{
 				try_merge_cmds(&cmd_list, cmd, next_cmd);
-				continue ;
-			}
 			else
 			{
 				ft_printf("%s\n", cmd);

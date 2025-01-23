@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 10:32:43 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 13:36:32 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ int	count_tokens(char const *s, char delim)
 /* Take a src_arr of int (here: stk->content), convert and store it to
  * conv_arr. Each nb will be converted to their index if the array was sorted.
  * Can take a pointer to a NULL conv_arr or already defined. 
+ *
+ * TBD: Optimize the algo used to sort the array:
+ * 	- if (len < 20):
+ *		ft_bub_srt(sorted_arr, len, 'd') (or ins, or sel)
+ *	- else if (len >= 20 && len < 1000)
+ *		ft_qck_srt(sorted_arr, len, "ds"); (TBD)
+ *	- else if (len >= 1000)
+ *		ft_mrg_srt(sorted_arr, len, 'd'); 
+ *	- else if (len >= 10000) // hep: 10000+ elems / can be removed
+ *		ft_hep_srt(); (TBD)
  */
 int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 {
@@ -57,28 +67,10 @@ int	conv_to_index(int *conv_arr, int *src_arr, size_t len)
 	size_t	i;
 	size_t	j;
 
-	if (!conv_arr)
-	{
-		conv_arr = malloc(sizeof(int) * len);
-		if (!conv_arr)
-			return (1);
-	}
 	sorted_arr = malloc(sizeof(int) * len);
 	if (!sorted_arr)
 		return (1);
 	ft_cpy_arr_int(sorted_arr, src_arr, len);
-	// Final version:
-	/*
-	if (len < 20) // bub/ins/sel
-		ft_bub_srt(sorted_arr, len, 'd'); / can be removed
-	//else if (len >= 20 && len < 1000) // qck: 100-1000
-		//ft_qck_srt(sorted_arr, len, 'd'); // NOT DONE YET!
-	else if (len >= 1000)  // && len < 10000) // mrg: 1000+
-		ft_mrg_srt(sorted_arr, len, 'd'); 
-	//else if (len >= 10000) // hep: 10000+ elems / can be removed
-	//	ft_hep_srt();	
-	*/
-	// For testing at the moment:
 	ft_mrg_srt(sorted_arr, len, 'd');
 	ft_rev_arr_int(sorted_arr, len);
 	i = 0;
@@ -127,8 +119,8 @@ double	ft_sqrt_newton(double number)
 
 void	clean_cmd_and_set_next(t_list **cmd_list, int jump)
 {
-	t_list *temp;
-	t_list *temp_next;
+	t_list	*temp;
+	t_list	*temp_next;
 
 	temp = *cmd_list;
 	temp_next = (*cmd_list)->next;

@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 10:31:01 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:32:10 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 /* Struct */
 typedef struct s_stk
 {
-        size_t		len;
-        int		*content; // the actual content
+	size_t	len;
+	int		*content; // the actual content
 	int		*i_map; // a copy with index instead
-        size_t		nb_elem;
+	size_t	nb_elem;
 	int		highest;
 	int		lowest;
-	size_t		highest_pos;
-	size_t		lowest_pos;
+	size_t	highest_pos;
+	size_t	lowest_pos;
 	char	last_cmd[4];
 }		t_stk;
 
@@ -43,6 +43,7 @@ void	display_solution(t_list *cmd_list);
 	// Parsing logic (ps_args_parser.c)
 int		parse_args(int nb_elem, char **args, int i);
 int		args_are_all_int(int nb_elem, char **args, int i);
+int		check_int_limits(char **args, int i, int j);
 int		args_has_no_duplicate(int nb_elem, char **args, int i);
 int		*store_args(int nb_elem, char **args, char opt);
 

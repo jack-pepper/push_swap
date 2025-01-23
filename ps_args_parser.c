@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/22 15:12:54 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:29:07 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,26 @@ int	parse_args(int nb_elem, char **args, int i)
 	if (args_are_all_int(nb_elem, args, i) != 0)
 		return (1);
 	if (args_has_no_duplicate(nb_elem, args, i) != 0)
+		return (1);
+	return (0);
+}
+
+// Return 0 is the string at the given index is in int bounds, else 1.
+int	check_int_limits(char **args, int i, int j)
+{
+	if (j == 10)
+	{
+		if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", 10) > 0)
+			return (1);
+		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
+			return (1);
+	}
+	if (j == 11)
+	{
+		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
+			return (1);
+	}
+	if (j > 11)
 		return (1);
 	return (0);
 }
@@ -42,18 +62,8 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 			j++;
 			if (args[i][0] != '-' && j > 10)
 				return (1);
-			if (j == 10)
-			{
-				if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", ft_strlen(args[i])) > 0)
-					return (1);
-				if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", ft_strlen(args[i])) > 0)	
-					return (1);
-			}
-			if (j == 11)
-			{
-				if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", ft_strlen(args[i])) > 0) // Only > MIN_INT			
-					return (1);
-			}
+			if (check_int_limits(args, i, j) != 0)
+				return (1);
 		}
 		i++;
 	}
