@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 14:29:07 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:47:24 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	parse_args(int nb_elem, char **args, int i)
 // Return 0 is the string at the given index is in int bounds, else 1.
 int	check_int_limits(char **args, int i, int j)
 {
+	if (j > 11)
+		return (1);
 	if (j == 10)
 	{
 		if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", 10) > 0)
@@ -37,8 +39,6 @@ int	check_int_limits(char **args, int i, int j)
 		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
 			return (1);
 	}
-	if (j > 11)
-		return (1);
 	return (0);
 }
 

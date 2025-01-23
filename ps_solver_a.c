@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 08:11:51 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:48:11 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void	find_lowest(t_stk *stk)
 	}
 }
 
+/* The pivot 21 is the magic value that allows sorting in less than 700 moves
+ * for an array of 100 numbers.
+ */
 void	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 {
 	int	pivot;
@@ -88,6 +91,8 @@ void	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 	int	dist;
 
 	pivot = (int)ft_sqrt_newton((double)stk_a->nb_elem) - 1;
+	if (stk_a->len >= 30 && stk_a->len <= 110)
+		pivot = 21;
 	find_lowest(stk_a);
 	max = stk_a->lowest + pivot;
 	while ((stk_a->nb_elem > 3) && (is_ordered(stk_a, 'd') != 0))
