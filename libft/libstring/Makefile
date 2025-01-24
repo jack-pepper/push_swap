@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmalie <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: mmalie <mmalie@student.42nice.fr           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2024/11/14 09:35:45 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/02 12:35:05 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,9 @@ LIBSTRING = ft_bzero.c \
 	    ft_strlen.c \
 	    ft_strncmp.c \
 	    ft_strnew.c \
+	    ft_strnopbrk.c \
 	    ft_strnstr.c \
+	    ft_strpbrk.c \
 	    ft_strrchr.c \
 	    ft_strrev.c \
 
@@ -65,6 +67,18 @@ OBJ = $(SRC:.c=.o)
 
 ### Default rules (compile the executable)
 all: $(NAME)
+	$(info )
+	$(info   L       III  BBBBB   SSSSS  TTTTT  RRRR   III  N   N  GGGG   )
+	$(info   L        I   B   B   S        T    R   R   I   NN  N  G       )
+	$(info   L        I   BBBB    SSSSS    T    RRRR    I   N N N  G  GG   )
+	$(info   L        I   B   B      S     T    R  R    I   N  NN  G   G   )
+	$(info   LLLLL   III  BBBBB   SSSSS    T    R   R  III  N   N  GGGG    )
+	$(info )
+	$(info ================================================================)
+	$(info       L I B S T R I N G   C O M P I L E D!                      )
+	$(info ================================================================)
+	$(info )
+
 
 ### Compile .c files into .o files
 %.o: %.c

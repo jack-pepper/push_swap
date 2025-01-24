@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmalie <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2024/11/14 09:35:45 by mmalie           ###   ########.fr        #
+#    Updated: 2024/12/29 01:22:15 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ LIBBIN = ft_show_bin.c \
 	 ft_count_clear_bits.c \
 	 ft_first_set_bit_pos.c \
 	 ft_highest_set_bit_pos.c \
-	 #ft_extract_bits.c \
+	 ft_extract_bits.c \
 	 ft_set_bits.c \
 	 ft_match_bits.c \
 	 ft_rotate_left.c \
@@ -64,6 +64,8 @@ LIBBIN = ft_show_bin.c \
 	 ft_pack_two_int.c \
 	 ft_unpack_first_half.c \
 	 ft_unpack_second_half.c \
+	 ft_create_bitmask.c \
+	 ft_create_range_bitmask.c \
 
 SRC = ${LIBBIN}
 
@@ -75,6 +77,16 @@ OBJ = $(SRC:.c=.o)
 
 ### Default rules (compile the executable)
 all: $(NAME)
+	$(info )
+	$(info   L       III  BBBBB  BBBBB   III  N   N )
+	$(info   L        I   B   B  B   B    I   NN  N )
+	$(info   L        I   BBBB   BBBB     I   N N N )
+	$(info   L        I   B   B  B   B    I   N  NN )
+	$(info   LLLLL   III  BBBBB  BBBBB   III  N   N )
+	$(info )
+	$(info =========================================)
+	$(info       L I B B I N   C O M P I L E D!     )
+	$(info =========================================)
 
 ### Compile .c files into .o files
 %.o: %.c
@@ -87,6 +99,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 	ranlib $(NAME)
+
 
 #########################
 ### Cleaning-up rules ###

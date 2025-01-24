@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 19:42:07 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 10:34:10 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	sort_three_b(t_stk *stk_b, t_list *cmd_list);
 void	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
 void	find_highest(t_stk *stk);
 void	ps_to_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
+void	rot_and_push(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
 
 // Utils (ps_utils.c)
 int		ft_ret(int return_val, char *msg);

@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 20:49:02 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 09:43:15 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		return (1);
+	if (argc == 2 && argv[1][0] == ' ' && ft_strlen(argv[1]) == 1)
+		return (ft_ret(1, "Error"));
 	if (handle_args(argc, argv, &stk_a, &stk_b) != 0)
 		return (ft_ret(1, "Error"));
 	cmd_list = ft_lstnew("HEAD");
@@ -85,7 +87,7 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 	stk_a->content = 0;
 	if (argc == 2)
 		res = init_stks(stk_a, stk_b, tkn, tmp);
-	else if (argc > 2)
+	else
 		res = init_stks(stk_a, stk_b, argc - 1, &argv[1]);
 	if (res != 0)
 		return (1);

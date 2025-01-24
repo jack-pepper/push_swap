@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmalie <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2024/11/14 09:35:45 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/06 21:51:50 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ LIBUTILS = ft_itoa.c \
 	   ft_strtrim.c \
 	   ft_substr.c \
 	   ft_striteri.c \
+	   ft_open_file.c \
+	   ft_read_line.c \
 
 SRC = ${LIBUTILS}
 
@@ -59,6 +61,17 @@ OBJ = $(SRC:.c=.o)
 
 ### Default rules (compile the executable)
 all: $(NAME)
+	$(info )
+	$(info   L       III  BBBBB   U   U  TTTTT  III  L      SSSSS  )
+	$(info   L        I   B   B   U   U    T     I   L      S      )
+	$(info   L        I   BBBB    U   U    T     I   L      SSSSS  )
+	$(info   L        I   B   B   U   U    T     I   L          S  )
+	$(info   LLLLL   III  BBBBB   UUUUU    T    III  LLLLL  SSSSS  )
+	$(info )
+	$(info ========================================================)
+	$(info       L I B U T I L S   C O M P I L E D!                )
+	$(info ========================================================)
+	$(info )
 
 ### Compile .c files into .o files
 %.o: %.c

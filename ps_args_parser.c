@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 20:51:58 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 10:06:02 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	check_int_limits(char **args, int i, int j)
 	{
 		if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", 10) > 0)
 			return (1);
-//		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
-//         		return (1); Unsure to keep it or not. Test again.
 	}
 	if (j == 11)
 	{

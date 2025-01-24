@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap_bits.c                                     :+:      :+:    :+:   */
+/*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 20:44:16 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/16 10:19:12 by mmalie           ###   ########.fr       */
+/*   Created: 2025/01/06 21:39:19 by mmalie            #+#    #+#             */
+/*   Updated: 2025/01/06 21:50:53 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 /*
- * Swaps two bits in a number.
+ * Read a line with ft_gnl and return 0. 
+ * In case of error, close fd, display error_msg and return -1.
+ * If the error_msg is "no", close fd and return 1.
  */
-unsigned int	ft_swap_bits(unsigned int n, int b1_pos, int b2_pos)
+int	ft_read_line(int fd, char **line, char *error_msg)
 {
-	if ((b1_pos < 0) || (b2_pos < 0)
-		|| ((unsigned int)b1_pos >= (sizeof(n) * 8))
-		|| ((unsigned int)b2_pos >= (sizeof(n) * 8)))
-		return (-1);
-	if (((n >> b1_pos) & 1) != ((n >> b2_pos) & 1))
+	*line = ft_gnl(fd);
+	if (*line == NULL)
 	{
-		n = n ^ (1 << b1_pos);
-		n = n ^ (1 << b2_pos);
+		if (ft_strncmp(error_msg, "no", 2) != 0)
+		{
+			perror(error_msg);
+			close(fd);
+			return (-1);
+		}
+		close(fd);
+		return (1);
 	}
-	return (n);
+	return (0);
 }

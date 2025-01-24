@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 14:04:33 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 10:33:28 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,7 @@ void	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i)
 	next_highest = (stk_b->highest - 1);
 	if (tgt_i >= (top_i / 2))
 	{
-		while (tgt_i < top_i)
-		{
-			if (stk_b->i_map[stk_b->nb_elem - 1] == next_highest)
-			{
-				pusher(stk_a, stk_b, cmd_list, "pa");
-				top_i--;
-			}
-			if (stk_b->i_map[stk_b->nb_elem - 1] != stk_b->highest)
-			{
-				rotater(stk_b, cmd_list, "rb");
-				tgt_i++;
-			}
-		}
+		rot_and_push(stk_a, stk_b, cmd_list, tgt_i);
 	}
 	else
 	{
@@ -63,6 +51,28 @@ void	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i)
 				pusher(stk_a, stk_b, cmd_list, "pa");
 			reverse_rotater(stk_b, cmd_list, "rrb");
 			tgt_i--;
+		}
+	}
+}
+
+void	rot_and_push(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i)
+{
+	int	top_i;
+	int	next_highest;
+
+	top_i = (stk_b->nb_elem - 1);
+	next_highest = (stk_b->highest - 1);
+	while (tgt_i < top_i)
+	{
+		if (stk_b->i_map[stk_b->nb_elem - 1] == next_highest)
+		{
+			pusher(stk_a, stk_b, cmd_list, "pa");
+			top_i--;
+		}
+		if (stk_b->i_map[stk_b->nb_elem - 1] != stk_b->highest)
+		{
+			rotater(stk_b, cmd_list, "rb");
+			tgt_i++;
 		}
 	}
 }

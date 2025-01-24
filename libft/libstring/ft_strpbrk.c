@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap_bits.c                                     :+:      :+:    :+:   */
+/*   ft_strpbrk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 20:44:16 by mmalie            #+#    #+#             */
-/*   Updated: 2024/12/16 10:19:12 by mmalie           ###   ########.fr       */
+/*   Created: 2025/01/02 10:12:26 by mmalie            #+#    #+#             */
+/*   Updated: 2025/01/02 11:27:51 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-/*
- * Swaps two bits in a number.
+/* 
+ * Implementation of strpbrk() from <string.h>: Locates the first occurence
+ * in the string s of any of the bytes in the string accept.
  */
-unsigned int	ft_swap_bits(unsigned int n, int b1_pos, int b2_pos)
+char	*ft_strpbrk(const char *s, const char *accept)
 {
-	if ((b1_pos < 0) || (b2_pos < 0)
-		|| ((unsigned int)b1_pos >= (sizeof(n) * 8))
-		|| ((unsigned int)b2_pos >= (sizeof(n) * 8)))
-		return (-1);
-	if (((n >> b1_pos) & 1) != ((n >> b2_pos) & 1))
+	int	i;
+
+	i = 0;
+	if (s != NULL && accept != NULL)
 	{
-		n = n ^ (1 << b1_pos);
-		n = n ^ (1 << b2_pos);
+		while (*s)
+		{
+			i = 0;
+			while (accept[i])
+			{
+				if (*s == accept[i])
+					return ((char *)s);
+				i++;
+			}
+			s++;
+		}
 	}
-	return (n);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2025/01/23 12:30:57 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/05 10:55:56 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ LIBSORT = ft_bub_srt.c \
 	    ft_sel_srt.c \
 	    ft_ins_srt.c \
 	    ft_mrg_srt.c \
-	    ft_qck_srt.c \
+	    #ft_qck_srt.c \
 	    #ft_hep_srt.c \
 	    #ft_rdx_srt.c \
 
