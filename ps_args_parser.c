@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/24 10:06:02 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 14:42:58 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 // Parse args to check validity, starting from [i] index.
 int	parse_args(int nb_elem, char **args, int i)
 {
+	if (*args == NULL)
+		return (1);
 	if (args_are_all_int(nb_elem, args, i) != 0)
 		return (1);
 	if (args_has_no_duplicate(nb_elem, args, i) != 0)

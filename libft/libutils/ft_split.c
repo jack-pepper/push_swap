@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 09:57:39 by mmalie            #+#    #+#             */
-/*   Updated: 2024/11/14 09:32:03 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:08:48 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	array = store_tokens(s, c, array);
 	if (array == NULL)
+	{
+		free(array);
 		return (NULL);
+	}
 	return (array);
 }
 

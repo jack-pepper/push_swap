@@ -6,9 +6,11 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/24 09:43:15 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 16:17:21 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// TO DO: - improve error and memory management. Handle failure during cmd.
 
 #include "push_swap.h"
 /*
@@ -43,16 +45,18 @@ int	main(int argc, char **argv)
 	t_stk	stk_b;
 	t_list	*cmd_list;
 
-	if (argc == 1)
-		return (1);
-	if (argc == 2 && argv[1][0] == ' ' && ft_strlen(argv[1]) == 1)
+	if ((argc == 1) || (argc == 2 && argv[1][0] == '\0'))
+		return (0);
+	if ((argc == 2)
+		&& ((ft_strnopbrk(argv[1], " -0123456789") != NULL)
+		|| (ft_strnopbrk(argv[1], " ") == NULL)))
 		return (ft_ret(1, "Error"));
 	if (handle_args(argc, argv, &stk_a, &stk_b) != 0)
 		return (ft_ret(1, "Error"));
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
-		return (ft_ret(1, "Error"));
-	ps_solver(cmd_list, &stk_a, &stk_b);
+		return (ft_ret(1, "Error")); // Must free Must free stk_a->content & stk_b->content & stk_a->i_map!
+	ps_solver(cmd_list, &stk_a, &stk_b); // Improve error management here!
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
 	free(stk_a.content);
@@ -61,6 +65,20 @@ int	main(int argc, char **argv)
 	free(stk_b.i_map);
 	free(cmd_list);
 	return (0);
+}
+
+void	ps_free(char **arr, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+	return ;
 }
 
 /* Parse the arguments to check their validity (a list of int without double)
@@ -73,20 +91,21 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 	int		res;
 	int		tkn;
 
-	if (argc == 1)
+	if ((argc == 1) || ((argc > 2) && (parse_args(argc, argv, 1) != 0)))
 		return (1);
+	stk_a->content = 0;
 	if (argc == 2)
 	{
 		tkn = count_tokens(argv[1], ' ');
 		tmp = ft_split(argv[1], ' ');
 		if (parse_args(tkn, tmp, 0) != 0)
+		{
+			ps_free(tmp, tkn);
 			return (1);
-	}
-	else if ((argc > 2) && (parse_args(argc, argv, 1) != 0))
-		return (1);
-	stk_a->content = 0;
-	if (argc == 2)
+		}	
 		res = init_stks(stk_a, stk_b, tkn, tmp);
+		ps_free(tmp, tkn);
+	}
 	else
 		res = init_stks(stk_a, stk_b, argc - 1, &argv[1]);
 	if (res != 0)
@@ -103,20 +122,20 @@ int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **str)
 	stk_a->nb_elem = (size_t)stk_a->len;
 	stk_b->content = (int *)ft_calloc(stk_a->len, sizeof(int));
 	if (!stk_b->content)
-		return (1);
+		return (1); // Must free stk_a->content!
 	stk_b->len = stk_a->len;
 	stk_b->nb_elem = 0;
 	stk_a->i_map = (int *)ft_calloc(stk_a->len, sizeof(int));
 	if (!stk_a->i_map)
-		return (1);
+		return (1); // Must free stk_a->content & stk_b->content!
 	conv_to_index(stk_a->i_map, stk_a->content, stk_a->len);
-	if (!stk_a->i_map)
-		return (1);
+	//if (!stk_a->i_map)
+	//	return (1);
 	find_highest(stk_a);
 	find_lowest(stk_a);
 	stk_b->i_map = (int *)ft_calloc(stk_b->len, sizeof(int));
 	if (!stk_b->i_map)
-		return (1);
+		return (1); // Must free stk_a->content & stk_b->content & stk_a->i_map!
 	return (0);
 }
 
