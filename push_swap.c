@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/24 16:17:21 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:34:51 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv)
 	if ((argc == 1) || (argc == 2 && argv[1][0] == '\0'))
 		return (0);
 	if ((argc == 2)
-		&& ((ft_strnopbrk(argv[1], " -0123456789") != NULL)
+		&& ((ft_strnopbrk(argv[1], " -+0123456789") != NULL)
 		|| (ft_strnopbrk(argv[1], " ") == NULL)))
 		return (ft_ret(1, "Error"));
 	if (handle_args(argc, argv, &stk_a, &stk_b) != 0)

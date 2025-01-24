@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/24 14:42:58 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/24 22:05:23 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,22 @@ int	parse_args(int nb_elem, char **args, int i)
 // Return 0 is the string at the given index is in int bounds, else 1.
 int	check_int_limits(char **args, int i, int j)
 {
-	if (j > 11)
-		return (1);
-	if (args[i][0] != '-' && j > 10)
+	if ((j > 11)
+		|| ((j > 10) && (args[i][0] != '-' && args[i][0] != '+')))
 		return (1);
 	if (j == 10)
 	{
-		if (args[i][0] != '-' && ft_strncmp(args[i], "2147483647", 10) > 0)
+		if ((args[i][0] != '-' && args[i][0] != '+') 
+			&& (ft_strncmp(args[i], "2147483647", 10) > 0))
 			return (1);
 	}
 	if (j == 11)
 	{
-		if (args[i][0] == '-' && ft_strncmp(args[i], "-2147483648", 11) > 0)
+		if ((args[i][0] == '-')
+			&& (ft_strncmp(args[i], "-2147483648", 11) > 0))
+			return (1);
+		if ((args[i][0] == '+')
+			&& (ft_strncmp(args[i], "+2147483647", 11) > 0))
 			return (1);
 	}
 	return (0);
@@ -53,9 +57,11 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 	{
 		j = 0;
 		if ((args[i][0] == '\0')
-			|| ((args[i][0] == '-') && (args[i][1] == '\0')))
+			|| ((args[i][0] == '-') && (args[i][1] == '\0'))
+			|| ((args[i][0] == '+') && (args[i][1] == '\0')))
 			return (1);
-		if ((args[i][0] == '-') && (args[i][1] != '\0'))
+		if (((args[i][0] == '-') || (args[i][0] == '+'))
+			&& (args[i][1] != '\0'))
 			j++;
 		while (args[i][j] != '\0')
 		{
@@ -74,18 +80,26 @@ int	args_are_all_int(int nb_elem, char **args, int i)
 int	args_has_no_duplicate(int nb_elem, char **args, int i)
 {
 	int	j;
-	int	res;
+	char	*temp;
 
-	res = 0;
 	while (i < nb_elem)
 	{
 		j = i + 1;
 		while (j < nb_elem)
 		{
-			res = ft_strncmp(args[i], args[j], ft_strlen(args[i]));
-			if ((res == 0)
+			//ft_printf("argsi[%d]: %s - len: %d\n", i, args[i], ft_strlen(args[i]));
+			if ((ft_strncmp(args[i], args[j], ft_strlen(args[i])) == 0)
 				&& (ft_strlen(args[i]) == ft_strlen(args[j])))
 				return (1);
+			if (args[i][0] == '+')
+			{
+				temp = &args[i][1];
+				//ft_printf("temp: %s - len: %d - argsj[%d] = %s - len: %d\n", temp, ft_strlen(temp), j, args[j], ft_strlen(args[j]));
+				if ((ft_strncmp(temp, args[j], ft_strlen(args[j])) == 0)
+				&& (ft_strlen(temp) == ft_strlen(args[j])))
+					return (1);
+			}
+
 			j++;
 		}
 		i++;
