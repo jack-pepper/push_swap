@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 13:46:23 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 19:40:39 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,20 @@ typedef struct s_stk
 /* Prototypes */
 	// Main logic (push_swap.c)
 int		handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b);
-int		init_stks(t_stk *stk_a, t_stk *stk, int argc, char **argv);
+int		init_stks(t_stk *stk_a, t_stk *stk, int argc, char **trimmed_args);
 t_list	*ps_solver(t_list *cmd_list, t_stk *stk_a, t_stk *stk_b);
 void	display_solution(t_list *cmd_list);
 
 	// Parsing logic (ps_args_parser.c)
-int		parse_args(int nb_elem, char **args, int i);
+int		parse_args(int nb_elem, char **args, int i, char ***trimmed_args);
+long long	ps_atoll(const char *nptr);
 int		args_are_all_int(int nb_elem, char **args);
-int		check_int_limits(char **args, int i, int j);
 int		args_has_no_duplicate(int nb_elem, char **args, int i);
 int		*store_args(int nb_elem, char **args, char opt);
+
+	// Trimming (for parsing) (ps_args_trimmer.c)
+char	*ps_trim(char *trimmed_arg, char *arg, int len, int k);
+char	**ps_trim_all(char **trimmed_args, char **args, int nb_args, int i);
 
 	// push_swap commands (ps_cmd.c)
 int		swapper(t_stk *stk, t_list *cmd_list, char *cmd);

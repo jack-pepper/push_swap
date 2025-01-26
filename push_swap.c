@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 17:48:21 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 19:47:06 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-void	ps_free(char **arr, int len)
+void	ps_free_all(char **arr, int len)
 {
 	int	i;
 
@@ -89,34 +89,36 @@ void	ps_free(char **arr, int len)
 int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 {
 	char	**tmp;
+	char	**trimmed_args;
 	int		res;
 	int		tkn;
 
-	if ((argc > 2) && (parse_args(argc - 1, &argv[1], 0) != 0))
+	trimmed_args = NULL;
+	if ((argc > 2) && (parse_args(argc - 1, &argv[1], 0, &trimmed_args) != 0))
 		return (1);
 	stk_a->content = 0;
 	if (argc == 2)
 	{
 		tkn = count_tokens(argv[1], ' ');
 		tmp = ft_split(argv[1], ' ');
-		if (parse_args(tkn, tmp, 0) != 0)
+		if (parse_args(tkn, tmp, 0, &trimmed_args) != 0)
 		{
-			ps_free(tmp, tkn);
+			ps_free_all(tmp, tkn);
 			return (1);
 		}	
-		res = init_stks(stk_a, stk_b, tkn, tmp);
-		ps_free(tmp, tkn);
+		res = init_stks(stk_a, stk_b, tkn, trimmed_args);
+		ps_free_all(tmp, tkn);
 	}
 	else
-		res = init_stks(stk_a, stk_b, argc - 1, &argv[1]);
+		res = init_stks(stk_a, stk_b, argc - 1, trimmed_args);
 	if (res != 0)
 		return (1);
 	return (0);
 }
 
-int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **str)
+int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **trimmed_args)
 {
-	stk_a->content = store_args(len, str, 'r');
+	stk_a->content = store_args(len, trimmed_args, 'r');
 	if (!stk_a->content)
 		return (1);
 	stk_a->len = len;

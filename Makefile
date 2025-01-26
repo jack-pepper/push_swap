@@ -6,7 +6,7 @@
 #    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2025/01/22 14:54:29 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/26 19:36:04 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ LIBFT = ./libft/libft.a
 
 SRC = push_swap.c \
       ps_args_parser.c \
+      ps_args_trimmer.c \
       ps_cmd.c \
       ps_solver.c \
       ps_solver_a.c \
