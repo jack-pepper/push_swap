@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 19:53:58 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 22:28:42 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ps_trim(char *trimmed_arg, char *arg, int len, int k)
 
 	i = 0;
 	is_neg = 0;
-	if ((ft_strnopbrk(arg, "0") == NULL) 
+	if ((ft_strnopbrk(arg, "0") == NULL)
 		|| (ft_strnopbrk(arg, "-0") == NULL)
 		|| (ft_strnopbrk(arg, "+0") == NULL))
 		return (ft_strdup("0"));
@@ -43,7 +43,7 @@ char	*ps_trim(char *trimmed_arg, char *arg, int len, int k)
 char	**ps_trim_all(char **trimmed_args, char **args, int nb_args, int i)
 {
 	char	*trimmed_arg;
-	int	k;
+	int		k;
 	size_t	arg_len;
 
 	k = 0;

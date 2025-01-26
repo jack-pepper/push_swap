@@ -6,25 +6,11 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 13:36:32 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 22:14:29 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	ft_ret(int return_val, char *msg)
-{
-	int	fd;
-
-	if (msg == NULL)
-		return (return_val);
-	if (return_val == 0)
-		fd = 1;
-	else
-		fd = 2;
-	ft_putendl_fd(msg, fd);
-	return (return_val);
-}
 
 int	count_tokens(char const *s, char delim)
 {

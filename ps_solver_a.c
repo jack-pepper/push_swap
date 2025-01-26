@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 20:47:07 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 23:51:22 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int	sort_three_a(t_stk *stk_a, t_list *cmd_list)
 {
 	int	res;
 
+	res = 0;
+	if (is_ordered(stk_a, 'd') == 0)
+		return (0);
 	find_highest(stk_a);
 	find_lowest(stk_a);
-	res = 0;
 	if (stk_a->nb_elem == 2)
 		res = swapper(stk_a, cmd_list, "sa");
 	else if (stk_a->nb_elem == 3)
@@ -41,24 +43,15 @@ int	sort_three_a(t_stk *stk_a, t_list *cmd_list)
 /* Find the optimal rotation or reverse rotation to bring the given target
  * to the top of the current stk.
  */
-int	optimal_rot_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist)
+int	opt_ra(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist)
 {
-	if (dist == 0)
-		return (0);
 	while (dist != 0)
 	{
 		find_highest(stk_b);
 		if (dist > 0)
 		{
-			if (rotater(stk_a, cmd_list, "ra") != 0)
+			if (rot_a(stk_a, stk_b, cmd_list, dist) != 0)
 				return (1);
-			if ((stk_b->nb_elem > 1)
-				&& (stk_b->highest_pos != stk_b->nb_elem -1)
-				&& (stk_b->highest_pos < ((stk_b->nb_elem - 1) - dist)))
-			{
-				if (rotater(stk_b, cmd_list, "rb") != 0)
-					return (1);
-			}
 			dist--;
 		}
 		else if (dist < 0)
@@ -74,6 +67,20 @@ int	optimal_rot_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist)
 			}
 			dist++;
 		}
+	}
+	return (0);
+}
+
+int	rot_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist)
+{
+	if (rotater(stk_a, cmd_list, "ra") != 0)
+		return (1);
+	if ((stk_b->nb_elem > 1)
+		&& (stk_b->highest_pos != stk_b->nb_elem - 1)
+		&& (stk_b->highest_pos < ((stk_b->nb_elem - 1) - dist)))
+	{
+		if (rotater(stk_b, cmd_list, "rb") != 0)
+			return (1);
 	}
 	return (0);
 }
@@ -115,7 +122,7 @@ int	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 		while (stk_a->lowest < max)
 		{
 			dist = get_shortest_dist(stk_a, stk_a->lowest, max);
-			if ((optimal_rot_a(stk_a, stk_b, cmd_list, dist) != 0)
+			if ((opt_ra(stk_a, stk_b, cmd_list, dist) != 0)
 				|| (pusher(stk_b, stk_a, cmd_list, "pb") != 0))
 				return (1);
 			find_lowest(stk_a);
@@ -124,10 +131,5 @@ int	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 		if (max > (int)stk_a->len - 1)
 			max = stk_a->len - 1;
 	}
-	if (is_ordered(stk_a, 'd') != 0)
-	{
-		if (sort_three_a(stk_a, cmd_list) != 0)
-			return (1);
-	}
-	return (0);
+	return (sort_three_a(stk_a, cmd_list));
 }

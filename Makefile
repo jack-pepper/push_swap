@@ -6,7 +6,7 @@
 #    By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/14 09:35:38 by mmalie            #+#    #+#              #
-#    Updated: 2025/01/26 19:36:04 by mmalie           ###   ########.fr        #
+#    Updated: 2025/01/26 22:17:58 by mmalie           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC = push_swap.c \
       ps_solver_a.c \
       ps_solver_b.c \
       ps_utils.c \
+      ps_debug_and_cleaning.c \
 
 ### Object files
 OBJ = $(SRC:.c=.o)

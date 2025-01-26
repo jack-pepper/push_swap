@@ -6,11 +6,9 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 20:59:49 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 23:53:47 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// TO DO: - improve error and memory management. Handle failure during cmd.
 
 #include "push_swap.h"
 /*
@@ -57,35 +55,18 @@ int	main(int argc, char **argv)
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
 	{
-		free(stk_a.content);
-		free(stk_a.i_map);
-		free(stk_b.content);
+		ps_exit(&stk_a, &stk_b, cmd_list, 4);
 		return (ft_ret(1, "Error"));
 	}
 	if (ps_solver(cmd_list, &stk_a, &stk_b) == NULL)
-		return (1);
+	{
+		ps_exit(&stk_a, &stk_b, cmd_list, 6);
+		return (ft_ret(1, "Error"));
+	}
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
-	free(stk_a.content);
-	free(stk_a.i_map);
-	free(stk_b.content);
-	free(stk_b.i_map);
-	free(cmd_list);
+	ps_exit(&stk_a, &stk_b, cmd_list, 6);
 	return (0);
-}
-
-void	ps_free_all(char **arr, int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-	return ;
 }
 
 /* Parse the arguments to check their validity (a list of int without double)
@@ -109,16 +90,16 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 		tmp = ft_split(argv[1], ' ');
 		if (parse_args(tkn, tmp, 0, &trimmed_args) != 0)
 		{
-			ps_free_all(tmp, tkn);
+			ps_free_all(tmp);
 			return (1);
 		}
 		res = init_stks(stk_a, stk_b, tkn, trimmed_args);
-		ps_free_all(tmp, tkn);
+		ps_free_all(tmp);
 	}
 	else
 		res = init_stks(stk_a, stk_b, argc - 1, trimmed_args);
 	if (res != 0)
-		return (1);
+		return (res);
 	return (0);
 }
 
@@ -131,18 +112,18 @@ int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **trimmed_args)
 	stk_a->nb_elem = (size_t)stk_a->len;
 	stk_b->content = (int *)ft_calloc(stk_a->len, sizeof(int));
 	if (!stk_b->content)
-		return (1); // Must free stk_a->content!
+		return (2);
 	stk_b->len = stk_a->len;
 	stk_b->nb_elem = 0;
 	stk_a->i_map = (int *)ft_calloc(stk_a->len, sizeof(int));
 	if (!stk_a->i_map)
-		return (1); // Must free stk_a->content & stk_b->content!
+		return (3);
 	conv_to_index(stk_a->i_map, stk_a->content, stk_a->len);
 	find_highest(stk_a);
 	find_lowest(stk_a);
 	stk_b->i_map = (int *)ft_calloc(stk_b->len, sizeof(int));
 	if (!stk_b->i_map)
-		return (1); // Must free stk_a->content & stk_b->content & stk_a->i_map!
+		return (4);
 	return (0);
 }
 

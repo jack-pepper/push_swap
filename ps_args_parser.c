@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 20:56:41 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 23:45:09 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ int	parse_args(int nb_elem, char **args, int i, char ***trimmed_args)
 	*trimmed_args = (char **)malloc(sizeof(char *) * nb_elem);
 	if (!trimmed_args)
 		return (1);
-	//if (ps_trim_all(*trimmed_args, args, nb_elem, i) == NULL)
-	//	return (1);
-	//if (args_are_all_int(nb_elem, *trimmed_args) != 0)
-	//	return (1);
-	//if (args_has_no_duplicate(nb_elem, *trimmed_args, 0) != 0)
-	//	return (1);
 	if ((ps_trim_all(*trimmed_args, args, nb_elem, i) == NULL)
 		|| (args_are_all_int(nb_elem, *trimmed_args) != 0)
 		|| (args_has_no_duplicate(nb_elem, *trimmed_args, 0) != 0))
