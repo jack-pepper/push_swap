@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/24 10:34:10 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:46:23 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	display_solution(t_list *cmd_list);
 
 	// Parsing logic (ps_args_parser.c)
 int		parse_args(int nb_elem, char **args, int i);
-int		args_are_all_int(int nb_elem, char **args, int i);
+int		args_are_all_int(int nb_elem, char **args);
 int		check_int_limits(char **args, int i, int j);
 int		args_has_no_duplicate(int nb_elem, char **args, int i);
 int		*store_args(int nb_elem, char **args, char opt);
