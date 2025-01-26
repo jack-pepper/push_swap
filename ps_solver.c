@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:48:27 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 14:00:26 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 20:43:42 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	test_easy_cases(t_stk *stk_a, t_list *cmd_list, size_t i)
 		return (0);
 	if (stk_a->nb_elem <= 3)
 	{
-		sort_three_a(stk_a, cmd_list);
-		return (0);
+		return (sort_three_a(stk_a, cmd_list));
 	}
 	while (i <= (stk_a->nb_elem))
 	{
@@ -46,11 +45,13 @@ int	test_easy_cases(t_stk *stk_a, t_list *cmd_list, size_t i)
 	return (1);
 }
 
-void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
+int	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 {
-	ps_to_b(stk_a, stk_b, cmd_list);
-	ps_to_a(stk_a, stk_b, cmd_list);
-	return ;
+	if (ps_to_b(stk_a, stk_b, cmd_list) != 0)
+		return (1);
+	if (ps_to_a(stk_a, stk_b, cmd_list) != 0)
+		return (1);
+	return (0);
 }
 
 /* Display the stacks. Kept for debugging.

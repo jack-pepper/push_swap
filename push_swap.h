@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 19:40:39 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 20:43:28 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,23 @@ int		add_cmd(char *cmd, t_list *cmd_list);
 
 	// Solving logic (ps_solver.c)
 int		test_easy_cases(t_stk *stk_a, t_list *cmd_list, size_t i);
-void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
+int	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
 int		is_ordered(t_stk *stk, char opt);
 int		get_shortest_dist(t_stk *stk, int min, int max);
 void	try_merge_cmds(t_list **cmd_list, char *cmd, char *next_cmd);
 
 	// Solving logic (ps_solver_a.c)
-void	sort_three_a(t_stk *stk_a, t_list *cmd_list);
-void	optimal_rot_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist);
+int	sort_three_a(t_stk *stk_a, t_list *cmd_list);
+int	optimal_rot_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int dist);
 void	find_lowest(t_stk *stk);
-void	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
+int	ps_to_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
 
 	// Solving logic (ps_solver_b.c)
-void	sort_three_b(t_stk *stk_b, t_list *cmd_list);
-void	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
+int	sort_three_b(t_stk *stk_b, t_list *cmd_list);
+int	optimal_rot_b(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
 void	find_highest(t_stk *stk);
-void	ps_to_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
-void	rot_and_push(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
+int	ps_to_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
+int	rot_and_push(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
 
 // Utils (ps_utils.c)
 int		ft_ret(int return_val, char *msg);

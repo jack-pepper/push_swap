@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 19:47:06 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 20:59:49 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,21 @@ int	main(int argc, char **argv)
 		return (0);
 	if ((argc == 2)
 		&& ((ft_strnopbrk(argv[1], " -+0123456789") != NULL)
-		|| (ft_strnopbrk(argv[1], " ") == NULL)
-		|| (argv[1][(int)ft_strlen(argv[1]) - 1] == '-')))
+			|| (ft_strnopbrk(argv[1], " ") == NULL)
+			|| (argv[1][(int)ft_strlen(argv[1]) - 1] == '-')))
 		return (ft_ret(1, "Error"));
 	if (handle_args(argc, argv, &stk_a, &stk_b) != 0)
 		return (ft_ret(1, "Error"));
 	cmd_list = ft_lstnew("HEAD");
 	if (!cmd_list)
-		return (ft_ret(1, "Error")); // Must free Must free stk_a->content & stk_b->content & stk_a->i_map!
-	ps_solver(cmd_list, &stk_a, &stk_b); // Improve error management here!
+	{
+		free(stk_a.content);
+		free(stk_a.i_map);
+		free(stk_b.content);
+		return (ft_ret(1, "Error"));
+	}
+	if (ps_solver(cmd_list, &stk_a, &stk_b) == NULL)
+		return (1);
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
 	free(stk_a.content);
@@ -105,7 +111,7 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 		{
 			ps_free_all(tmp, tkn);
 			return (1);
-		}	
+		}
 		res = init_stks(stk_a, stk_b, tkn, trimmed_args);
 		ps_free_all(tmp, tkn);
 	}
@@ -132,8 +138,6 @@ int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **trimmed_args)
 	if (!stk_a->i_map)
 		return (1); // Must free stk_a->content & stk_b->content!
 	conv_to_index(stk_a->i_map, stk_a->content, stk_a->len);
-	//if (!stk_a->i_map)
-	//	return (1);
 	find_highest(stk_a);
 	find_lowest(stk_a);
 	stk_b->i_map = (int *)ft_calloc(stk_b->len, sizeof(int));
@@ -152,7 +156,8 @@ t_list	*ps_solver(t_list *cmd_list, t_stk *stk_a, t_stk *stk_b)
 		return (cmd_list);
 	else if (res == -1)
 		return (NULL);
-	ps_sort(stk_a, stk_b, cmd_list);
+	if (ps_sort(stk_a, stk_b, cmd_list) != 0)
+		return (NULL);
 	return (cmd_list);
 }
 

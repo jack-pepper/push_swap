@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:38:43 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/23 08:15:52 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 20:42:06 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	rotater(t_stk *stk, t_list *cmd_list, char *cmd)
 		nb--;
 	}
 	i_map[0] = temp;
-	if (cmd[0] != 0)
+	if (cmd[0] != '\0')
 	{
 		if (add_cmd(cmd, cmd_list) != 0)
 			return (1);
@@ -95,7 +95,7 @@ int	reverse_rotater(t_stk *stk, t_list *cmd_list, char *cmd)
 		i++;
 	}
 	i_map[*nb - 1] = temp;
-	if (cmd[0] != 0)
+	if (cmd[0] != '\0')
 	{
 		if (add_cmd(cmd, cmd_list) != 0)
 			return (1);
@@ -109,7 +109,7 @@ int	add_cmd(char *cmd, t_list *cmd_list)
 
 	new_cmd = ft_lstnew(cmd);
 	if (!new_cmd)
-		return (1);
+		return (1); // Free all the memory here in case of fail?
 	ft_lstadd_back(&cmd_list, new_cmd);
 	return (0);
 }

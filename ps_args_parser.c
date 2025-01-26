@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 20:03:41 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/26 20:56:41 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,38 +35,38 @@ int	parse_args(int nb_elem, char **args, int i, char ***trimmed_args)
 	return (0);
 }
 
-long long    ps_atoll(const char *nptr)
+long long	ps_atoll(const char *nptr)
 {
-        long long     result;
-        int     sign;
+	long long	result;
+	int			sign;
 
-        result = 0;
-        sign = 1;
-        while (ft_isspace(*nptr))
-        {
-                nptr++;
-        }
-        if (*nptr == '+' || *nptr == '-')
-        {
-                if (*nptr == '-')
-                {
-                        sign = -1;
-                }
-                nptr++;
-        }
-        while (ft_isdigit(*nptr))
-        {
-                result = (result * 10) + (*nptr - '0');
-                nptr++;
-        }
-        return (result * sign);
+	result = 0;
+	sign = 1;
+	while (ft_isspace(*nptr))
+	{
+		nptr++;
+	}
+	if (*nptr == '+' || *nptr == '-')
+	{
+		if (*nptr == '-')
+		{
+			sign = -1;
+		}
+		nptr++;
+	}
+	while (ft_isdigit(*nptr))
+	{
+		result = (result * 10) + (*nptr - '0');
+		nptr++;
+	}
+	return (result * sign);
 }
 
 // Return 0 if args are all int, else 1.
 int	args_are_all_int(int nb_elem, char **args)
 {
-	int	i;
 	char	*unsigned_val;
+	int		i;
 
 	i = 0;
 	while (i < nb_elem)
