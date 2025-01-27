@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 23:45:09 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:38:44 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ int	parse_args(int nb_elem, char **args, int i, char ***trimmed_args)
 {
 	if (*args == NULL)
 		return (1);
-	*trimmed_args = (char **)malloc(sizeof(char *) * nb_elem);
+	*trimmed_args = (char **)malloc(sizeof(char *) * (nb_elem + 1));
 	if (!trimmed_args)
 		return (1);
 	if ((ps_trim_all(*trimmed_args, args, nb_elem, i) == NULL)
 		|| (args_are_all_int(nb_elem, *trimmed_args) != 0)
 		|| (args_has_no_duplicate(nb_elem, *trimmed_args, 0) != 0))
 	{
+		ps_free_all(*trimmed_args);
 		return (1);
 	}
 	return (0);
 }
 
+// Used to check int's bounds
 long long	ps_atoll(const char *nptr)
 {
 	long long	result;
@@ -100,30 +102,6 @@ int	args_has_no_duplicate(int nb_elem, char **args, int i)
 	}
 	return (0);
 }
-
-/*
-void	ft_set_ints(char op, int val, int *var, ...)
-{
-	va_list	args;
-
-	va_start(args, val);
-	if (!op || !val)
-		return ;	
-	if (op == 'i')
-		// Set all to val (ex: i, 0)
-	else if (op == '+')
-		// increment all by val
-	else if (op == '-')
-		// decrement all by val
-	else if (op == '*')
-		// multiply all by val
-	else if (op == '/')
-		// divide all by val
-	else if (op == '%')
-		// modulo... or percent?
-	va_end(args);
-}
-*/
 
 // Store args in int array. If the option 'r' is provided, reverse order.
 int	*store_args(int nb_elem, char **args, char opt)

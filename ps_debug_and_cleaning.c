@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 21:05:55 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 23:54:43 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:41:19 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	show_stks(t_stk *stk_a, t_stk *stk_b, char *msg)
 	ft_printf("==============================================\n");
 }
 
-// Return a value after displaying a message.
+// Return a value with "return" after displaying a message.
 int	ft_ret(int return_val, char *msg)
 {
 	int	fd;
@@ -46,6 +46,7 @@ int	ft_ret(int return_val, char *msg)
 	return (return_val);
 }
 
+// Free arr and each element
 void	ps_free_all(char **arr)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:05:34 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 23:53:47 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:21:05 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
  *		- swap stack_a if the new elem is lower than the prev
  *	- Sort the remaining 3 elements, then push them to stack_a.
  *
- *
  */
 
 int	main(int argc, char **argv)
@@ -45,8 +44,7 @@ int	main(int argc, char **argv)
 
 	if ((argc == 1) || (argc == 2 && argv[1][0] == '\0'))
 		return (0);
-	if ((argc == 2)
-		&& ((ft_strnopbrk(argv[1], " -+0123456789") != NULL)
+	if ((argc == 2) && ((ft_strnopbrk(argv[1], " -+0123456789") != NULL)
 			|| (ft_strnopbrk(argv[1], " ") == NULL)
 			|| (argv[1][(int)ft_strlen(argv[1]) - 1] == '-')))
 		return (ft_ret(1, "Error"));
@@ -59,14 +57,10 @@ int	main(int argc, char **argv)
 		return (ft_ret(1, "Error"));
 	}
 	if (ps_solver(cmd_list, &stk_a, &stk_b) == NULL)
-	{
-		ps_exit(&stk_a, &stk_b, cmd_list, 6);
 		return (ft_ret(1, "Error"));
-	}
 	if (cmd_list->next != NULL)
 		display_solution(cmd_list);
 	ps_exit(&stk_a, &stk_b, cmd_list, 6);
-	return (0);
 }
 
 /* Parse the arguments to check their validity (a list of int without double)
@@ -98,9 +92,7 @@ int	handle_args(int argc, char **argv, t_stk *stk_a, t_stk *stk_b)
 	}
 	else
 		res = init_stks(stk_a, stk_b, argc - 1, trimmed_args);
-	if (res != 0)
-		return (res);
-	return (0);
+	return (res);
 }
 
 int	init_stks(t_stk *stk_a, t_stk *stk_b, int len, char **trimmed_args)
@@ -136,9 +128,15 @@ t_list	*ps_solver(t_list *cmd_list, t_stk *stk_a, t_stk *stk_b)
 	if (res == 0)
 		return (cmd_list);
 	else if (res == -1)
+	{
+		ps_exit(stk_a, stk_b, cmd_list, 6);
 		return (NULL);
+	}
 	if (ps_sort(stk_a, stk_b, cmd_list) != 0)
+	{
+		ps_exit(stk_a, stk_b, cmd_list, 6);
 		return (NULL);
+	}
 	return (cmd_list);
 }
 

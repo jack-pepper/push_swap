@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:17:07 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 22:14:29 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:43:12 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	count_tokens(char const *s, char delim)
  * conv_arr. Each nb will be converted to their index if the array was sorted.
  * Can take a pointer to a NULL conv_arr or already defined. 
  *
- * TBD: Optimize the algo used to sort the array:
+ * A nice improvement would be to optimize the algo used to sort the array:
  * 	- if (len < 20):
  *		ft_bub_srt(sorted_arr, len, 'd') (or ins, or sel)
  *	- else if (len >= 20 && len < 1000)

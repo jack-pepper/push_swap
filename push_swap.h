@@ -6,7 +6,7 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:27:23 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 23:58:30 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:44:06 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ void		find_highest(t_stk *stk);
 int			ps_to_a(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list);
 int			r_and_pb(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list, int tgt_i);
 
-// Utils (ps_utils.c)
+	// Utils (ps_utils.c)
 int			count_tokens(char const *s, char delim);
 int			conv_to_index(int *conv_array, int *src_arr, size_t len);
 double		ft_sqrt_newton(double number);
 void		clean_cmd_and_set_next(t_list **cmd_list, int jump);
 
-// Debug and cleaning (ps_debug_and_cleaning.c)
+	// Debug and cleaning (ps_debug_and_cleaning.c)
 void		show_stks(t_stk *stk_a, t_stk *stk_b, char *msg);
 int			ft_ret(int return_val, char *msg);
 void		ps_free_all(char **arr);

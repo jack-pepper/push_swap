@@ -6,33 +6,35 @@
 /*   By: mmalie <mmalie@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:43:29 by mmalie            #+#    #+#             */
-/*   Updated: 2025/01/26 22:28:42 by mmalie           ###   ########.fr       */
+/*   Updated: 2025/01/27 12:39:48 by mmalie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+// Trim each arg (remove + sign and leading zeros)
 char	*ps_trim(char *trimmed_arg, char *arg, int len, int k)
 {
-	int	is_neg;
 	int	i;
 
 	i = 0;
-	is_neg = 0;
-	if ((ft_strnopbrk(arg, "0") == NULL)
-		|| (ft_strnopbrk(arg, "-0") == NULL)
-		|| (ft_strnopbrk(arg, "+0") == NULL))
-		return (ft_strdup("0"));
-	if (arg[i] == '-')
-		is_neg = 1;
+	if (ft_strnopbrk(arg, "0") == NULL || ft_strnopbrk(arg, "-0") == NULL
+		|| ft_strnopbrk(arg, "+0") == NULL)
+	{
+		trimmed_arg = (char *)malloc(1 + 1);
+		if (!trimmed_arg)
+			return (NULL);
+		ft_strlcpy(trimmed_arg, "0", 1);
+		return (trimmed_arg);
+	}
 	if (arg[i] == '+' || arg[i] == '-')
 		i++;
 	while (arg[i] == '0')
 		i++;
-	trimmed_arg = (char *)malloc((len - i + is_neg) + 1);
+	trimmed_arg = (char *)malloc((len - i + (arg[0] == '-') + 1));
 	if (!trimmed_arg)
 		return (NULL);
-	if (is_neg == 1)
+	if (arg[0] == '-')
 		trimmed_arg[k++] = '-';
 	while (i < len)
 		trimmed_arg[k++] = arg[i++];
@@ -40,6 +42,7 @@ char	*ps_trim(char *trimmed_arg, char *arg, int len, int k)
 	return (trimmed_arg);
 }
 
+// Trim all args
 char	**ps_trim_all(char **trimmed_args, char **args, int nb_args, int i)
 {
 	char	*trimmed_arg;
@@ -63,5 +66,6 @@ char	**ps_trim_all(char **trimmed_args, char **args, int nb_args, int i)
 		i++;
 		k++;
 	}
+	trimmed_args[k] = NULL;
 	return (trimmed_args);
 }
