@@ -54,18 +54,6 @@ int	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
 	return (0);
 }
 
-/* Display the stacks. Kept for debugging.
-void	ps_sort(t_stk *stk_a, t_stk *stk_b, t_list *cmd_list)
-{
-	show_stks(stk_a, stk_b, "A/// Before ps_to_b");
-	ps_to_b(stk_a, stk_b, cmd_list);
-	show_stks(stk_a, stk_b, "B/// After ps_to_b");
-	ps_to_a(stk_a, stk_b, cmd_list);
-	show_stks(stk_a, stk_b, "C/// After ps_to_a");
-	return ;
-}
-*/
-
 int	is_ordered(t_stk *stk, char opt)
 {
 	size_t	i;
